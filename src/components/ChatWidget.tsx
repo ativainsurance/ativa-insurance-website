@@ -209,7 +209,7 @@ export default function ChatWidget({ mode }: ChatWidgetProps) {
     setOpen(true);
     if (!hasGreeted) {
       setHasGreeted(true);
-      setMessages([{ role: "assistant", content: buildGreeting(isPersonal) }]);
+      setMessages([{ role: "assistant" as const, content: buildGreeting(isPersonal) }]);
       setShowQuickReplies(true);
     }
   };
@@ -218,8 +218,8 @@ export default function ChatWidget({ mode }: ChatWidgetProps) {
   const injectExchange = (userText: string, flowText: string) => {
     setMessages((prev) => [
       ...prev,
-      { role: "user",      content: userText },
-      { role: "assistant", content: flowText  },
+      { role: "user" as const,      content: userText },
+      { role: "assistant" as const, content: flowText  },
     ]);
   };
 
@@ -274,7 +274,7 @@ export default function ChatWidget({ mode }: ChatWidgetProps) {
     setShowQuickReplies(false);
     setShowCoverageButtons(false);
 
-    const userMessage: ChatMessage = { role: "user", content: text };
+    const userMessage: ChatMessage = { role: "user" as const, content: text };
     const nextMessages = [...messages, userMessage];
     setMessages(nextMessages);
     setInputVal("");
@@ -293,7 +293,7 @@ export default function ChatWidget({ mode }: ChatWidgetProps) {
       const reply = data.reply ?? "Sorry, I had trouble responding. Please try again.";
 
       setMessages((prev) => {
-        const updated = [...prev, { role: "assistant", content: reply }];
+        const updated = [...prev, { role: "assistant" as const, content: reply }];
         // Detect products from user text and attach CTAs to this assistant message
         const ctaMatches = detectProducts(text, mode);
         if (ctaMatches.length > 0) {
@@ -331,7 +331,7 @@ export default function ChatWidget({ mode }: ChatWidgetProps) {
       }
     } catch {
       setMessages((prev) => [...prev, {
-        role: "assistant",
+        role: "assistant" as const,
         content: "Sorry, something went wrong. Please try WhatsApp instead.",
       }]);
     }
