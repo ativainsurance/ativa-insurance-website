@@ -1,0 +1,353 @@
+{
+  "nav": {
+    "personal": "Personal",
+    "commercial": "Comercial",
+    "getQuote": "Obtener Cotización",
+    "tools": "Herramientas",
+    "faq": "Preguntas",
+    "blog": "Blog",
+    "contact": "Contacto",
+    "rceCalculator": "Calculadora RCE",
+    "menuOpen": "Abrir menú",
+    "menuClose": "Cerrar menú"
+  },
+  "toggle": {
+    "headline": "¿Busca cobertura para su negocio?",
+    "switchToCommercial": "Cambie a Comercial para cobertura empresarial →",
+    "switchToPersonal": "¿Busca cobertura personal? Volver →"
+  },
+  "hero": {
+    "personal": {
+      "headline": "Asegurado en Minutos — Sin Llamadas, Sin Estrés",
+      "sub": "Cobertura rápida y bilingüe para familias en Florida — cotizamos múltiples aseguradoras para darte la mejor tarifa.",
+      "cta1": "Quiero Mi Cotización Gratis",
+      "cta2": "Hablar con un Agente"
+    },
+    "commercial": {
+      "headline": "Un Seguro que Trabaja tan Duro como Tú",
+      "sub": "Cobertura para negocios en Florida — flotas, contratistas y empresas en crecimiento confían en Ativa.",
+      "cta1": "Quiero Mi Cotización Gratis",
+      "cta2": "Hablar con un Agente"
+    }
+  },
+  "stats": [
+    { "value": "500+",  "label": "Familias Cubiertas" },
+    { "value": "5★",        "label": "Calificación Google" },
+    { "value": "11",        "label": "Estados con Licencia" },
+    { "value": "Mismo Día", "label": "Plazo de Cotización" }
+  ],
+  "products": {
+    "personal": [
+      { "id": "auto",    "title": "Seguro de Auto",          "description": "Cúbrete hoy — aunque acabas de comprar tu auto." },
+      { "id": "home",    "title": "Seguro de Propiedad",     "description": "Compara precios antes de que llegue tu renovación." },
+      { "id": "renters", "title": "Seguro para Inquilinos",  "description": "Protege todo lo que tienes — desde $12/mes." },
+      { "id": "condo",   "title": "Seguro para Mascotas",    "description": "Una consulta puede costar más que un año de cobertura." },
+      { "id": "flood",   "title": "Seguro contra Inundación","description": "Requerido en la mayoría de zonas de riesgo — cúbrete rápido." },
+      { "id": "bundle",  "title": "Combina y Ahorra",        "description": "La mayoría ahorra 18% combinando dos o más pólizas." }
+    ],
+    "commercial": [
+      { "id": "bop",             "title": "Seguro de Construcción",         "description": "Protege tu proyecto desde el primer hasta el último día." },
+      { "id": "gl",              "title": "Responsabilidad General",        "description": "La mayoría de clientes lo exige antes de comenzar." },
+      { "id": "commercial-auto", "title": "Auto Comercial",                 "description": "Un accidente sin cobertura puede cerrar tu negocio." },
+      { "id": "workers-comp",    "title": "Compensación Laboral",           "description": "Obligatorio en Florida — ponte al día hoy." },
+      { "id": "professional",    "title": "Responsabilidad Profesional",    "description": "Una demanda sin E&O puede costarte todo el contrato." },
+      { "id": "cyber",           "title": "Responsabilidad Cibernética",    "description": "Las brechas de datos cuestan +$200K a pequeños negocios." }
+    ]
+  },
+  "form": {
+    "steps": {
+      "contact": "Tus Datos",
+      "details": "Detalles",
+      "coverage": "Cobertura",
+      "confirm":  "Confirmar"
+    },
+    "labels": {
+      "firstName":       "Nombre",
+      "lastName":        "Apellido",
+      "email":           "Correo electrónico",
+      "phone":           "Teléfono",
+      "address":         "Dirección del inmueble",
+      "zipCode":         "Código Postal",
+      "dob":             "Fecha de Nacimiento",
+      "vin":             "VIN del Vehículo",
+      "year":            "Año",
+      "make":            "Marca",
+      "model":           "Modelo",
+      "yearBuilt":       "Año de Construcción",
+      "squareFeet":      "Pies Cuadrados",
+      "roofType":        "Tipo de Techo",
+      "businessName":    "Nombre del Negocio",
+      "industry":        "Industria",
+      "employees":       "Número de Empleados",
+      "revenue":         "Ingresos Anuales",
+      "yearsInBusiness": "Años en Operación",
+      "coverageAmount":  "Monto de Cobertura",
+      "currentInsurer":  "Aseguradora Actual (opcional)"
+    },
+    "placeholders": {
+      "firstName":    "Ana",
+      "lastName":     "Silva",
+      "email":        "ana@ejemplo.com",
+      "phone":        "(305) 555-0100",
+      "address":      "Escribe tu dirección…",
+      "zipCode":      "33101",
+      "vin":          "Ingresa el VIN de 17 dígitos",
+      "businessName": "Mi Negocio LLC"
+    },
+    "options": {
+      "roofType":       ["Teja", "Metal", "Cerámica", "Plano", "Otro"],
+      "coverageAmount": ["$100,000", "$200,000", "$300,000", "$500,000", "$1,000,000+"],
+      "industry":       ["Retail", "Restaurante / Alimentos", "Construcción", "Salud", "Servicios Profesionales", "Transporte", "Tecnología", "Otro"],
+      "employees":      ["1–5", "6–20", "21–50", "51–100", "100+"],
+      "revenue":        ["Menos de $250K", "$250K–$500K", "$500K–$1M", "$1M–$5M", "$5M+"]
+    },
+    "buttons": {
+      "next":       "Siguiente",
+      "back":       "Atrás",
+      "submit":     "Solicitar Cotización",
+      "submitting": "Enviando…",
+      "close":      "Cerrar",
+      "getQuote":   "Ver Cotización →"
+    },
+    "progress": "Paso {current} de {total}",
+    "success": {
+      "title": "¡Recibimos tu solicitud!",
+      "body":  "Un agente de Ativa te contactará en 1 día hábil con tu cotización personalizada.",
+      "cta":   "Listo"
+    },
+    "errors": {
+      "required": "Este campo es obligatorio.",
+      "email":    "Por favor ingresa un correo válido.",
+      "phone":    "Por favor ingresa un teléfono válido."
+    }
+  },
+  "carriers": {
+    "heading": "Aseguradoras de Confianza",
+    "sub":     "Cotizamos en múltiples aseguradoras de primer nivel para encontrarte la mejor tarifa."
+  },
+  "reviews": {
+    "heading": "Lo que Dicen Nuestros Clientes",
+    "sub":     "Personas reales, cobertura real, ahorro real.",
+    "items": [
+      { "name": "Maria S.",    "stars": 5, "text": "Resolví mi seguro de auto en minutos. Me encontraron una tarifa increíble." },
+      { "name": "James R.",    "stars": 5, "text": "La mejor experiencia con seguro comercial. Entienden los negocios en Florida." },
+      { "name": "Ana Costa",   "stars": 5, "text": "¡Excelente atención! Consiguieron un seguro increíble para mi negocio en Melbourne." },
+      { "name": "Carlos M.",   "stars": 5, "text": "Me ayudaron a combinar hogar y auto. Ahorré mucho y el proceso fue muy fácil." },
+      { "name": "Jennifer L.", "stars": 5, "text": "Responden rápido y explican todo claramente. ¡Muy recomendados!" },
+      { "name": "Roberto P.",  "stars": 5, "text": "¡Excelente servicio! Me ayudaron con el seguro de mi empresa rápidamente." }
+    ]
+  },
+  "faq": {
+    "heading": "Preguntas Frecuentes",
+    "sub":     "Todo lo que necesitas saber antes de pedir una cotización.",
+    "items": [
+      {
+        "q": "¿En qué estados tienen licencia?",
+        "a": "Operamos en CT, FL, GA, MA, MD, NC, NJ, OH, PA, SC y TN — con Florida como mercado principal."
+      },
+      {
+        "q": "¿Cuánto tarda en llegar una cotización?",
+        "a": "La mayoría de cotizaciones están listas en 1 día hábil. Te contactamos con opciones personalizadas."
+      },
+      {
+        "q": "¿Trabajan con múltiples aseguradoras?",
+        "a": "Sí. Como agencia independiente cotizamos en múltiples aseguradoras de primer nivel para conseguirte el mejor precio."
+      },
+      {
+        "q": "¿Puedo combinar pólizas personales y comerciales?",
+        "a": "Por supuesto. Manejamos todas tus necesidades de seguro — personal y comercial — en un solo lugar."
+      },
+      {
+        "q": "¿Qué es una Póliza para Empresas (BOP)?",
+        "a": "Un BOP combina responsabilidad general y seguro de propiedad en una póliza accesible, ideal para pequeños negocios."
+      },
+      {
+        "q": "¿Es obligatorio el seguro contra inundaciones en Florida?",
+        "a": "Si tu propiedad está en zona de riesgo y tiene hipoteca federal, el seguro es obligatorio. Nosotros simplificamos el proceso."
+      }
+    ]
+  },
+  "blog": {
+    "heading": "Consejos y Guías de Seguros",
+    "sub":     "Lecturas rápidas para tomar mejores decisiones sobre tu cobertura.",
+    "readMore": "Leer más →",
+    "viewAll":  "Ver Todos los Artículos →",
+    "posts": [
+      {
+        "title": "5 Cosas que los Propietarios en Florida Deben Saber sobre el Seguro contra Inundaciones",
+        "excerpt": "Los daños por inundación raramente están cubiertos en pólizas estándar. Esto es lo que todo propietario necesita saber.",
+        "category": "Hogar",
+        "readTime": "3 min de lectura"
+      },
+      {
+        "title": "¿Cuándo Necesita tu Negocio Responsabilidad General?",
+        "excerpt": "Desde el primer día. Si tu negocio interactúa con clientes o el público, la cobertura GL es esencial.",
+        "category": "Comercial",
+        "readTime": "4 min de lectura"
+      },
+      {
+        "title": "Cómo Reducir tu Prima de Seguro de Auto Este Año",
+        "excerpt": "Combinar pólizas, descuentos por buen historial y comparar aseguradoras son solo el comienzo.",
+        "category": "Auto",
+        "readTime": "3 min de lectura"
+      }
+    ]
+  },
+  "rce": {
+    "meta": {
+      "title": "Calculadora de Costo de Reposición | Ativa Insurance",
+      "description": "Descubre cuánta cobertura realmente necesita tu hogar. Calculadora gratuita para propietarios en CT, FL, GA, MA, MD, NC, NJ, OH, PA, SC y TN."
+    },
+    "hero": {
+      "headline": "¿Cuánto Costaría Reconstruir Tu Casa?",
+      "sub": "La mayoría de propietarios están subasegurados en un 20–40%. Nuestra calculadora gratuita te muestra el número real — en menos de 2 minutos.",
+      "cta": "Calcular Mi Cobertura →",
+      "badge": "Gratis · Sin compromiso · Toma 2 minutos"
+    },
+    "education": {
+      "warning": {
+        "title": "Valor de Mercado ≠ Valor del Seguro",
+        "text": "El precio de mercado incluye el terreno — y el terreno no se incendia. El seguro protege solo la estructura. La mayoría de las personas está asegurada por el número equivocado."
+      },
+      "cards": [
+        {
+          "icon": "condo",
+          "title": "Condominio (HO-6)",
+          "text": "Tu HOA asegura el exterior del edificio. Tu HO-6 cubre solo el interior — pisos, gabinetes, electrodomésticos, tus cosas. Necesitas mucho menos cobertura que una casa."
+        },
+        {
+          "icon": "house",
+          "title": "Casa / Townhouse",
+          "text": "Una reconstrucción completa va de la fundación al techo — materiales, mano de obra, remoción de escombros. Los costos en Florida son superiores al promedio nacional. No subasegures tu propiedad."
+        }
+      ]
+    },
+    "steps": {
+      "state":        "Tu Estado",
+      "propertyType": "Tipo de Propiedad",
+      "details":      "Detalles de la Propiedad",
+      "finishes":     "Acabados y Extras",
+      "leadGate":     "Ver Mis Resultados"
+    },
+    "labels": {
+      "selectState":   "Selecciona tu estado",
+      "selectType":    "Selecciona el tipo de propiedad",
+      "sqft":          "Área habitable (pies cuadrados)",
+      "address":       "Dirección de la propiedad",
+      "yearBuilt":     "Año de construcción",
+      "finishLevel":   "Nivel de acabados interiores",
+      "roofType":      "Tipo de techo",
+      "garage":        "Garaje",
+      "pool":          "Piscina / Spa",
+      "firstName":     "Nombre",
+      "email":         "Correo electrónico",
+      "phone":         "Teléfono"
+    },
+    "options": {
+      "states": ["CT","FL","GA","MA","MD","NC","NJ","OH","PA","SC","TN"],
+      "propertyTypes": [
+        { "value": "single_family", "label": "Casa Unifamiliar" },
+        { "value": "townhouse",     "label": "Townhouse" },
+        { "value": "condo",         "label": "Condominio" },
+        { "value": "mobile_home",   "label": "Casa Móvil" },
+        { "value": "duplex",        "label": "Dúplex" }
+      ],
+      "finishLevels": [
+        { "value": "basic", "label": "Básico / Estándar Constructor" },
+        { "value": "mid",   "label": "Rango Medio" },
+        { "value": "high",  "label": "Alto Nivel / Personalizado" }
+      ],
+      "roofTypes": [
+        { "value": "shingle", "label": "Teja Asfáltica" },
+        { "value": "metal",   "label": "Metal" },
+        { "value": "tile",    "label": "Teja / Cerámica" },
+        { "value": "flat",    "label": "Plano / Membrana Asfáltica" }
+      ],
+      "garageTypes": [
+        { "value": "none",   "label": "Sin Garaje" },
+        { "value": "single", "label": "Garaje 1 Auto" },
+        { "value": "double", "label": "Garaje 2 Autos" }
+      ],
+      "poolOptions": [
+        { "value": "none", "label": "Ninguno" },
+        { "value": "pool", "label": "Piscina" },
+        { "value": "spa",  "label": "Spa / Jacuzzi" },
+        { "value": "both", "label": "Piscina + Spa" }
+      ]
+    },
+    "buttons": {
+      "next":      "Siguiente →",
+      "back":      "Atrás",
+      "calculate": "Revelar Mi Estimado →",
+      "getQuote":  "Obtener Cotización Gratis de Ativa →",
+      "whatsapp":  "Escríbenos por WhatsApp"
+    },
+    "results": {
+      "title":       "Tu Costo de Reposición Estimado",
+      "subtitle":    "Basado en los detalles de tu propiedad y los costos de construcción actuales en tu estado",
+      "rangeLabel":  "Rango Estimado",
+      "recommended": "Monto de Cobertura Recomendado",
+      "disclaimer":  "Este estimado es para fines de planificación de seguro. El costo real de reposición debe ser confirmado por un tasador licenciado."
+    },
+    "lead": {
+      "title":    "¡Tu estimado está listo!",
+      "subtitle": "Ingresa tus datos para ver tu costo de reposición personalizado.",
+      "consent":  "Te enviaremos los resultados + una comparación de cotizaciones gratis a tu correo."
+    },
+    "emailSuccess": {
+      "title":    "¡Resultados enviados a tu correo!",
+      "subtitle": "Un agente de Ativa te contactará con una cotización personalizada.",
+      "whatsapp": "¿Quieres atención más rápida? Escríbenos por WhatsApp →"
+    },
+    "faq": {
+      "heading": "Preguntas Frecuentes sobre Costo de Reposición",
+      "items": [
+        {
+          "q": "¿Cuál es la diferencia entre costo de reposición y valor de mercado?",
+          "a": "El valor de mercado incluye el terreno y la ubicación. El costo de reposición es lo que costaría reconstruir la estructura — materiales, mano de obra y remoción de escombros. Estos números pueden diferir en un 30–50%."
+        },
+        {
+          "q": "¿Por qué los propietarios de condominios necesitan menos cobertura?",
+          "a": "El HOA del condominio generalmente asegura el exterior y las áreas comunes. Tu HO-6 cubre solo el interior — pisos, gabinetes y tus pertenencias. Puedes necesitar significativamente menos cobertura."
+        },
+        {
+          "q": "¿Qué tan precisa es esta calculadora?",
+          "a": "Nuestros estimados se basan en datos actuales de costos de construcción por estado y niveles de acabado típicos. Son precisos dentro del 15–20% para fines de planificación."
+        },
+        {
+          "q": "Mi casa tiene acabados personalizados. ¿Eso afecta el estimado?",
+          "a": "Sí — selecciona 'Alto Nivel / Personalizado'. Nuestros agentes también pueden considerar características únicas al preparar tu cotización."
+        },
+        {
+          "q": "¿Esto es una cotización de seguro real?",
+          "a": "No. Esto es un estimado del valor de cobertura que debes tener. Tu prima real depende de muchos factores adicionales. Un agente de Ativa te contactará con una cotización real."
+        }
+      ]
+    },
+    "cta": {
+      "headline": "¿Listo para una Cotización Real?",
+      "sub":      "Nuestros agentes cotizan en múltiples aseguradoras para conseguirte la mejor tarifa para tu propiedad.",
+      "button":   "Quiero Mi Cotización Gratis →"
+    }
+  },
+  "footer": {
+    "tagline":    "Agencia de Seguros Independiente",
+    "agent":      "Licenciada en CT, FL, GA, MA, MD, NC, NJ, OH, PA, SC, TN",
+    "licensed":   "Licenciada en CT · FL · GA · MA · MD · NC · NJ · OH · PA · SC · TN",
+    "rights":     "© {year} Ativa Insurance LLC. Todos los derechos reservados.",
+    "disclaimer": "Ativa Insurance LLC es una agencia de seguros independiente. La cobertura está sujeta a los términos y condiciones de la póliza. No todos los productos están disponibles en todos los estados.",
+    "phone":      "561-946-8261",
+    "address":    "2412 Irwin St Ste 372, Melbourne, FL 32901",
+    "whatsapp":   "WhatsApp",
+    "privacy":    "Política de Privacidad",
+    "smsPrivacy": "Política de Privacidad SMS",
+    "terms":      "Términos de Uso",
+    "licenses":   "Licencias",
+    "links": {
+      "tools":   "Herramientas",
+      "rce":     "Calculadora RCE",
+      "blog":    "Blog",
+      "contact": "Contacto"
+    }
+  }
+}

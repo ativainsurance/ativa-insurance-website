@@ -1,0 +1,353 @@
+{
+  "nav": {
+    "personal": "Personal",
+    "commercial": "Commercial",
+    "getQuote": "Get a Quote",
+    "tools": "Tools",
+    "faq": "FAQ",
+    "blog": "Blog",
+    "contact": "Contact",
+    "rceCalculator": "RCE Calculator",
+    "menuOpen": "Open menu",
+    "menuClose": "Close menu"
+  },
+  "toggle": {
+    "headline": "Looking for coverage for your business?",
+    "switchToCommercial": "Switch to Commercial for business coverage →",
+    "switchToPersonal": "Looking for personal coverage? Switch back →"
+  },
+  "hero": {
+    "personal": {
+      "headline": "Get Covered in Minutes — No Calls, No Stress",
+      "sub": "Coverage built for families across the East Coast — we shop 50+ top-rated carriers to get you the best rate.",
+      "cta1": "See My Price",
+      "cta2": "Send Us a Text"
+    },
+    "commercial": {
+      "headline": "Insurance That Works as Hard as You Do",
+      "sub": "Coverage built for businesses like yours — fleets, contractors, and growing companies trust Ativa.",
+      "cta1": "See My Price",
+      "cta2": "Send Us a Text"
+    }
+  },
+  "stats": [
+    { "value": "500+", "label": "Families Covered" },
+    { "value": "5★",      "label": "Google Rating" },
+    { "value": "11",      "label": "States Licensed" },
+    { "value": "Same-Day","label": "Quote Turnaround" }
+  ],
+  "products": {
+    "personal": [
+      { "id": "auto",    "title": "Auto Insurance",    "description": "Get covered today — even if you just bought your car." },
+      { "id": "home",    "title": "Property Insurance",  "description": "Compare rates before your renewal hits." },
+      { "id": "renters", "title": "Renters Insurance", "description": "Protect everything you own — from $12/mo." },
+      { "id": "condo",   "title": "Pet Insurance",     "description": "One vet bill can cost more than a year of coverage." },
+      { "id": "flood",   "title": "Flood Insurance",   "description": "Required for most Florida flood zones — get fast." },
+      { "id": "bundle",  "title": "Bundle & Save",     "description": "Most clients save 18% combining two or more policies." }
+    ],
+    "commercial": [
+      { "id": "bop",             "title": "Builders Risk",         "description": "Protect your project from day one to final inspection." },
+      { "id": "gl",              "title": "General Liability",     "description": "Required by most clients before you can start work." },
+      { "id": "commercial-auto", "title": "Commercial Auto",       "description": "One accident without coverage can close a business." },
+      { "id": "workers-comp",    "title": "Workers' Comp",         "description": "Required in Florida — get compliant today." },
+      { "id": "professional",    "title": "Professional Liability","description": "One claim without E&O can cost your entire contract." },
+      { "id": "cyber",           "title": "Cyber Liability",       "description": "Data breaches cost small businesses $200K+ on average." }
+    ]
+  },
+  "form": {
+    "steps": {
+      "contact": "Your Info",
+      "details": "Details",
+      "coverage": "Coverage",
+      "confirm":  "Confirm"
+    },
+    "labels": {
+      "firstName":       "First Name",
+      "lastName":        "Last Name",
+      "email":           "Email",
+      "phone":           "Phone",
+      "address":         "Property Address",
+      "zipCode":         "ZIP Code",
+      "dob":             "Date of Birth",
+      "vin":             "VIN Number",
+      "year":            "Year",
+      "make":            "Make",
+      "model":           "Model",
+      "yearBuilt":       "Year Built",
+      "squareFeet":      "Square Feet",
+      "roofType":        "Roof Type",
+      "businessName":    "Business Name",
+      "industry":        "Industry",
+      "employees":       "Number of Employees",
+      "revenue":         "Annual Revenue",
+      "yearsInBusiness": "Years in Business",
+      "coverageAmount":  "Coverage Amount",
+      "currentInsurer":  "Current Insurer (optional)"
+    },
+    "placeholders": {
+      "firstName":    "Ana",
+      "lastName":     "Silva",
+      "email":        "ana@example.com",
+      "phone":        "(305) 555-0100",
+      "address":      "Start typing your address…",
+      "zipCode":      "33101",
+      "vin":          "Enter 17-digit VIN",
+      "businessName": "My Business LLC"
+    },
+    "options": {
+      "roofType":       ["Shingle", "Metal", "Tile", "Flat", "Other"],
+      "coverageAmount": ["$100,000", "$200,000", "$300,000", "$500,000", "$1,000,000+"],
+      "industry":       ["Retail", "Restaurant / Food Service", "Construction", "Healthcare", "Professional Services", "Transportation", "Technology", "Other"],
+      "employees":      ["1–5", "6–20", "21–50", "51–100", "100+"],
+      "revenue":        ["Under $250K", "$250K–$500K", "$500K–$1M", "$1M–$5M", "$5M+"]
+    },
+    "buttons": {
+      "next":       "Next",
+      "back":       "Back",
+      "submit":     "Request My Quote",
+      "submitting": "Sending…",
+      "close":      "Close",
+      "getQuote":   "Find My Best Rate →"
+    },
+    "progress": "Step {current} of {total}",
+    "success": {
+      "title": "We've got your request!",
+      "body":  "An Ativa agent will contact you within 1 business day with your personalized quote.",
+      "cta":   "Done"
+    },
+    "errors": {
+      "required": "This field is required.",
+      "email":    "Please enter a valid email.",
+      "phone":    "Please enter a valid phone number."
+    }
+  },
+  "carriers": {
+    "heading": "Trusted Carriers",
+    "sub":     "We shop multiple top-rated carriers to find you the best rate."
+  },
+  "reviews": {
+    "heading": "What Our Clients Say",
+    "sub":     "Real people, real coverage, real savings.",
+    "items": [
+      { "name": "Maria S.",    "stars": 5, "text": "Got my auto insurance sorted in minutes. Found me a great rate I couldn't believe." },
+      { "name": "James R.",    "stars": 5, "text": "Best commercial insurance experience I've had. They truly understand Florida businesses." },
+      { "name": "Ana Costa",   "stars": 5, "text": "Atendimento excelente! Conseguiram um seguro incrível para meu negócio em Melbourne." },
+      { "name": "Carlos M.",   "stars": 5, "text": "Helped me bundle home and auto. Saved a lot and the process was super smooth." },
+      { "name": "Jennifer L.", "stars": 5, "text": "They respond fast and actually explain the coverage. Highly recommend Ativa!" },
+      { "name": "Roberto P.",  "stars": 5, "text": "¡Excelente servicio! Me ayudaron con el seguro de mi empresa rápidamente." }
+    ]
+  },
+  "faq": {
+    "heading": "Frequently Asked Questions",
+    "sub":     "Everything you need to know before getting a quote.",
+    "items": [
+      {
+        "q": "What states are you licensed in?",
+        "a": "We are licensed in CT, FL, GA, MA, MD, NC, NJ, OH, PA, SC, and TN — with Florida as our primary market."
+      },
+      {
+        "q": "How long does it take to get a quote?",
+        "a": "Most quotes are ready within 1 business day. We contact you directly with personalized options."
+      },
+      {
+        "q": "Do you work with multiple insurance companies?",
+        "a": "Yes. As an independent agency we work with multiple top-rated carriers to find you the best rate and coverage."
+      },
+      {
+        "q": "Can I bundle personal and commercial policies?",
+        "a": "Absolutely. We can handle all your insurance needs — personal and commercial — in one place."
+      },
+      {
+        "q": "What is a Business Owner Policy (BOP)?",
+        "a": "A BOP bundles general liability and commercial property insurance into one affordable policy, ideal for small businesses."
+      },
+      {
+        "q": "Is flood insurance required in Florida?",
+        "a": "If your property is in a designated flood zone and you have a federally-backed mortgage, flood insurance is required. We make it easy to get covered."
+      }
+    ]
+  },
+  "blog": {
+    "heading": "Insurance Tips & Guides",
+    "sub":     "Quick reads to help you make smarter coverage decisions.",
+    "readMore": "Read more →",
+    "viewAll":  "View All Articles →",
+    "posts": [
+      {
+        "title": "5 Things Florida Homeowners Must Know About Flood Insurance",
+        "excerpt": "Flood damage is rarely covered by standard homeowners policies. Here's what every Florida property owner needs to understand.",
+        "category": "Home",
+        "readTime": "3 min read"
+      },
+      {
+        "title": "When Does Your Small Business Need General Liability?",
+        "excerpt": "From day one. If your business interacts with customers or the public, GL coverage is essential — and more affordable than you think.",
+        "category": "Commercial",
+        "readTime": "4 min read"
+      },
+      {
+        "title": "How to Lower Your Auto Insurance Premium This Year",
+        "excerpt": "Bundling, safe driver discounts, and shopping carriers are just the start. Learn what actually moves the needle on your rate.",
+        "category": "Auto",
+        "readTime": "3 min read"
+      }
+    ]
+  },
+  "rce": {
+    "meta": {
+      "title": "Home Replacement Cost Estimator | Ativa Insurance",
+      "description": "Find out how much coverage your home really needs. Free replacement cost calculator for CT, FL, GA, MA, MD, NC, NJ, OH, PA, SC, and TN homeowners."
+    },
+    "hero": {
+      "headline": "What Would It Cost to Rebuild Your Home?",
+      "sub": "Most homeowners are underinsured by 20–40%. Our free calculator shows you the real number — in under 2 minutes.",
+      "cta": "Show My Coverage Gap →",
+      "badge": "Free · No obligation · Takes 2 minutes"
+    },
+    "education": {
+      "warning": {
+        "title": "Market Value ≠ Insurance Value",
+        "text": "Your home's market price includes land — and land can't burn down. Insurance protects only the structure. Most people are insured for the wrong number."
+      },
+      "cards": [
+        {
+          "icon": "condo",
+          "title": "Condo (HO-6)",
+          "text": "Your HOA insures the building exterior. Your HO-6 covers only the interior — flooring, cabinets, appliances, your stuff. Coverage needs are much lower than a house."
+        },
+        {
+          "icon": "house",
+          "title": "House / Townhouse",
+          "text": "A full rebuild means foundation to roof — materials, labor, debris removal. Florida's construction costs run higher than the national average. Don't underinsure."
+        }
+      ]
+    },
+    "steps": {
+      "state":        "Your State",
+      "propertyType": "Property Type",
+      "details":      "Property Details",
+      "finishes":     "Finishes & Features",
+      "leadGate":     "Get My Results"
+    },
+    "labels": {
+      "selectState":   "Select your state",
+      "selectType":    "Select property type",
+      "sqft":          "Living Area (sq ft)",
+      "address":       "Property Address",
+      "yearBuilt":     "Year Built",
+      "finishLevel":   "Interior Finish Level",
+      "roofType":      "Roof Type",
+      "garage":        "Garage",
+      "pool":          "Pool / Spa",
+      "firstName":     "First Name",
+      "email":         "Email Address",
+      "phone":         "Phone Number"
+    },
+    "options": {
+      "states": ["CT","FL","GA","MA","MD","NC","NJ","OH","PA","SC","TN"],
+      "propertyTypes": [
+        { "value": "single_family", "label": "Single Family Home" },
+        { "value": "townhouse",     "label": "Townhouse" },
+        { "value": "condo",         "label": "Condo" },
+        { "value": "mobile_home",   "label": "Mobile Home" },
+        { "value": "duplex",        "label": "Duplex" }
+      ],
+      "finishLevels": [
+        { "value": "basic", "label": "Basic / Builder Grade" },
+        { "value": "mid",   "label": "Mid-Range" },
+        { "value": "high",  "label": "High-End / Custom" }
+      ],
+      "roofTypes": [
+        { "value": "shingle", "label": "Asphalt Shingle" },
+        { "value": "metal",   "label": "Metal" },
+        { "value": "tile",    "label": "Tile / Clay" },
+        { "value": "flat",    "label": "Flat / Modified Bitumen" }
+      ],
+      "garageTypes": [
+        { "value": "none",   "label": "No Garage" },
+        { "value": "single", "label": "Single Car Garage" },
+        { "value": "double", "label": "Double Car Garage" }
+      ],
+      "poolOptions": [
+        { "value": "none", "label": "None" },
+        { "value": "pool", "label": "Pool" },
+        { "value": "spa",  "label": "Spa / Hot Tub" },
+        { "value": "both", "label": "Pool + Spa" }
+      ]
+    },
+    "buttons": {
+      "next":      "Next Step →",
+      "back":      "Back",
+      "calculate": "Reveal My Estimate →",
+      "getQuote":  "Get a Free Quote from Ativa →",
+      "whatsapp":  "Text Us on WhatsApp"
+    },
+    "results": {
+      "title":       "Your Estimated Replacement Cost",
+      "subtitle":    "Based on your property details and current construction costs in your state",
+      "rangeLabel":  "Estimated Range",
+      "recommended": "Recommended Coverage Amount",
+      "disclaimer":  "This estimate is for insurance planning purposes. Actual replacement cost should be confirmed by a licensed appraiser or your insurance carrier."
+    },
+    "lead": {
+      "title":    "Your estimate is ready!",
+      "subtitle": "Enter your contact info to unlock your personalized replacement cost.",
+      "consent":  "We'll send your results + a free quote comparison to your inbox."
+    },
+    "emailSuccess": {
+      "title":    "Results sent to your inbox!",
+      "subtitle": "An Ativa agent will reach out with a personalized coverage quote.",
+      "whatsapp": "Want faster service? Send us a text →"
+    },
+    "faq": {
+      "heading": "Common Questions About Replacement Cost",
+      "items": [
+        {
+          "q": "What's the difference between replacement cost and market value?",
+          "a": "Market value includes land and location premiums. Replacement cost is what it would cost to rebuild the structure — materials, labor, and debris removal. These numbers can differ by 30–50%."
+        },
+        {
+          "q": "Why do condo owners need less coverage than homeowners?",
+          "a": "Condo HOAs typically insure the building exterior and common areas. Your HO-6 policy covers only the interior — walls, flooring, cabinets, and your belongings. This means you may need significantly less coverage."
+        },
+        {
+          "q": "How accurate is this calculator?",
+          "a": "Our estimates are based on current construction cost data per state and typical finish levels. They are accurate within 15–20% for planning purposes. For a precise figure, request a formal replacement cost appraisal."
+        },
+        {
+          "q": "My home has custom finishes. Will that affect the estimate?",
+          "a": "Yes — select 'High-End / Custom' as your finish level. Our agents can also account for unique features like custom tile, smart home systems, or specialty roofing when preparing your quote."
+        },
+        {
+          "q": "Is this a real insurance quote?",
+          "a": "No. This is a replacement cost estimate — the coverage amount you should carry. Your actual premium depends on many additional factors. An Ativa agent will follow up with a real quote."
+        }
+      ]
+    },
+    "cta": {
+      "headline": "Ready for a Real Quote?",
+      "sub":      "Our agents shop multiple carriers to get you the best rate for your replacement cost.",
+      "button":   "See My Price →"
+    }
+  },
+  "footer": {
+    "tagline":    "Independent Insurance Agency",
+    "agent":      "Licensed in CT, FL, GA, MA, MD, NC, NJ, OH, PA, SC, TN",
+    "licensed":   "Licensed in CT · FL · GA · MA · MD · NC · NJ · OH · PA · SC · TN",
+    "rights":     "© {year} Ativa Insurance LLC. All rights reserved.",
+    "disclaimer": "Ativa Insurance LLC is an independent insurance agency. Coverage is subject to policy terms and conditions. Not all products available in all states.",
+    "phone":      "561-946-8261",
+    "address":    "2412 Irwin St Ste 372, Melbourne, FL 32901",
+    "whatsapp":   "WhatsApp Us",
+    "privacy":    "Privacy Policy",
+    "smsPrivacy": "SMS Privacy Policy",
+    "terms":      "Terms of Use",
+    "licenses":   "Licenses",
+    "links": {
+      "tools":   "Tools",
+      "rce":     "RCE Calculator",
+      "blog":    "Blog",
+      "contact": "Contact"
+    }
+  }
+}

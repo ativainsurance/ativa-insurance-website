@@ -1,0 +1,284 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── CSS Variables ────────────────────────────────────────────────────────── */
+:root {
+  --bg: #F0F4FA;
+  --bg-alt: #FFFFFF;
+  --surface: #FFFFFF;
+  --border: #E5E7EB;
+  --text: #0F172A;
+  --text-muted: #64748B;
+  --accent: #1B3A6B;
+  --accent-mid: #2451A0;
+  --accent-light: #EEF2FF;
+  --accent-contrast: #FFFFFF;
+  --header-bg: #FFFFFF;
+  --header-border: #E2E8F0;
+  --card-bg: #FFFFFF;
+  --card-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  --card-shadow-hover: 0 12px 40px rgba(0,0,0,0.12);
+}
+
+[data-mode="commercial"] {
+  --bg: #F4F6F8;
+  --bg-alt: #E9EEF3;
+  --surface: #FFFFFF;
+  --border: #D6DEE6;
+  --text: #0B1F33;
+  --text-muted: #6B7C8F;
+  --accent: #F5A623;
+  --accent-mid: #FFB84D;
+  --accent-light: rgba(245,166,35,0.12);
+  --accent-contrast: #0B1F33;
+  --header-bg: #FFFFFF;
+  --header-border: #D6DEE6;
+  --card-bg: #FFFFFF;
+  --card-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  --card-shadow-hover: 0 12px 40px rgba(0,0,0,0.12);
+}
+
+/* ─── Base ──────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  margin: 0; padding: 0;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.4s ease;
+}
+
+/* ─── Form inputs ─────────────────────────────────────────────────────────── */
+input, select, textarea {
+  background-color: #ffffff !important;
+  color: #111827 !important;
+  caret-color: #111827 !important;
+  font-size: 16px !important;
+}
+input::placeholder, textarea::placeholder {
+  color: #9CA3AF !important;
+  opacity: 1 !important;
+}
+select option { background-color: #ffffff; color: #111827; }
+
+/* ─── Focus ──────────────────────────────────────────────────────────────── */
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ─── Scrollbar ──────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 3px; }
+[data-mode="commercial"] ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); }
+
+/* ─── Marquee ────────────────────────────────────────────────────────────── */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 35s linear infinite;
+  will-change: transform;
+}
+.animate-marquee:hover { animation-play-state: paused; }
+
+/* ─── Hero backgrounds ───────────────────────────────────────────────────── */
+.hero-bg-personal  { background-color: #F0F4FA; }
+.hero-bg-commercial {
+  background-color: #111827;
+  background-image:
+    linear-gradient(rgba(245,158,11,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245,158,11,0.05) 1px, transparent 1px);
+  background-size: 36px 36px;
+}
+
+/* ─── Toggle arrow pulse ─────────────────────────────────────────────────── */
+@keyframes toggle-arrow-pulse {
+  0%, 100% { opacity: 0.5; transform: translateX(0px);   }
+  50%       { opacity: 1;   transform: translateX(3px);  }
+}
+.toggle-arrow { animation: toggle-arrow-pulse 1.5s ease-in-out infinite; }
+
+/* ─── Sparkle star animation ─────────────────────────────────────────────── */
+@keyframes sparkle {
+  0%, 100% { opacity: 0;   transform: scale(0.6) rotate(0deg);   }
+  45%       { opacity: 1;   transform: scale(1)   rotate(15deg);  }
+  55%       { opacity: 0.8; transform: scale(0.9) rotate(-5deg);  }
+}
+.sparkle-star { animation: sparkle 2s ease-in-out infinite; }
+
+/* ─── Floating scene animation ───────────────────────────────────────────── */
+@keyframes hero-float {
+  0%, 100% { transform: translateY(0px);    }
+  50%       { transform: translateY(-12px); }
+}
+.hero-float { animation: hero-float 4s ease-in-out infinite; }
+
+/* ─── Modal ──────────────────────────────────────────────────────────────── */
+.modal-overlay {
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(6px);
+}
+
+/* ─── Keyframes ──────────────────────────────────────────────────────────── */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes modal-in {
+  from { opacity: 0; transform: scale(0.96) translateY(14px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes slide-in {
+  from { opacity: 0; transform: translateX(16px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.animate-fade-in  { animation: fade-in  0.35s ease-out both; }
+.animate-modal-in { animation: modal-in 0.25s ease-out both; }
+.animate-slide-in { animation: slide-in 0.25s ease-out both; }
+.mode-transition  { transition: background-color 0.35s ease, border-color 0.3s ease, color 0.3s ease; }
+
+/* ─── Card scroll reveal (IntersectionObserver powered) ─────────────────── */
+@keyframes card-reveal {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(22px);
+}
+[data-reveal].reveal-visible {
+  animation: card-reveal 0.48s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ─── Comparison row reveal ──────────────────────────────────────────────── */
+@keyframes row-reveal {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+[data-row-reveal] { opacity: 0; }
+[data-row-reveal].reveal-visible {
+  animation: row-reveal 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ─── CTA button micro-interaction ──────────────────────────────────────── */
+.btn-primary {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-primary:hover  { transform: scale(1.02); box-shadow: 0 6px 24px rgba(0,0,0,0.18); }
+.btn-primary:active { transform: scale(0.98); }
+.btn-ghost {
+  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+.btn-ghost:hover  { transform: scale(1.02); }
+.btn-ghost:active { transform: scale(0.98); }
+
+/* ─── Product card CTA brightness on hover ───────────────────────────────── */
+.product-card:hover .card-cta { color: #FDBA74 !important; }
+.product-card .card-cta       { transition: color 250ms ease; }
+
+/* ─── Tab content fade-in on mode switch ─────────────────────────────────── */
+@keyframes mode-fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+.mode-fade-in { animation: mode-fade-in 200ms ease-out both; }
+
+/* ─── Hero CTA text crossfade on card hover ──────────────────────────────── */
+@keyframes cta-text-swap {
+  from { opacity: 0; transform: translateY(3px) scale(1.02); }
+  to   { opacity: 1; transform: translateY(0)   scale(1);    }
+}
+.cta-text-anim { animation: cta-text-swap 150ms ease both; display: inline; }
+
+/* ─── Nav link underline-from-left animation ─────────────────────────────── */
+.nav-link-animated {
+  position: relative;
+  text-decoration: none;
+}
+.nav-link-animated::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+  transition: width 0.22s ease;
+}
+.nav-link-animated:hover::after { width: 100%; }
+
+/* ─── Hero divider ───────────────────────────────────────────────────────── */
+.hero-divider {
+  height: 1px;
+  margin: 2rem 0;
+  border: none;
+}
+.hero-divider-personal {
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(27,58,107,0.18) 25%,
+    rgba(27,58,107,0.30) 50%,
+    rgba(27,58,107,0.18) 75%,
+    transparent
+  );
+}
+.hero-divider-commercial {
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(245,196,0,0.20) 25%,
+    rgba(245,196,0,0.38) 50%,
+    rgba(245,196,0,0.20) 75%,
+    transparent
+  );
+}
+
+/* ─── Stats band ─────────────────────────────────────────────────────────── */
+.stats-band-personal {
+  background: #0F172A;
+  border-top: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 -2px 12px rgba(0,0,0,0.04);
+}
+.stats-band-commercial {
+  background: #0F2A44;
+  border-top: 1px solid rgba(245,166,35,0.18);
+  border-bottom: 1px solid rgba(245,166,35,0.18);
+  box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
+}
+
+/* ─── Alternating section background ────────────────────────────────────── */
+.section-tint-personal {
+  background: linear-gradient(180deg, #FFFFFF 0%, #EEF3FC 50%, #FFFFFF 100%);
+}
+
+/* ─── Comparison table ───────────────────────────────────────────────────── */
+.comparison-win  { color: #10B981; }
+.comparison-lose { color: #EF4444; }
+
+/* ─── Mobile card carousel — hide scrollbar ────────────────────────────── */
+.mobile-card-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.mobile-card-scroll::-webkit-scrollbar { display: none; }
+
+/* ─── Google Places ──────────────────────────────────────────────────────── */
+.pac-container {
+  z-index: 99999 !important;
+  border-radius: 12px !important;
+  border: 1px solid #E2E8F0 !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12) !important;
+  font-family: 'Inter', system-ui, sans-serif !important;
+  overflow: hidden;
+}
+.pac-item { padding: 10px 16px !important; font-size: 14px !important; cursor: pointer; color: #111827 !important; }
+.pac-item:hover, .pac-item-selected { background: #EEF2FF !important; }
+.pac-item-query { color: #1B3A6B !important; font-weight: 600; }
