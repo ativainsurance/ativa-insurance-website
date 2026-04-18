@@ -174,6 +174,10 @@ function TypingDots() {
 
 export default function ChatWidget({ mode }: ChatWidgetProps) {
   const { lang } = useLanguage();
+  // Refs to avoid stale closures in the ativa:openChat event listener
+  const openRef       = useRef(false);
+  const hasGreetedRef = useRef(false);
+
   const [open, setOpen]                         = useState(false);
   const [messages, setMessages]                 = useState<ChatMessage[]>([]);
   const [inputVal, setInputVal]                 = useState("");
@@ -196,6 +200,28 @@ export default function ChatWidget({ mode }: ChatWidgetProps) {
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading, showQuickReplies, showCoverageButtons, messageCtas]);
+
+  /* Keep refs in sync for the openChat event listener */
+  useEffect(() => { openRef.current = open; }, [open]);
+  useEffect(() => { hasGreetedRef.current = hasGreeted; }, [hasGreeted]);
+
+  /* Listen for ativa:openChat from the MobileFAB */
+  useEffect(() => {
+    const listener = () => {
+      if (openRef.current) {
+        setOpen(false);
+      } else {
+        setOpen(true);
+        if (!hasGreetedRef.current) {
+          setHasGreeted(true);
+          setMessages([{ role: "assistant" as const, content: buildGreeting(isPersonal) }]);
+          setShowQuickReplies(true);
+        }
+      }
+    };
+    window.addEventListener("ativa:openChat", listener);
+    return () => window.removeEventListener("ativa:openChat", listener);
+  }, [isPersonal]);
 
   /* Focus input when opened */
   useEffect(() => {
@@ -588,8 +614,8 @@ export default function ChatWidget({ mode }: ChatWidgetProps) {
           </div>
         )}
 
-        {/* ── Button row: WhatsApp + Chat ── */}
-        <div className="flex items-center gap-3">
+        {/* ── Button row: WhatsApp + Chat — desktop only (mobile uses MobileFAB) ── */}
+        <div className="hidden md:flex items-center gap-3">
           {/* WhatsApp */}
           <a
             href="https://wa.me/13213448474"

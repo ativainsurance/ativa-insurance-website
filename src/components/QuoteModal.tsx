@@ -1049,13 +1049,22 @@ function BundleStep1({ bundleItems, data, update, errors, borderOf }: {
 // ─── Main modal ───────────────────────────────────────────────────────────────
 
 // Map product-card IDs (from locale/products) to QuoteModal PIDs
+// Also includes direct PID passthrough for the mobile ProductBottomSheet
 const PERSONAL_CARD_MAP: Partial<Record<string, PID>> = {
+  // Hero card IDs
   auto:    "auto",
   home:    "property",
   renters: "renters",
   condo:   "pet",
   flood:   "flood",
   bundle:  "bundle",
+  // Direct PID passthrough (bottom sheet selects these by PID)
+  property:   "property",
+  pet:        "pet",
+  umbrella:   "umbrella",
+  vacant:     "vacant",
+  boat:       "boat",
+  motorcycle: "motorcycle",
 };
 
 interface QuoteModalProps {

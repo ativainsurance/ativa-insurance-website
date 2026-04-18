@@ -556,13 +556,21 @@ function DOFields({ data, update, errors }: { data: Data; update: (k:string,v:st
 // ─── Main modal ───────────────────────────────────────────────────────────────
 
 // Map product-card IDs (from locale/products) to CommercialQuoteModal PIDs
+// Also includes direct PID passthrough for the mobile ProductBottomSheet
 const COMMERCIAL_CARD_MAP: Partial<Record<string, PID>> = {
+  // Hero card IDs
   bop:               "builders-risk",
   gl:                "gl",
   "commercial-auto": "commercial-auto",
   "workers-comp":    "workers-comp",
   professional:      "professional",
   cyber:             "cyber",
+  // Direct PID passthrough (bottom sheet selects these by PID)
+  "builders-risk":  "builders-risk",
+  "inland-marine":  "inland-marine",
+  umbrella:         "umbrella",
+  surety:           "surety",
+  do:               "do",
 };
 
 interface CommercialQuoteModalProps {

@@ -16,6 +16,8 @@ import Blog from "@/components/Blog";
 import ChatWidget from "@/components/ChatWidget";
 import HowItWorks from "@/components/HowItWorks";
 import Footer from "@/components/Footer";
+import ProductBottomSheet from "@/components/ProductBottomSheet";
+import MobileFAB from "@/components/MobileFAB";
 import type { Mode } from "@/types";
 import type { Language } from "@/types";
 
@@ -746,6 +748,24 @@ const HERO_CTA_HOVER: Record<string, Record<string, string>> = {
 const HERO_PERSONAL_IDS   = ["auto", "home", "bundle"];
 const HERO_COMMERCIAL_IDS = ["commercial-auto", "gl", "workers-comp"];
 
+// ─── Mobile hero card maps (icon path + CTA label per hero product) ────────────
+const MOBILE_HERO_ICONS: Record<string, string> = {
+  auto:              "/icons/auto-insurance.png",
+  home:              "/icons/home-insurance.png",
+  bundle:            "/icons/bundle-save.png",
+  "commercial-auto": "/icons/commercial-auto.png",
+  gl:                "/icons/general-liability.png",
+  "workers-comp":    "/icons/workers-compensation.png",
+};
+const MOBILE_HERO_CTA: Record<string, string> = {
+  auto:              "Get Covered Today →",
+  home:              "Find My Best Rate →",
+  bundle:            "Show My Savings →",
+  "commercial-auto": "Cover My Fleet →",
+  gl:                "See My Rate →",
+  "workers-comp":    "Get WC Quote →",
+};
+
 function AtivaSite() {
   const { t, tProducts, lang } = useLanguage();
   const searchParams = useSearchParams();
@@ -761,6 +781,9 @@ function AtivaSite() {
   const [quoteProduct, setQuoteProduct]             = useState<string | undefined>(undefined);
   const [commercialQuoteOpen, setCommercialQuoteOpen]   = useState(false);
   const [commercialQuoteProduct, setCommercialQuoteProduct] = useState<string | undefined>(undefined);
+  // Mobile product-picker bottom sheets
+  const [personalSheetOpen, setPersonalSheetOpen]     = useState(false);
+  const [commercialSheetOpen, setCommercialSheetOpen] = useState(false);
   const [hoveredCard, setHoveredCard]               = useState<string | null>(null);
   const [userState,  setUserState]                  = useState<string | null>(null);
   const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -931,9 +954,142 @@ function AtivaSite() {
 
       {/* ── Hero — everything above the fold ────────────────────────────── */}
       <section className={`relative overflow-hidden ${isPersonal ? "hero-bg-personal pers-hero-section" : "hero-bg-commercial comm-hero-section"}`}>
-        {isPersonal ? <PersonalHeroBg /> : <CommercialHeroBg />}
+        {/* Background illustration — hidden on mobile (performance) */}
+        <div className="hidden md:block">
+          {isPersonal ? <PersonalHeroBg /> : <CommercialHeroBg />}
+        </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
+
+          {/* ══════════════ MOBILE HERO (hidden md+) ══════════════════════ */}
+          <div className="md:hidden" style={{ paddingBottom: "24px" }}>
+
+            {/* Compact mode toggle */}
+            <div style={{ display: "flex", justifyContent: "center", paddingTop: "20px", marginBottom: "20px" }}>
+              <Toggle mode={mode} onChange={handleModeChange} />
+            </div>
+
+            {/* 1 · Headline */}
+            <div key={`mh-${mode}`} className="mode-fade-in">
+              <h1
+                style={{
+                  fontSize: "clamp(1.6rem, 6vw, 2rem)",
+                  fontWeight: 800,
+                  textAlign: "center",
+                  marginBottom: "8px",
+                  color: isPersonal ? "#0F172A" : "#1E3A5F",
+                  lineHeight: 1.08,
+                  letterSpacing: "-0.025em",
+                }}
+              >
+                {t(`hero.${mode}.headline`)}
+              </h1>
+            </div>
+
+            {/* 2 · Trust line (replaces badge pills on mobile) */}
+            <p style={{ fontSize: "12px", color: "#64748B", textAlign: "center", marginBottom: "16px" }}>
+              ⭐ 5.0 Google Rating · 11 States · Same-Day
+            </p>
+
+            {/* 3 · Product cards — 2-column grid */}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: "10px",
+                marginBottom: "12px",
+              }}
+            >
+              {[...heroProducts]
+                .sort((a, b) => {
+                  // Featured card must appear first so it spans full-width at the top
+                  const featuredId = isPersonal ? "auto" : "gl";
+                  if (a.id === featuredId) return -1;
+                  if (b.id === featuredId) return 1;
+                  return 0;
+                })
+                .map((product) => {
+                const isFeatured = isPersonal ? product.id === "auto" : product.id === "gl";
+                return (
+                  <button
+                    key={product.id}
+                    type="button"
+                    onClick={() => handleProductClick(product.id)}
+                    style={{
+                      gridColumn: isFeatured ? "span 2" : "span 1",
+                      padding: "14px",
+                      borderRadius: "12px",
+                      textAlign: "center",
+                      minHeight: "140px",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: "6px",
+                      border: isFeatured ? "2px solid #F5A623" : "1.5px solid #E2E8F0",
+                      background: isFeatured ? "#FFFBF0" : "#FFFFFF",
+                      cursor: "pointer",
+                      width: "100%",
+                    }}
+                  >
+                    <Image
+                      src={MOBILE_HERO_ICONS[product.id] ?? "/icons/home-insurance.png"}
+                      alt={product.title}
+                      width={64}
+                      height={64}
+                      style={{ width: "64px", height: "64px", objectFit: "contain" }}
+                    />
+                    <span style={{ fontSize: "14px", fontWeight: 700, color: "#0F172A", lineHeight: 1.2 }}>
+                      {product.title}
+                    </span>
+                    <span style={{ fontSize: "11px", color: "#64748B", lineHeight: 1.3 }}>
+                      {product.description}
+                    </span>
+                    <span style={{ fontSize: "12px", color: "#F5A623", fontWeight: 600 }}>
+                      {MOBILE_HERO_CTA[product.id] ?? "Get a quote →"}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* 4 · Secondary link — opens bottom sheet on mobile */}
+            <div style={{ textAlign: "center", marginBottom: "16px" }}>
+              <button
+                type="button"
+                onClick={() => isPersonal ? setPersonalSheetOpen(true) : setCommercialSheetOpen(true)}
+                style={{
+                  fontSize: "13px",
+                  color: "#64748B",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  padding: "4px 0",
+                }}
+              >
+                {isPersonal ? "More coverage options →" : "More business policies →"}
+              </button>
+            </div>
+
+            {/* 5 · Subheadline + microcopy */}
+            <p style={{ fontSize: "13px", textAlign: "center", color: "#64748B", lineHeight: 1.5, marginBottom: "4px" }}>
+              {isPersonal ? heroSub[mode] : "Coverage built for businesses like yours."}
+            </p>
+            <p style={{ fontSize: "12px", textAlign: "center", color: "#94A3B8", marginBottom: "12px" }}>
+              {isPersonal
+                ? "Free · No spam · No obligation"
+                : "Quick quote · No commitment · Licensed agents"}
+            </p>
+
+            {/* Toggle prompt — moved below cards on mobile */}
+            <p style={{ textAlign: "center", fontSize: "12px", color: "#94A3B8" }}>
+              {isPersonal ? t("toggle.switchToCommercial") : t("toggle.switchToPersonal")}
+            </p>
+          </div>
+          {/* ══════════════ END MOBILE HERO ════════════════════════════════ */}
+
+          {/* ══════════════ DESKTOP HERO (hidden on mobile) ════════════════ */}
+          <div className="hidden md:block">
 
           {/* Toggle block — centered */}
           <div className="pt-7 sm:pt-8 flex flex-col items-center mb-8 gap-2.5">
@@ -1139,6 +1295,7 @@ function AtivaSite() {
 
           {/* Bottom padding */}
           <div className="pb-8" />
+          </div>{/* end desktop hero */}
         </div>
       </section>
 
@@ -1164,15 +1321,45 @@ function AtivaSite() {
       <div data-reveal><Blog mode={mode} /></div>
 
       {/* ── Footer ────────────────────────────────────────────────────────── */}
-      {/* Spacer so sticky bar doesn't cover footer on mobile */}
-      <div className="md:hidden" style={{ height: "80px" }} />
+      {/* Spacer so FAB doesn't overlap footer content on mobile */}
+      <div className="md:hidden" style={{ height: "96px" }} />
       <Footer mode={mode} />
 
-      {/* ── Sticky mobile bottom bar ─────────────────────────────────────── */}
-      <StickyBottomBar onGetQuote={openQuote} />
-
-      {/* ── Chat + WhatsApp ───────────────────────────────────────────────── */}
+      {/* ── Chat widget (desktop floating buttons live here) ─────────────── */}
       <ChatWidget mode={mode} />
+
+      {/* ── Mobile FAB (replaces sticky bar + floating buttons on mobile) ── */}
+      <MobileFAB
+        mode={mode}
+        onGetQuote={openQuote}
+        anyModalOpen={quoteOpen || commercialQuoteOpen || personalSheetOpen || commercialSheetOpen}
+      />
+
+      {/* ── Mobile product-picker bottom sheets ──────────────────────────── */}
+      {personalSheetOpen && (
+        <ProductBottomSheet
+          mode="personal"
+          onSelect={(id) => {
+            setPersonalSheetOpen(false);
+            setQuoteProduct(id);
+            setMode("personal");
+            setQuoteOpen(true);
+          }}
+          onClose={() => setPersonalSheetOpen(false)}
+        />
+      )}
+      {commercialSheetOpen && (
+        <ProductBottomSheet
+          mode="commercial"
+          onSelect={(id) => {
+            setCommercialSheetOpen(false);
+            setCommercialQuoteProduct(id);
+            setMode("commercial");
+            setCommercialQuoteOpen(true);
+          }}
+          onClose={() => setCommercialSheetOpen(false)}
+        />
+      )}
 
       {/* ── Personal quote modal ─────────────────────────────────────────── */}
       {quoteOpen && isPersonal && (
