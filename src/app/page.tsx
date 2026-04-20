@@ -1209,129 +1209,310 @@ function AtivaSite() {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
 
           {/* ══════════════ MOBILE HERO (hidden md+) ══════════════════════ */}
-          <div className="md:hidden" style={{ paddingBottom: "24px" }}>
+          <div className="md:hidden" style={{ paddingTop: "24px", paddingBottom: "24px" }}>
+          {isPersonal ? (
 
-            {/* Compact mode toggle */}
-            <div style={{ display: "flex", justifyContent: "center", paddingTop: "20px", marginBottom: "20px" }}>
-              <Toggle mode={mode} onChange={handleModeChange} />
-            </div>
+            /* ── PERSONAL MOBILE HERO ─────────────────────────────────── */
+            <div key="mobile-personal" className="mode-fade-in">
+              <style>{`
+                .mob-zip-shake { animation: zip-shake 0.45s ease-in-out; }
+                .mob-zip-input:focus  { outline: none; box-shadow: 0 0 0 3px rgba(245,166,35,0.15) !important; border-color: #F5A623 !important; }
+                .mob-zip-btn:hover    { background: #1E3A5F !important; }
+                .mob-prod-card:hover  { border-color: #F5A623 !important; box-shadow: 0 4px 12px rgba(245,166,35,0.12) !important; }
+              `}</style>
 
-            {/* 1 · Headline */}
-            <div key={`mh-${mode}`} className="mode-fade-in">
-              <h1
-                style={{
-                  fontSize: "clamp(1.6rem, 6vw, 2rem)",
-                  fontWeight: 800,
-                  textAlign: "center",
-                  marginBottom: "8px",
-                  color: isPersonal ? "#0F172A" : "#1E3A5F",
-                  lineHeight: 1.08,
-                  letterSpacing: "-0.025em",
-                }}
-              >
-                {t(`hero.${mode}.headline`)}
+              {/* 1 · Headline */}
+              <h1 style={{
+                fontSize: "clamp(1.8rem, 6vw, 2.2rem)",
+                fontWeight: 800,
+                textAlign: "center",
+                color: "#0B1F33",
+                lineHeight: 1.12,
+                letterSpacing: "-0.02em",
+                padding: "0 16px",
+                marginBottom: "8px",
+              }}>
+                Shop Insurance for All Your Needs
               </h1>
-            </div>
 
-            {/* 2 · Trust line (replaces badge pills on mobile) */}
-            <p style={{ fontSize: "12px", color: "#64748B", textAlign: "center", marginBottom: "16px" }}>
-              ⭐ 5.0 Google Rating · 11 States · Same-Day
-            </p>
+              {/* 2 · Subheadline */}
+              <p style={{ textAlign: "center", fontSize: "15px", color: "#64748B", padding: "0 20px", marginBottom: "12px", lineHeight: 1.5 }}>
+                We shop multiple top-rated carriers to find your best rate.
+              </p>
 
-            {/* 3 · Product cards — 2-column grid */}
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: "10px",
-                marginBottom: "12px",
-              }}
-            >
-              {[...heroProducts]
-                .sort((a, b) => {
-                  // Featured card must appear first so it spans full-width at the top
-                  const featuredId = isPersonal ? "auto" : "gl";
-                  if (a.id === featuredId) return -1;
-                  if (b.id === featuredId) return 1;
-                  return 0;
-                })
-                .map((product) => {
-                const isFeatured = isPersonal ? product.id === "auto" : product.id === "gl";
-                return (
-                  <button
-                    key={product.id}
-                    type="button"
-                    onClick={() => handleProductClick(product.id)}
+              {/* 3 · Trust row */}
+              <a
+                href="https://maps.app.goo.gl/Zd8AptfZe46v9ntj8"
+                target="_blank" rel="noopener noreferrer"
+                style={{
+                  display: "flex", justifyContent: "center", alignItems: "center",
+                  flexWrap: "wrap", gap: "6px", padding: "0 16px",
+                  marginBottom: "20px", textDecoration: "none",
+                  transition: "opacity 150ms ease",
+                }}
+                onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.opacity = "0.8"; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.opacity = "1"; }}
+              >
+                <svg viewBox="0 0 24 24" width="16" height="16" style={{ flexShrink: 0 }}>
+                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/>
+                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                </svg>
+                {[1,2,3,4,5].map(s => (
+                  <svg key={s} width="12" height="12" viewBox="0 0 20 20" fill="#F5A623">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                  </svg>
+                ))}
+                <span style={{ fontSize: "12px", color: "#64748B" }}>5.0 · 74 Reviews</span>
+                <span style={{ fontSize: "12px", color: "#CBD5E1" }}>·</span>
+                <span style={{ fontSize: "12px", color: "#64748B" }}>✓ 11 States</span>
+                <span style={{ fontSize: "12px", color: "#CBD5E1" }}>·</span>
+                <span style={{ fontSize: "12px", color: "#64748B" }}>⚡ Same-Day</span>
+              </a>
+
+              {/* 4 · Auto Insurance widget */}
+              <div style={{
+                margin: "0 16px",
+                background: "#FFFFFF",
+                border: "2px solid #F5A623",
+                borderRadius: "16px",
+                padding: "20px",
+                boxShadow: "0 4px 20px rgba(245,166,35,0.12)",
+              }}>
+                {/* Icon */}
+                <div style={{ display: "flex", justifyContent: "center", marginBottom: "10px" }}>
+                  <Image
+                    src="/icons/auto-insurance.png?v=2"
+                    alt="Auto Insurance"
+                    width={80} height={80}
+                    style={{ width: "80px", height: "80px", objectFit: "contain" }}
+                  />
+                </div>
+                <p style={{ fontSize: "18px", fontWeight: 700, color: "#0B1F33", textAlign: "center", marginBottom: "4px" }}>
+                  Auto Insurance
+                </p>
+                <p style={{ fontSize: "13px", color: "#64748B", textAlign: "center", marginBottom: "16px" }}>
+                  Average savings of $800+ for drivers who switch
+                </p>
+
+                {/* ZIP input — stacked on mobile */}
+                <div className={zipShake ? "mob-zip-shake" : ""}>
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    maxLength={5}
+                    className="mob-zip-input"
+                    placeholder="Enter your ZIP code"
+                    value={heroZip}
+                    onChange={e => {
+                      const v = e.target.value.replace(/\D/g, "").slice(0, 5);
+                      setHeroZip(v);
+                      if (zipErrMsg) setZipErrMsg("");
+                    }}
+                    onKeyDown={e => { if (e.key === "Enter") handleZipSubmit(); }}
                     style={{
-                      gridColumn: isFeatured ? "span 2" : "span 1",
-                      padding: "14px",
-                      borderRadius: "12px",
-                      textAlign: "center",
-                      minHeight: "140px",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: "6px",
-                      border: isFeatured ? "2px solid #F5A623" : "1.5px solid #E2E8F0",
-                      background: isFeatured ? "#FFFBF0" : "#FFFFFF",
-                      cursor: "pointer",
-                      width: "100%",
+                      width: "100%", height: "52px",
+                      padding: "0 16px", fontSize: "16px",
+                      border: `1.5px solid ${zipErrMsg ? "#DC2626" : "#E2E8F0"}`,
+                      borderRadius: "10px", background: "#F7FAFC",
+                      color: "#0B1F33", marginBottom: "10px", display: "block",
+                      outline: "none",
+                    }}
+                  />
+                  {zipErrMsg && (
+                    <p style={{ fontSize: "13px", color: "#DC2626", marginBottom: "8px", marginTop: "-6px" }}>{zipErrMsg}</p>
+                  )}
+                  <button
+                    type="button"
+                    className="mob-zip-btn"
+                    onClick={handleZipSubmit}
+                    style={{
+                      width: "100%", height: "52px",
+                      background: "#0F2A44", color: "#FFFFFF",
+                      fontSize: "16px", fontWeight: 700,
+                      border: "none", borderRadius: "10px",
+                      cursor: "pointer", transition: "background 150ms ease",
                     }}
                   >
-                    <Image
-                      src={MOBILE_HERO_ICONS[product.id] ?? "/icons/property-insurance.png?v=2"}
-                      alt={product.title}
-                      width={64}
-                      height={64}
-                      style={{ width: "64px", height: "64px", objectFit: "contain" }}
-                    />
-                    <span style={{ fontSize: "14px", fontWeight: 700, color: "#0F172A", lineHeight: 1.2 }}>
-                      {product.title}
-                    </span>
-                    <span style={{ fontSize: "11px", color: "#64748B", lineHeight: 1.3 }}>
-                      {product.description}
-                    </span>
-                    <span style={{ fontSize: "12px", color: "#F5A623", fontWeight: 600 }}>
-                      {MOBILE_HERO_CTA[product.id] ?? "Get a quote →"}
+                    Get a Quote →
+                  </button>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => { setQuoteProduct("auto"); setQuoteOpen(true); }}
+                  style={{
+                    display: "block", width: "100%", background: "none", border: "none",
+                    cursor: "pointer", fontSize: "13px", color: "#64748B",
+                    textAlign: "center", marginTop: "10px", padding: 0,
+                  }}
+                >
+                  Want more info? Explore{" "}
+                  <span style={{ color: "#F5A623", textDecoration: "underline" }}>Auto Insurance</span> →
+                </button>
+              </div>
+
+              {/* 5 · 2×2 mini product grid */}
+              <div style={{
+                display: "grid", gridTemplateColumns: "1fr 1fr",
+                gap: "10px", padding: "12px 16px 0",
+              }}>
+                {[
+                  { id: "bundle", label: "Bundle & Save",     icon: "/icons/bundle-save.png?v=2"         },
+                  { id: "home",   label: "Property Insurance", icon: "/icons/property-insurance.png?v=2"  },
+                  { id: "flood",  label: "Flood Insurance",    icon: "/icons/flood-insurance.png?v=2"     },
+                  { id: "all",    label: "See All Products →", icon: null                                 },
+                ].map(card => (
+                  <button
+                    key={card.id}
+                    type="button"
+                    className="mob-prod-card"
+                    onClick={() => {
+                      if (card.id === "all") { setQuoteProduct(undefined); setQuoteOpen(true); }
+                      else { setQuoteProduct(card.id); setQuoteOpen(true); }
+                    }}
+                    style={{
+                      background: card.id === "all" ? "#F7FAFC" : "#FFFFFF",
+                      border: "1px solid #E8EDF3",
+                      borderRadius: "14px",
+                      padding: "16px 12px",
+                      textAlign: "center",
+                      cursor: "pointer",
+                      display: "flex", flexDirection: "column", alignItems: "center",
+                      transition: "border-color 150ms ease, box-shadow 150ms ease",
+                    }}
+                  >
+                    {card.icon ? (
+                      <Image
+                        src={card.icon}
+                        alt={card.label}
+                        width={72} height={72}
+                        style={{ width: "72px", height: "72px", objectFit: "contain", marginBottom: "8px" }}
+                      />
+                    ) : (
+                      <div style={{ width: "72px", height: "72px", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "8px" }}>
+                        <span style={{ fontSize: "28px", color: "#CBD5E1" }}>＋</span>
+                      </div>
+                    )}
+                    <span style={{ fontSize: "14px", fontWeight: 700, color: "#0B1F33", lineHeight: 1.2 }}>
+                      {card.label}
                     </span>
                   </button>
-                );
-              })}
+                ))}
+              </div>
+
+              {/* 6 · Secondary link */}
+              <div style={{ textAlign: "center", margin: "12px 0" }}>
+                <a
+                  href="sms:5619468261"
+                  style={{ fontSize: "13px", color: "#94A3B8", textDecoration: "none", transition: "color 150ms ease" }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = "#64748B"; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = "#94A3B8"; }}
+                >
+                  Or prefer to talk? Send us a text →
+                </a>
+              </div>
+
+              {/* 7 · Toggle block */}
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px", paddingBottom: "8px" }}>
+                <p style={{ fontSize: "14px", color: "#1E3A5F", fontWeight: 500, margin: 0 }}>
+                  {t("toggle.headline")}
+                </p>
+                <div style={{ width: "100%", maxWidth: "300px" }}>
+                  <Toggle mode={mode} onChange={handleModeChange} />
+                </div>
+                <p style={{ fontSize: "13px", color: "#64748B", margin: 0 }}>
+                  {t("toggle.switchToCommercial")}
+                </p>
+              </div>
             </div>
 
-            {/* 4 · Secondary link — opens bottom sheet on mobile */}
-            <div style={{ textAlign: "center", marginBottom: "16px" }}>
-              <button
-                type="button"
-                onClick={() => isPersonal ? setPersonalSheetOpen(true) : setCommercialSheetOpen(true)}
-                style={{
-                  fontSize: "13px",
-                  color: "#64748B",
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  padding: "4px 0",
-                }}
-              >
-                {isPersonal ? "More coverage options →" : "More business policies →"}
-              </button>
+          ) : (
+
+            /* ── COMMERCIAL MOBILE HERO ───────────────────────────────── */
+            <div key="mobile-commercial" className="mode-fade-in">
+
+              {/* Toggle at top */}
+              <div style={{ display: "flex", justifyContent: "center", marginBottom: "20px" }}>
+                <Toggle mode={mode} onChange={handleModeChange} />
+              </div>
+
+              {/* Headline */}
+              <h1 style={{
+                fontSize: "clamp(1.6rem, 6vw, 2rem)",
+                fontWeight: 800, textAlign: "center",
+                color: "#1E3A5F", lineHeight: 1.08,
+                letterSpacing: "-0.025em",
+                marginBottom: "8px",
+              }}>
+                {t("hero.commercial.headline")}
+              </h1>
+
+              {/* Trust line */}
+              <p style={{ fontSize: "12px", color: "#64748B", textAlign: "center", marginBottom: "16px" }}>
+                ⭐ 5.0 Google Rating · 11 States · Same-Day
+              </p>
+
+              {/* Commercial product cards */}
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginBottom: "12px" }}>
+                {[...heroProducts]
+                  .sort((a, b) => (a.id === "gl" ? -1 : b.id === "gl" ? 1 : 0))
+                  .map(product => {
+                    const isFeatured = product.id === "gl";
+                    return (
+                      <button
+                        key={product.id}
+                        type="button"
+                        onClick={() => handleProductClick(product.id)}
+                        style={{
+                          gridColumn: isFeatured ? "span 2" : "span 1",
+                          padding: "14px", borderRadius: "12px",
+                          textAlign: "center", minHeight: "120px",
+                          display: "flex", flexDirection: "column",
+                          alignItems: "center", justifyContent: "center", gap: "6px",
+                          border: isFeatured ? "2px solid #F5A623" : "1.5px solid #E2E8F0",
+                          background: isFeatured ? "#FFFBF0" : "#FFFFFF",
+                          cursor: "pointer", width: "100%",
+                        }}
+                      >
+                        <Image
+                          src={MOBILE_HERO_ICONS[product.id] ?? "/icons/general-liability.png?v=2"}
+                          alt={product.title}
+                          width={56} height={56}
+                          style={{ width: "56px", height: "56px", objectFit: "contain" }}
+                        />
+                        <span style={{ fontSize: "14px", fontWeight: 700, color: "#0F172A", lineHeight: 1.2 }}>
+                          {product.title}
+                        </span>
+                        <span style={{ fontSize: "12px", color: "#F5A623", fontWeight: 600 }}>
+                          {MOBILE_HERO_CTA[product.id] ?? "Get a quote →"}
+                        </span>
+                      </button>
+                    );
+                  })}
+              </div>
+
+              {/* More business policies */}
+              <div style={{ textAlign: "center", marginBottom: "12px" }}>
+                <button
+                  type="button"
+                  onClick={() => setCommercialSheetOpen(true)}
+                  style={{ fontSize: "13px", color: "#64748B", background: "none", border: "none", cursor: "pointer", padding: "4px 0" }}
+                >
+                  More business policies →
+                </button>
+              </div>
+
+              <p style={{ fontSize: "12px", textAlign: "center", color: "#94A3B8", marginBottom: "12px" }}>
+                Quick quote · No commitment · Licensed agents
+              </p>
+              <p style={{ textAlign: "center", fontSize: "12px", color: "#94A3B8" }}>
+                {t("toggle.switchToPersonal")}
+              </p>
             </div>
 
-            {/* 5 · Subheadline + microcopy */}
-            <p style={{ fontSize: "13px", textAlign: "center", color: "#64748B", lineHeight: 1.5, marginBottom: "4px" }}>
-              {isPersonal ? heroSub[mode] : "Coverage built for businesses like yours."}
-            </p>
-            <p style={{ fontSize: "12px", textAlign: "center", color: "#94A3B8", marginBottom: "12px" }}>
-              {isPersonal
-                ? "Free · No spam · No obligation"
-                : "Quick quote · No commitment · Licensed agents"}
-            </p>
-
-            {/* Toggle prompt — moved below cards on mobile */}
-            <p style={{ textAlign: "center", fontSize: "12px", color: "#94A3B8" }}>
-              {isPersonal ? t("toggle.switchToCommercial") : t("toggle.switchToPersonal")}
-            </p>
+          )}
           </div>
           {/* ══════════════ END MOBILE HERO ════════════════════════════════ */}
 
