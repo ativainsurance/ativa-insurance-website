@@ -1,10 +1,13 @@
 "use client";
 
+import { useRef, useEffect } from "react";
 import type { Mode } from "@/types";
 
 interface Props {
   mode: Mode;
 }
+
+// ─── Icons ────────────────────────────────────────────────────────────────────
 
 function IconForm() {
   return (
@@ -36,6 +39,8 @@ function IconShield() {
     </svg>
   );
 }
+
+// ─── Step definitions ─────────────────────────────────────────────────────────
 
 const STEPS_PERSONAL = [
   {
@@ -79,6 +84,195 @@ const STEPS_COMMERCIAL = [
   },
 ];
 
+// ─── Phone mockup ─────────────────────────────────────────────────────────────
+
+const PHONE_QUOTES = [
+  { carrier: "Progressive",      initial: "P", bg: "#003087", price: "$89/mo",  best: true  },
+  { carrier: "GEICO",            initial: "G", bg: "#003087", price: "$91/mo",  best: false },
+  { carrier: "Bristol West",     initial: "B", bg: "#0F2A44", price: "$98/mo",  best: false },
+  { carrier: "AssuranceAmerica", initial: "A", bg: "#F5A623", price: "$107/mo", best: false },
+];
+
+function PhoneMockupHiW() {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.style.opacity   = "1";
+          el.style.transform = "translateY(0)";
+          obs.unobserve(el);
+        }
+      },
+      { threshold: 0.2 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      style={{
+        position:      "relative",
+        margin:        "0 auto",
+        width:         "180px",
+        height:        "320px",
+        opacity:       0,
+        transform:     "translateY(20px)",
+        transition:    "opacity 500ms ease-out, transform 500ms ease-out",
+        pointerEvents: "none",
+      }}
+    >
+      {/* Frame */}
+      <div style={{
+        width:           "100%",
+        height:          "100%",
+        backgroundColor: "#0F2A44",
+        borderRadius:    "30px",
+        border:          "6px solid #1E3A5F",
+        boxShadow:       "0 20px 60px rgba(15,42,68,0.20), 0 4px 16px rgba(15,42,68,0.12)",
+        padding:         "12px 11px 10px",
+        display:         "flex",
+        flexDirection:   "column",
+        overflow:        "hidden",
+        position:        "relative",
+      }}>
+
+        {/* Notch */}
+        <div style={{
+          width:           "48px",
+          height:          "4px",
+          backgroundColor: "#1E3A5F",
+          borderRadius:    "2px",
+          margin:          "0 auto 10px",
+          flexShrink:      0,
+        }} />
+
+        {/* Screen */}
+        <div style={{
+          flex:            1,
+          backgroundColor: "#F7FAFC",
+          borderRadius:    "18px",
+          padding:         "10px 9px 8px",
+          display:         "flex",
+          flexDirection:   "column",
+          overflow:        "hidden",
+        }}>
+
+          {/* Header */}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "6px" }}>
+            <span style={{ color: "#0F2A44", fontSize: "11px", fontWeight: 700, letterSpacing: "-0.01em" }}>
+              Your Quotes
+            </span>
+            <span style={{ color: "#64748B", fontSize: "8px", backgroundColor: "#E2E8F0", borderRadius: "10px", padding: "2px 6px" }}>
+              Auto · 33401
+            </span>
+          </div>
+
+          {/* Divider */}
+          <div style={{ height: "1px", backgroundColor: "#E2E8F0", marginBottom: "6px", flexShrink: 0 }} />
+
+          {/* Quote rows */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "4px", flex: 1 }}>
+            {PHONE_QUOTES.map(row => (
+              <div
+                key={row.carrier}
+                style={{
+                  backgroundColor: row.best ? "rgba(245,166,35,0.08)" : "#FFFFFF",
+                  borderRadius:    "7px",
+                  padding:         "6px 8px",
+                  display:         "flex",
+                  alignItems:      "center",
+                  justifyContent:  "space-between",
+                  border:          row.best ? "1px solid rgba(245,166,35,0.30)" : "1px solid #E2E8F0",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                  <div style={{
+                    width:           "20px",
+                    height:          "20px",
+                    borderRadius:    "5px",
+                    backgroundColor: row.bg,
+                    display:         "flex",
+                    alignItems:      "center",
+                    justifyContent:  "center",
+                    fontSize:        "8px",
+                    fontWeight:      800,
+                    color:           row.initial === "A" ? "#0B1F33" : "#FFFFFF",
+                    flexShrink:      0,
+                  }}>
+                    {row.initial}
+                  </div>
+                  <span style={{ color: "#0F172A", fontSize: "10px", fontWeight: 500 }}>
+                    {row.carrier}
+                  </span>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
+                  <span style={{ color: "#F5A623", fontSize: "10px", fontWeight: 700 }}>
+                    {row.price}
+                  </span>
+                  {row.best && (
+                    <span style={{
+                      fontSize:        "6.5px",
+                      fontWeight:      700,
+                      backgroundColor: "#F5A623",
+                      color:           "#0B1F33",
+                      borderRadius:    "4px",
+                      padding:         "1px 4px",
+                      marginTop:       "2px",
+                    }}>
+                      BEST
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Microcopy */}
+          <div style={{ textAlign: "center", margin: "6px 0 4px", fontSize: "8px", color: "#94A3B8" }}>
+            ✓ 4 carriers compared instantly
+          </div>
+
+          {/* CTA */}
+          <div style={{
+            width:           "100%",
+            height:          "26px",
+            borderRadius:    "7px",
+            backgroundColor: "#F5A623",
+            color:           "#0B1F33",
+            fontSize:        "9.5px",
+            fontWeight:      700,
+            display:         "flex",
+            alignItems:      "center",
+            justifyContent:  "center",
+            flexShrink:      0,
+          }}>
+            Get Covered →
+          </div>
+
+        </div>{/* end screen */}
+
+        {/* Home bar */}
+        <div style={{
+          width:           "36px",
+          height:          "3px",
+          backgroundColor: "rgba(255,255,255,0.20)",
+          borderRadius:    "2px",
+          margin:          "6px auto 0",
+          flexShrink:      0,
+        }} />
+      </div>
+    </div>
+  );
+}
+
+// ─── Main component ───────────────────────────────────────────────────────────
+
 export default function HowItWorks({ mode }: Props) {
   const isPersonal = mode === "personal";
   const steps = isPersonal ? STEPS_PERSONAL : STEPS_COMMERCIAL;
@@ -89,9 +283,27 @@ export default function HowItWorks({ mode }: Props) {
         backgroundColor: "#F7FAFC",
         width: "100%",
         padding: "80px 24px",
+        position: "relative",
+        overflow: "visible",
       }}
     >
-      <div style={{ maxWidth: "900px", margin: "0 auto" }}>
+      <style>{`
+        @media (min-width: 1200px) {
+          .hiw-section-inner { padding-right: 260px !important; }
+          .hiw-phone-abs     { display: block !important; }
+        }
+        @media (min-width: 640px) {
+          .hiw-connector { display: block !important; }
+        }
+        @media (max-width: 639px) {
+          .hiw-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
+
+      <div
+        className="hiw-section-inner"
+        style={{ maxWidth: "900px", margin: "0 auto", position: "relative" }}
+      >
 
         {/* ── Header ── */}
         <div style={{ textAlign: "center", marginBottom: "48px" }}>
@@ -129,18 +341,10 @@ export default function HowItWorks({ mode }: Props) {
           </p>
         </div>
 
-        {/* ── Steps ── */}
-        <div
-          style={{
-            position: "relative",
-          }}
-        >
-          {/* Connector line — desktop only, hidden on mobile via inline media trick */}
-          <style>{`
-            @media (min-width: 640px) {
-              .hiw-connector { display: block !important; }
-            }
-          `}</style>
+        {/* ── Steps — always full-width centered ── */}
+        <div style={{ position: "relative" }}>
+
+          {/* Connector line */}
           <div
             className="hiw-connector"
             style={{
@@ -155,29 +359,18 @@ export default function HowItWorks({ mode }: Props) {
             }}
           />
 
-          {/* Grid */}
           <div
+            className="hiw-grid"
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(3, 1fr)",
               gap: "32px",
             }}
-            className="hiw-grid"
           >
-            <style>{`
-              @media (max-width: 639px) {
-                .hiw-grid { grid-template-columns: 1fr !important; }
-              }
-            `}</style>
-
             {steps.map(({ num, Icon, title, desc }) => (
               <div
                 key={num}
-                style={{
-                  textAlign: "center",
-                  position: "relative",
-                  zIndex: 1,
-                }}
+                style={{ textAlign: "center", position: "relative", zIndex: 1 }}
               >
                 {/* Icon circle */}
                 <div
@@ -201,12 +394,12 @@ export default function HowItWorks({ mode }: Props) {
                 {/* Step number */}
                 <p
                   style={{
-                    fontSize: "11px",
-                    letterSpacing: "2px",
-                    color: "#F5A623",
-                    fontWeight: 600,
+                    fontSize:      "13px",
+                    letterSpacing: "0.08em",
+                    color:         "#F5A623",
+                    fontWeight:    600,
                     textTransform: "uppercase",
-                    margin: "0 0 8px",
+                    margin:        "0 0 8px",
                   }}
                 >
                   {num}
@@ -215,11 +408,11 @@ export default function HowItWorks({ mode }: Props) {
                 {/* Title */}
                 <h3
                   style={{
-                    fontSize: "1rem",
-                    fontWeight: 700,
-                    color: "#0F172A",
-                    margin: "0 0 10px",
-                    lineHeight: 1.3,
+                    fontSize:   "18px",
+                    fontWeight: 600,
+                    color:      "#0F172A",
+                    margin:     "0 0 10px",
+                    lineHeight: 1.2,
                   }}
                 >
                   {title}
@@ -228,10 +421,10 @@ export default function HowItWorks({ mode }: Props) {
                 {/* Description */}
                 <p
                   style={{
-                    fontSize: "0.875rem",
-                    color: "#64748B",
-                    lineHeight: 1.6,
-                    margin: 0,
+                    fontSize:   "16px",
+                    color:      "#4B5563",
+                    lineHeight: 1.75,
+                    margin:     0,
                   }}
                 >
                   {desc}
@@ -241,6 +434,20 @@ export default function HowItWorks({ mode }: Props) {
           </div>
         </div>
 
+        {/* ── Phone mockup — absolute, ≥1200px only ── */}
+        <div
+          className="hiw-phone-abs"
+          style={{
+            display:   "none",
+            position:  "absolute",
+            right:     "-220px",
+            top:       "50%",
+            transform: "translateY(-50%)",
+            zIndex:    5,
+          }}
+        >
+          <PhoneMockupHiW />
+        </div>
 
       </div>
     </section>

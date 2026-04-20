@@ -6,27 +6,32 @@ import { sendQuoteEmail } from "@/lib/emailjs";
 import { useLanguage } from "@/context/LanguageContext";
 import type { Mode } from "@/types";
 
-// ─── Commercial dark theme tokens ─────────────────────────────────────────────
+// ─── Commercial light theme tokens ────────────────────────────────────────────
 
-const ACCENT     = "#F59E0B";
-const ACCENT_HOV = "#D97706";
-const SURFACE    = "#0F1117";
-const CARD_BG    = "#1A2035";
-const BORDER_CLR = "rgba(245,158,11,0.12)";
-const TEXT_CLR   = "#F1F5F9";
-const TEXT_MUTED = "#94A3B8";
-const INPUT_BG   = "#141B2D";
+const ACCENT       = "#F5A623";
+const SURFACE      = "#FFFFFF";
+const CARD_BG      = "#F7FAFC";
+const BORDER_CLR   = "#E2E8F0";
+const TEXT_CLR     = "#0B1F33";
+const TEXT_MUTED   = "#64748B";
+const LABEL_CLR    = "#334155";
+const INPUT_BG     = "#FFFFFF";
+const BTN_PRIMARY  = "#0F2A44";
+const BTN_PRIM_HOV = "#1E3A5F";
 
 const BASE_INPUT =
-  "w-full px-4 py-3.5 rounded-xl text-sm outline-none caret-gray-100 " +
-  "placeholder-slate-500 transition-colors duration-150 focus:ring-4 focus:ring-amber-500/10";
+  "w-full rounded-xl outline-none " +
+  "placeholder-slate-400 transition-colors duration-150 " +
+  "focus:ring-[3px] focus:ring-amber-400/20";
 
 const inputSt = (err: boolean): React.CSSProperties => ({
   backgroundColor: INPUT_BG,
-  borderWidth: 1.5,
-  borderStyle: "solid",
-  borderColor: err ? "#EF4444" : "rgba(255,255,255,0.10)",
-  color: TEXT_CLR,
+  borderWidth:     1,
+  borderStyle:     "solid",
+  borderColor:     err ? "#DC2626" : BORDER_CLR,
+  color:           "#0F172A",
+  padding:         "14px 16px",
+  minHeight:       "52px",
 });
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -37,7 +42,7 @@ type Phase = "select" | "form" | "success";
 type PID   =
   | "gl" | "commercial-auto" | "workers-comp" | "professional"
   | "cyber" | "builders-risk" | "inland-marine" | "umbrella"
-  | "surety" | "do";
+  | "surety" | "do" | "liquor-liability";
 
 // ─── Product catalogue ────────────────────────────────────────────────────────
 
@@ -51,7 +56,8 @@ const PRODUCTS: { id: PID; label: string; icon: string; desc: string }[] = [
   { id: "inland-marine",   label: "Inland Marine",           icon: "📦", desc: "Equipment, tools & property in transit"    },
   { id: "umbrella",        label: "Umbrella / Excess",       icon: "☂️", desc: "Extends limits over underlying policies"  },
   { id: "surety",          label: "Surety Bond",             icon: "📜", desc: "Contract, license & permit bonds"          },
-  { id: "do",              label: "Directors & Officers",    icon: "🤝", desc: "Board & executive liability protection"    },
+  { id: "do",               label: "Directors & Officers",   icon: "🤝", desc: "Board & executive liability protection"    },
+  { id: "liquor-liability", label: "Liquor Liability",       icon: "🍷", desc: "Coverage for alcohol-related incidents"     },
 ];
 
 const PRODUCT_LABEL: Record<PID, string> = Object.fromEntries(
@@ -68,7 +74,8 @@ const STEP_NAME: Record<PID, string[]> = {
   "inland-marine":   ["Equipment Info", "Contact"],
   "umbrella":        ["Coverage Info",  "Contact"],
   "surety":          ["Bond Info",      "Contact"],
-  "do":              ["Company Info",   "Contact"],
+  "do":               ["Company Info",   "Contact"],
+  "liquor-liability": ["Business Info",  "Contact"],
 };
 
 const US_STATES = [
@@ -86,12 +93,12 @@ function Fw({ label, required, error, hint, children }: {
 }) {
   return (
     <div>
-      <label className="block text-xs font-bold uppercase tracking-widest mb-1.5" style={{ color: TEXT_MUTED }}>
-        {label}{required && <span className="ml-1" style={{ color: ACCENT }}>*</span>}
+      <label className="block font-medium mb-1.5" style={{ color: LABEL_CLR, fontSize: "15px", lineHeight: 1.5 }}>
+        {label}{required && <span className="ml-1" style={{ color: "#DC2626" }}>*</span>}
       </label>
-      {hint && <p className="text-xs mb-1.5" style={{ color: TEXT_MUTED }}>{hint}</p>}
+      {hint && <p className="mb-1.5" style={{ color: TEXT_MUTED, fontSize: "14px" }}>{hint}</p>}
       {children}
-      {error && <p className="mt-1.5 text-xs font-semibold" style={{ color: "#F87171" }}>{error}</p>}
+      {error && <p className="mt-1.5 font-semibold" style={{ color: "#DC2626", fontSize: "14px" }}>{error}</p>}
     </div>
   );
 }
@@ -111,12 +118,12 @@ function Radio({ label, checked, onSelect }: { label: string; checked: boolean; 
     <button type="button" onClick={onSelect}
       className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-left w-full transition-all duration-150"
       style={{
-        border: `1.5px solid ${checked ? ACCENT : "rgba(255,255,255,0.10)"}`,
-        backgroundColor: checked ? "rgba(245,158,11,0.08)" : "transparent",
+        border: `1.5px solid ${checked ? ACCENT : BORDER_CLR}`,
+        backgroundColor: checked ? "rgba(245,166,35,0.08)" : "transparent",
         color: checked ? TEXT_CLR : TEXT_MUTED,
       }}>
       <span className="flex-shrink-0 w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all"
-        style={{ borderColor: checked ? ACCENT : "rgba(255,255,255,0.25)" }}>
+        style={{ borderColor: checked ? ACCENT : "#CBD5E1" }}>
         {checked && <span className="w-2 h-2 rounded-full" style={{ backgroundColor: ACCENT }} />}
       </span>
       {label}
@@ -133,8 +140,8 @@ function SelectField({ id, value, onChange, options, placeholder, hasError }: {
       <select id={id} value={value} onChange={e => onChange(e.target.value)}
         className={`${BASE_INPUT} appearance-none cursor-pointer`}
         style={inputSt(!!hasError)}>
-        <option value="" disabled style={{ backgroundColor: CARD_BG }}>{placeholder}</option>
-        {options.map(o => <option key={o} style={{ backgroundColor: CARD_BG }}>{o}</option>)}
+        <option value="" disabled style={{ backgroundColor: SURFACE, color: TEXT_MUTED }}>{placeholder}</option>
+        {options.map(o => <option key={o} style={{ backgroundColor: SURFACE, color: TEXT_CLR }}>{o}</option>)}
       </select>
       <Chevron />
     </div>
@@ -156,12 +163,12 @@ function MultiCheckbox({ options, selected, onToggle, error }: {
             <button key={opt.id} type="button" onClick={() => onToggle(opt.id)}
               className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-left transition-all duration-150"
               style={{
-                border: `1.5px solid ${on ? ACCENT : "rgba(255,255,255,0.10)"}`,
-                backgroundColor: on ? "rgba(245,158,11,0.08)" : "transparent",
+                border: `1.5px solid ${on ? ACCENT : BORDER_CLR}`,
+                backgroundColor: on ? "rgba(245,166,35,0.08)" : "transparent",
                 color: on ? TEXT_CLR : TEXT_MUTED,
               }}>
               <span className="w-4 h-4 rounded flex items-center justify-center shrink-0 border-2 transition-all"
-                style={{ borderColor: on ? ACCENT : "rgba(255,255,255,0.25)", backgroundColor: on ? ACCENT : "transparent" }}>
+                style={{ borderColor: on ? ACCENT : "#CBD5E1", backgroundColor: on ? ACCENT : "transparent" }}>
                 {on && (
                   <svg viewBox="0 0 12 12" fill="white" className="w-2.5 h-2.5">
                     <path d="M2 6l3 3 5-5" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
@@ -173,7 +180,7 @@ function MultiCheckbox({ options, selected, onToggle, error }: {
           );
         })}
       </div>
-      {error && <p className="mt-1.5 text-xs font-semibold" style={{ color: "#F87171" }}>{error}</p>}
+      {error && <p className="mt-1.5 font-semibold" style={{ color: "#DC2626", fontSize: "14px" }}>{error}</p>}
     </div>
   );
 }
@@ -553,6 +560,47 @@ function DOFields({ data, update, errors }: { data: Data; update: (k:string,v:st
   );
 }
 
+// ─── Liquor Liability ─────────────────────────────────────────────────────────
+
+function LiquorLiabilityFields({ data, update, errors }: { data: Data; update: (k:string,v:string)=>void; errors: Record<string,string> }) {
+  return (
+    <>
+      <Fw label="Business Name" required error={errors.businessName}>
+        <input type="text" value={data.businessName ?? ""} onChange={e => update("businessName", e.target.value)}
+          placeholder="Acme Bar & Grill LLC" className={BASE_INPUT} style={inputSt(!!errors.businessName)} />
+      </Fw>
+      <Fw label="Type of Establishment" required error={errors.establishmentType}>
+        <SelectField id="c-ll-est" value={data.establishmentType ?? ""} onChange={v => update("establishmentType", v)} hasError={!!errors.establishmentType}
+          options={["Bar / Nightclub","Restaurant","Catering","Private Events","Retail Liquor Store"]}
+          placeholder="— Select type —" />
+      </Fw>
+      <Fw label="Do you have a liquor license?" required error={errors.hasLicense}>
+        <div className="flex gap-3 mt-0.5">
+          {["Yes","No"].map(o => <Radio key={o} label={o} checked={data.hasLicense === o} onSelect={() => update("hasLicense", o)} />)}
+        </div>
+      </Fw>
+      <Fw label="Estimated Monthly Alcohol Sales ($)" required error={errors.monthlySales}>
+        <input type="number" value={data.monthlySales ?? ""} onChange={e => update("monthlySales", e.target.value)}
+          placeholder="15000" min="0" className={BASE_INPUT} style={inputSt(!!errors.monthlySales)} />
+      </Fw>
+      <Fw label="Do you have security staff?" required error={errors.hasSecurity}>
+        <div className="flex gap-3 mt-0.5">
+          {["Yes","No"].map(o => <Radio key={o} label={o} checked={data.hasSecurity === o} onSelect={() => update("hasSecurity", o)} />)}
+        </div>
+      </Fw>
+      <Fw label="Annual Gross Revenue ($)" required error={errors.revenue}>
+        <input type="number" value={data.revenue ?? ""} onChange={e => update("revenue", e.target.value)}
+          placeholder="500000" min="0" className={BASE_INPUT} style={inputSt(!!errors.revenue)} />
+      </Fw>
+      <Fw label="Business Address" required error={errors.businessAddress}>
+        <AddressAutocomplete id="c-ll-addr" value={data.businessAddress ?? ""}
+          onChange={v => update("businessAddress", v)}
+          placeholder="Start typing business address…" className={BASE_INPUT} />
+      </Fw>
+    </>
+  );
+}
+
 // ─── Main modal ───────────────────────────────────────────────────────────────
 
 // Map product-card IDs (from locale/products) to CommercialQuoteModal PIDs
@@ -566,11 +614,12 @@ const COMMERCIAL_CARD_MAP: Partial<Record<string, PID>> = {
   professional:      "professional",
   cyber:             "cyber",
   // Direct PID passthrough (bottom sheet selects these by PID)
-  "builders-risk":  "builders-risk",
-  "inland-marine":  "inland-marine",
-  umbrella:         "umbrella",
-  surety:           "surety",
-  do:               "do",
+  "builders-risk":    "builders-risk",
+  "inland-marine":    "inland-marine",
+  umbrella:           "umbrella",
+  surety:             "surety",
+  do:                 "do",
+  "liquor-liability": "liquor-liability",
 };
 
 interface CommercialQuoteModalProps {
@@ -664,6 +713,9 @@ export default function CommercialQuoteModal({ onClose, initialProduct }: Commer
         case "do":
           r("businessName"); r("industry"); r("boardMembers"); r("revenue"); r("publiclyTraded"); r("lawsuits");
           break;
+        case "liquor-liability":
+          r("businessName"); r("establishmentType"); r("hasLicense"); r("monthlySales"); r("hasSecurity"); r("revenue"); r("businessAddress");
+          break;
       }
     }
     setErrors(e);
@@ -726,8 +778,9 @@ export default function CommercialQuoteModal({ onClose, initialProduct }: Commer
       case "inland-marine":   return <InlandMarineFields data={data} update={update} errors={errors} />;
       case "umbrella":        return <UmbrellaFields data={data} update={update} errors={errors} multi={multi} onToggle={toggleMulti} />;
       case "surety":          return <SuretyFields data={data} update={update} errors={errors} />;
-      case "do":              return <DOFields data={data} update={update} errors={errors} />;
-      default:                return null;
+      case "do":               return <DOFields data={data} update={update} errors={errors} />;
+      case "liquor-liability": return <LiquorLiabilityFields data={data} update={update} errors={errors} />;
+      default:                 return null;
     }
   };
 
@@ -746,10 +799,10 @@ export default function CommercialQuoteModal({ onClose, initialProduct }: Commer
         className="relative w-full sm:max-w-xl rounded-t-3xl sm:rounded-2xl overflow-hidden animate-modal-in shadow-modal"
         style={{
           backgroundColor: SURFACE,
-          border: `1px solid ${BORDER_CLR}`,
-          maxHeight: "92dvh",
-          overflowY: "auto",
-          boxShadow: "0 24px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(245,158,11,0.08)",
+          border:          `1px solid ${BORDER_CLR}`,
+          maxHeight:       "92dvh",
+          overflowY:       "auto",
+          boxShadow:       "0 24px 64px rgba(15,42,68,0.14), 0 4px 16px rgba(15,42,68,0.08)",
         }}
       >
         {/* ── Header ── */}
@@ -762,14 +815,14 @@ export default function CommercialQuoteModal({ onClose, initialProduct }: Commer
             <p className="text-xs font-bold uppercase tracking-widest mb-0.5" style={{ color: ACCENT }}>
               Commercial Lines
             </p>
-            <h2 className="text-lg font-bold" style={{ color: TEXT_CLR }}>{title}</h2>
+            <h2 className="font-bold" style={{ color: TEXT_CLR, fontSize: "22px" }}>{title}</h2>
           </div>
           <button onClick={onClose}
-            className="w-9 h-9 rounded-full flex items-center justify-center transition-colors duration-150"
-            style={{ color: TEXT_MUTED, backgroundColor: "rgba(255,255,255,0.06)" }}
+            className="rounded-full flex items-center justify-center transition-colors duration-150"
+            style={{ width: "44px", height: "44px", flexShrink: 0, color: TEXT_MUTED, backgroundColor: "#F1F5F9" }}
             aria-label="Close"
-            onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.backgroundColor = "rgba(255,255,255,0.12)"; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.backgroundColor = "rgba(255,255,255,0.06)"; }}>
+            onMouseEnter={e => { const el = e.currentTarget as HTMLButtonElement; el.style.backgroundColor = BORDER_CLR; el.style.color = TEXT_CLR; }}
+            onMouseLeave={e => { const el = e.currentTarget as HTMLButtonElement; el.style.backgroundColor = "#F1F5F9"; el.style.color = TEXT_MUTED; }}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
             </svg>
@@ -809,7 +862,7 @@ export default function CommercialQuoteModal({ onClose, initialProduct }: Commer
             </a>
             <button onClick={onClose}
               className="px-8 py-2.5 rounded-xl font-semibold text-sm transition-colors duration-150"
-              style={{ border: `1.5px solid rgba(255,255,255,0.12)`, color: TEXT_MUTED, backgroundColor: "transparent" }}>
+              style={{ border: `1px solid ${BORDER_CLR}`, color: TEXT_MUTED, backgroundColor: "transparent" }}>
               Close
             </button>
           </div>
@@ -818,10 +871,10 @@ export default function CommercialQuoteModal({ onClose, initialProduct }: Commer
         {/* ── Product selection ── */}
         {phase === "select" && (
           <div className="px-6 pt-5 pb-6">
-            <p className="text-sm font-semibold mb-1" style={{ color: TEXT_CLR }}>
+            <p className="mb-1" style={{ color: TEXT_CLR, fontSize: "18px", fontWeight: 600 }}>
               What coverage are you looking for?
             </p>
-            <p className="text-xs mb-4" style={{ color: TEXT_MUTED }}>
+            <p className="mb-4" style={{ color: TEXT_MUTED, fontSize: "14px" }}>
               Select one — we&apos;ll ask only what we need.
             </p>
             <div className="grid grid-cols-2 gap-2.5">
@@ -830,23 +883,26 @@ export default function CommercialQuoteModal({ onClose, initialProduct }: Commer
                   onClick={() => { setProduct(p.id); setStep(0); setData({}); setMulti({}); setErrors({}); setPhase("form"); }}
                   className="group flex flex-col gap-1 px-4 py-3.5 rounded-xl text-left transition-all duration-150"
                   style={{
-                    border: `1.5px solid rgba(245,158,11,0.12)`,
+                    border:          `1px solid ${BORDER_CLR}`,
                     backgroundColor: CARD_BG,
+                    borderRadius:    "12px",
                   }}
                   onMouseEnter={e => {
                     const el = e.currentTarget as HTMLButtonElement;
-                    el.style.borderColor = ACCENT;
-                    el.style.backgroundColor = "rgba(245,158,11,0.06)";
+                    el.style.borderColor     = "#CBD5E1";
+                    el.style.backgroundColor = "#EDF2F7";
+                    el.style.boxShadow       = "none";
                   }}
                   onMouseLeave={e => {
                     const el = e.currentTarget as HTMLButtonElement;
-                    el.style.borderColor = "rgba(245,158,11,0.12)";
+                    el.style.borderColor     = BORDER_CLR;
                     el.style.backgroundColor = CARD_BG;
+                    el.style.boxShadow       = "none";
                   }}
                 >
                   <span className="text-xl leading-none">{p.icon}</span>
-                  <span className="text-xs font-bold leading-tight mt-0.5" style={{ color: TEXT_CLR }}>{p.label}</span>
-                  <span className="text-[10px] leading-tight hidden sm:block" style={{ color: TEXT_MUTED }}>{p.desc}</span>
+                  <span className="text-[14px] font-semibold leading-tight mt-0.5" style={{ color: TEXT_CLR }}>{p.label}</span>
+                  <span className="text-[12px] leading-tight hidden sm:block" style={{ color: "#374151" }}>{p.desc}</span>
                 </button>
               ))}
             </div>
@@ -859,14 +915,14 @@ export default function CommercialQuoteModal({ onClose, initialProduct }: Commer
             {/* Progress */}
             <div className="px-6 pt-5 pb-3">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-bold uppercase tracking-widest" style={{ color: TEXT_MUTED }}>
+                <span className="font-semibold uppercase tracking-widest" style={{ color: TEXT_MUTED, fontSize: "14px" }}>
                   Step {step + 1} of 2
                 </span>
-                <span className="text-xs font-bold" style={{ color: ACCENT }}>
+                <span className="font-bold" style={{ color: ACCENT, fontSize: "14px" }}>
                   {STEP_NAME[product][step]}
                 </span>
               </div>
-              <div className="w-full h-1 rounded-full overflow-hidden" style={{ backgroundColor: "rgba(255,255,255,0.08)" }}>
+              <div className="w-full h-1 rounded-full overflow-hidden" style={{ backgroundColor: BORDER_CLR }}>
                 <div className="h-full rounded-full transition-all duration-500"
                   style={{ width: `${(step + 1) / 2 * 100}%`, backgroundColor: ACCENT }} />
               </div>
@@ -882,21 +938,23 @@ export default function CommercialQuoteModal({ onClose, initialProduct }: Commer
             <div className="px-6 pt-2 pb-6 flex gap-3 justify-between"
               style={{ borderTop: `1px solid ${BORDER_CLR}` }}>
               <button type="button" onClick={handleBack}
-                className="px-5 py-3 rounded-xl font-semibold text-sm transition-all duration-150"
+                className="px-5 rounded-xl font-semibold transition-all duration-150"
                 style={{
-                  border: `1.5px solid rgba(255,255,255,0.12)`,
-                  color: TEXT_MUTED,
+                  fontSize:        "16px",
+                  minHeight:       "52px",
+                  border:          `1px solid ${BORDER_CLR}`,
+                  color:           TEXT_MUTED,
                   backgroundColor: "transparent",
                 }}
-                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(255,255,255,0.25)"; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(255,255,255,0.12)"; }}>
+                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "#CBD5E1"; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = BORDER_CLR; }}>
                 Back
               </button>
               <button type="button" onClick={handleNext} disabled={submitting}
-                className="flex-1 sm:flex-none px-8 py-3 rounded-xl font-bold text-sm transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
-                style={{ backgroundColor: ACCENT, color: "#0D1117" }}
-                onMouseEnter={e => { if (!submitting) (e.currentTarget as HTMLButtonElement).style.backgroundColor = ACCENT_HOV; }}
-                onMouseLeave={e => { if (!submitting) (e.currentTarget as HTMLButtonElement).style.backgroundColor = ACCENT; }}>
+                className="flex-1 sm:flex-none px-8 rounded-xl font-bold transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{ fontSize: "16px", minHeight: "52px", backgroundColor: BTN_PRIMARY, color: "#FFFFFF" }}
+                onMouseEnter={e => { if (!submitting) (e.currentTarget as HTMLButtonElement).style.backgroundColor = BTN_PRIM_HOV; }}
+                onMouseLeave={e => { if (!submitting) (e.currentTarget as HTMLButtonElement).style.backgroundColor = BTN_PRIMARY; }}>
                 {submitting ? "Submitting…"
                   : step === 1 ? (t("form.buttons.submit") || "Request My Quote")
                   : (t("form.buttons.next") || "Next →")}

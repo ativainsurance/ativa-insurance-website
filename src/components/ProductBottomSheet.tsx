@@ -13,12 +13,12 @@ interface SheetProduct {
 }
 
 const PERSONAL_PRODUCTS: SheetProduct[] = [
-  { id: "auto",       label: "Auto",           icon: "/icons/auto-insurance.png",      imgIcon: true  },
-  { id: "property",   label: "Home / Property",icon: "/icons/home-insurance.png",      imgIcon: true  },
-  { id: "renters",    label: "Renters",         icon: "/icons/renters-insurance.png",   imgIcon: true  },
-  { id: "pet",        label: "Pet",             icon: "/icons/pet-insurance.png",       imgIcon: true  },
-  { id: "flood",      label: "Flood",           icon: "/icons/flood-insurance.png",     imgIcon: true  },
-  { id: "bundle",     label: "Bundle & Save",   icon: "/icons/bundle-save.png",         imgIcon: true  },
+  { id: "auto",       label: "Auto",           icon: "/icons/auto-insurance.png?v=2",      imgIcon: true  },
+  { id: "property",   label: "Home / Property",icon: "/icons/property-insurance.png?v=2",      imgIcon: true  },
+  { id: "renters",    label: "Renters",         icon: "/icons/renters-insurance.png?v=2",   imgIcon: true  },
+  { id: "pet",        label: "Pet",             icon: "/icons/pet-insurance.png?v=2",       imgIcon: true  },
+  { id: "flood",      label: "Flood",           icon: "/icons/flood-insurance.png?v=2",     imgIcon: true  },
+  { id: "bundle",     label: "Bundle & Save",   icon: "/icons/bundle-save.png?v=2",         imgIcon: true  },
   { id: "umbrella",   label: "Umbrella",        icon: "☂️",                             imgIcon: false },
   { id: "vacant",     label: "Vacant Property", icon: "🏚️",                            imgIcon: false },
   { id: "boat",       label: "Boat",            icon: "⛵",                             imgIcon: false },
@@ -26,12 +26,12 @@ const PERSONAL_PRODUCTS: SheetProduct[] = [
 ];
 
 const COMMERCIAL_PRODUCTS: SheetProduct[] = [
-  { id: "gl",              label: "General Liability",    icon: "/icons/general-liability.png",    imgIcon: true  },
-  { id: "commercial-auto", label: "Commercial Auto",      icon: "/icons/commercial-auto.png",      imgIcon: true  },
-  { id: "workers-comp",    label: "Workers' Comp",        icon: "/icons/workers-compensation.png", imgIcon: true  },
-  { id: "professional",    label: "Professional Liab.",   icon: "/icons/professional-liability.png", imgIcon: true },
-  { id: "cyber",           label: "Cyber Liability",      icon: "/icons/cyber-liability.png",      imgIcon: true  },
-  { id: "builders-risk",   label: "Builders Risk",        icon: "/icons/builders-risk.png",        imgIcon: true  },
+  { id: "gl",              label: "General Liability",    icon: "/icons/general-liability.png?v=2",    imgIcon: true  },
+  { id: "commercial-auto", label: "Commercial Auto",      icon: "/icons/commercial-auto.png?v=2",      imgIcon: true  },
+  { id: "workers-comp",    label: "Workers' Comp",        icon: "/icons/workers-compensation.png?v=2", imgIcon: true  },
+  { id: "professional",    label: "Professional Liab.",   icon: "/icons/professional-liability.png?v=2", imgIcon: true },
+  { id: "cyber",           label: "Cyber Liability",      icon: "/icons/cyber-liability.png?v=2",      imgIcon: true  },
+  { id: "builders-risk",   label: "Builders Risk",        icon: "/icons/builders-risk.png?v=2",        imgIcon: true  },
   { id: "inland-marine",   label: "Inland Marine",        icon: "📦",                              imgIcon: false },
   { id: "umbrella",        label: "Umbrella / Excess",    icon: "☂️",                              imgIcon: false },
   { id: "surety",          label: "Surety Bond",          icon: "📜",                              imgIcon: false },

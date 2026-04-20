@@ -11,7 +11,7 @@
   --surface: #FFFFFF;
   --border: #E5E7EB;
   --text: #0F172A;
-  --text-muted: #64748B;
+  --text-muted: #4B5563;
   --accent: #1B3A6B;
   --accent-mid: #2451A0;
   --accent-light: #EEF2FF;
@@ -29,7 +29,7 @@
   --surface: #FFFFFF;
   --border: #D6DEE6;
   --text: #0B1F33;
-  --text-muted: #6B7C8F;
+  --text-muted: #4B5563;
   --accent: #F5A623;
   --accent-mid: #FFB84D;
   --accent-light: rgba(245,166,35,0.12);
@@ -89,7 +89,7 @@ select option { background-color: #ffffff; color: #111827; }
 .animate-marquee:hover { animation-play-state: paused; }
 
 /* ─── Hero backgrounds ───────────────────────────────────────────────────── */
-.hero-bg-personal  { background-color: #F0F4FA; }
+.hero-bg-personal  { background-color: #FFFFFF; }
 .hero-bg-commercial {
   background-color: #111827;
   background-image:
@@ -181,7 +181,7 @@ select option { background-color: #ffffff; color: #111827; }
 .btn-ghost:active { transform: scale(0.98); }
 
 /* ─── Product card CTA brightness on hover ───────────────────────────────── */
-.product-card:hover .card-cta { color: #FDBA74 !important; }
+.product-card:hover .card-cta { color: #D97706 !important; }
 .product-card .card-cta       { transition: color 250ms ease; }
 
 /* ─── Tab content fade-in on mode switch ─────────────────────────────────── */

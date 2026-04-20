@@ -143,16 +143,16 @@ export default function Blog({ mode }: BlogProps) {
                   </span>
                 </div>
 
-                <h3 className="font-bold text-base leading-snug mb-2" style={{ color: "var(--text)" }}>
+                <h3 className="font-bold leading-snug mb-2" style={{ color: "var(--text)", fontSize: "17px" }}>
                   {post.title}
                 </h3>
-                <p className="text-sm leading-relaxed flex-1" style={{ color: "var(--text-muted)" }}>
+                <p className="flex-1" style={{ color: "var(--text-muted)", fontSize: "15px", lineHeight: 1.7 }}>
                   {post.excerpt}
                 </p>
 
                 <div
-                  className="mt-4 text-sm font-bold transition-transform duration-200 group-hover:translate-x-1"
-                  style={{ color: "var(--accent)" }}
+                  className="mt-4 font-bold transition-transform duration-200 group-hover:translate-x-1"
+                  style={{ color: "#B45309", fontSize: "15px" }}
                 >
                   Read: {post.title} →
                 </div>

@@ -232,93 +232,57 @@ function CommercialScene() {
 
 function PersonalHeroBg() {
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
-      {/* Responsive rules — scoped to personal hero */}
+    <div aria-hidden>
       <style>{`
         .pers-hero-section {
-          min-height: 680px;
-          padding: 60px 24px;
+          padding: 40px 0 40px;
         }
         @media (max-width: 768px) {
-          .pers-hero-section { min-height: 500px; padding: 40px 16px; }
-          .pers-hero-bg-img  { object-position: center center !important; }
-          .pers-hero-overlay {
-            background: rgba(247,250,252,0.95) !important;
-          }
+          .pers-hero-section { padding: 40px 16px; }
         }
       `}</style>
-
-      {/* Background photo — z-index 0 */}
-      <Image
-        src="/images/personal-hero-bg.png"
-        alt=""
-        fill
-        priority
-        className="pers-hero-bg-img"
-        style={{ objectFit: "cover", objectPosition: "right center", zIndex: 0 }}
-      />
-
-      {/* Left-to-right gradient — protects text on left, reveals image on right — z-index 1 */}
-      <div
-        className="pers-hero-overlay"
-        style={{
-          position: "absolute",
-          inset: 0,
-          zIndex: 1,
-          background: "linear-gradient(to right, rgba(247,250,252,0.97) 0%, rgba(247,250,252,0.92) 30%, rgba(247,250,252,0.70) 50%, rgba(247,250,252,0.25) 70%, rgba(247,250,252,0.05) 100%)",
-        }}
-      />
     </div>
   );
 }
 
 function CommercialHeroBg() {
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
-      {/* Responsive rules — scoped to commercial hero */}
+    <div className="absolute inset-0 pointer-events-none" aria-hidden>
       <style>{`
         .comm-hero-section {
-          min-height: 720px;
+          min-height: 640px;
           padding: 60px 24px;
         }
         @media (max-width: 768px) {
-          .comm-hero-section { min-height: 500px; padding: 40px 16px; }
-          .comm-hero-bg-img  { object-position: center center !important; }
-          .comm-hero-overlay {
-            background: rgba(244,246,248,0.90) !important;
-          }
+          .comm-hero-section { min-height: 480px; padding: 40px 16px; }
         }
       `}</style>
 
-      {/* Background photo — z-index 0 */}
-      <Image
-        src="/images/commercial-hero-bg.jpg"
-        alt=""
-        fill
-        priority
-        className="comm-hero-bg-img"
-        style={{ objectFit: "cover", objectPosition: "center center", zIndex: 0 }}
-      />
+      {/* Base gradient */}
+      <div style={{
+        position: "absolute",
+        inset: 0,
+        background: "linear-gradient(135deg, #F4F6F8 0%, #EDF2F7 50%, #E8EDF5 100%)",
+      }} />
 
-      {/* Light overlay — lets image texture show subtly — z-index 1 */}
-      <div
-        className="comm-hero-overlay"
-        style={{
-          position: "absolute",
-          inset: 0,
-          zIndex: 1,
-          background: "rgba(244,246,248,0.82)",
-        }}
-      />
+      {/* Dot pattern overlay */}
+      <div style={{
+        position: "absolute",
+        inset: 0,
+        backgroundImage: "radial-gradient(circle at 1px 1px, rgba(15,42,68,0.035) 1px, transparent 0)",
+        backgroundSize: "28px 28px",
+      }} />
 
-      {/* Subtle warm accent — z-index 2 */}
-      <div style={{ position: "absolute", inset: 0, zIndex: 2, pointerEvents: "none" }}>
-        <div className="absolute" style={{
-          top: "-10%", right: "-5%", width: "500px", height: "500px",
-          borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(245,166,35,0.08) 0%, transparent 65%)",
-        }} />
-      </div>
+      {/* Subtle warm accent top-right */}
+      <div style={{
+        position: "absolute",
+        top: "-80px",
+        right: "-80px",
+        width: "480px",
+        height: "480px",
+        borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(245,166,35,0.06) 0%, transparent 65%)",
+      }} />
     </div>
   );
 }
@@ -564,24 +528,6 @@ function ComparisonSection({ mode, onGetQuote }: { mode: Mode; onGetQuote: () =>
 
 // ─── Trust badges ─────────────────────────────────────────────────────────────
 
-const TRUST_BADGES: Record<Language, Array<{ icon: string; text: string }>> = {
-  en: [
-    { icon: "⭐", text: "5.0 Google Rating" },
-    { icon: "🏛️", text: "11 Licensed States" },
-    { icon: "⚡", text: "Same-Day Response"  },
-  ],
-  pt: [
-    { icon: "⭐", text: "5.0 no Google"       },
-    { icon: "🏛️", text: "11 Estados Licenciados" },
-    { icon: "⚡", text: "Resposta no Mesmo Dia" },
-  ],
-  es: [
-    { icon: "⭐", text: "5.0 en Google"        },
-    { icon: "🏛️", text: "11 Estados con Licencia" },
-    { icon: "⚡", text: "Respuesta el Mismo Día" },
-  ],
-};
-
 // ─── Mobile card carousel ────────────────────────────────────────────────────
 
 interface MobileCardCarouselProps {
@@ -748,14 +694,44 @@ const HERO_CTA_HOVER: Record<string, Record<string, string>> = {
 const HERO_PERSONAL_IDS   = ["auto", "home", "bundle"];
 const HERO_COMMERCIAL_IDS = ["commercial-auto", "gl", "workers-comp"];
 
+// ─── Commercial quote widget ──────────────────────────────────────────────────
+
+const WIDGET_PRODUCTS = [
+  { id: "commercial-auto",  label: "Commercial Auto",           icon: "/icons/commercial-auto.png?v=2"        },
+  { id: "gl",               label: "General Liability",         icon: "/icons/general-liability.png?v=2"      },
+  { id: "workers-comp",     label: "Workers' Compensation",     icon: "/icons/workers-comp.png?v=2"           },
+  { id: "builders-risk",    label: "Builders Risk",             icon: "/icons/builders-risk.png?v=2"          },
+  { id: "professional",     label: "Professional Liability",    icon: "/icons/professional-liability.png?v=2" },
+  { id: "cyber",            label: "Cyber Liability",           icon: "/icons/cyber-liability.png?v=2"        },
+  { id: "inland-marine",    label: "Inland Marine",             icon: "/icons/inland-marine.png?v=2"          },
+  { id: "umbrella",         label: "Umbrella / Excess Liability", icon: "/icons/umbrella.png?v=2"             },
+  { id: "surety",           label: "Surety Bond",               icon: "/icons/surety-bond.png?v=2"            },
+  { id: "do",               label: "Directors & Officers",      icon: "/icons/professional-liability.png?v=2" },
+  { id: "liquor-liability", label: "Liquor Liability",          icon: "/icons/liquor-liability.png?v=2"       },
+];
+
+const WIDGET_CTA_LABELS: Record<string, string> = {
+  "commercial-auto":  "Get My Commercial Auto Quote →",
+  "gl":               "Get My GL Quote →",
+  "workers-comp":     "Get My WC Quote →",
+  "builders-risk":    "Get My Builders Quote →",
+  "professional":     "Get My PL Quote →",
+  "cyber":            "Get My Cyber Quote →",
+  "inland-marine":    "Get My Inland Marine Quote →",
+  "umbrella":         "Get My Umbrella Quote →",
+  "surety":           "Get My Bond Quote →",
+  "do":               "Get My D&O Quote →",
+  "liquor-liability": "Get My Liquor Quote →",
+};
+
 // ─── Mobile hero card maps (icon path + CTA label per hero product) ────────────
 const MOBILE_HERO_ICONS: Record<string, string> = {
-  auto:              "/icons/auto-insurance.png",
-  home:              "/icons/home-insurance.png",
-  bundle:            "/icons/bundle-save.png",
-  "commercial-auto": "/icons/commercial-auto.png",
-  gl:                "/icons/general-liability.png",
-  "workers-comp":    "/icons/workers-compensation.png",
+  auto:              "/icons/auto-insurance.png?v=2",
+  home:              "/icons/property-insurance.png?v=2",
+  bundle:            "/icons/bundle-save.png?v=2",
+  "commercial-auto": "/icons/commercial-auto.png?v=2",
+  gl:                "/icons/general-liability.png?v=2",
+  "workers-comp":    "/icons/workers-compensation.png?v=2",
 };
 const MOBILE_HERO_CTA: Record<string, string> = {
   auto:              "Get Covered Today →",
@@ -765,6 +741,260 @@ const MOBILE_HERO_CTA: Record<string, string> = {
   gl:                "See My Rate →",
   "workers-comp":    "Get WC Quote →",
 };
+
+
+// ─── Commercial quote widget component ───────────────────────────────────────
+
+function CommercialQuoteWidget({ onOpen }: { onOpen: (productId: string) => void }) {
+  const [product, setProduct]         = useState("commercial-auto");
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [zip, setZip]                 = useState("");
+  const [zipError, setZipError]       = useState("");
+  const [zipShake, setZipShake]       = useState(false);
+  const dropdownRef                   = useRef<HTMLDivElement>(null);
+
+  // Close on outside click
+  useEffect(() => {
+    if (!dropdownOpen) return;
+    const handler = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [dropdownOpen]);
+
+  const selectedProduct = WIDGET_PRODUCTS.find(p => p.id === product) ?? WIDGET_PRODUCTS[0];
+
+  const handleSubmit = () => {
+    if (!/^\d{5}$/.test(zip)) {
+      setZipError("Please enter a valid ZIP code");
+      setZipShake(true);
+      setTimeout(() => setZipShake(false), 500);
+      return;
+    }
+    setZipError("");
+    onOpen(product);
+  };
+
+  return (
+    <>
+      <style>{`
+        @keyframes widget-entrance {
+          from { opacity: 0; transform: translateY(16px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes widget-zip-shake {
+          0%,100% { transform: translateX(0);  }
+          20%     { transform: translateX(-6px); }
+          40%     { transform: translateX(6px);  }
+          60%     { transform: translateX(-4px); }
+          80%     { transform: translateX(4px);  }
+        }
+        @keyframes dropdown-reveal {
+          from { opacity: 0; transform: translateY(-6px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .widget-zip-shake  { animation: widget-zip-shake 0.45s ease-in-out; }
+        .widget-input:focus { border-color: #F5A623 !important; outline: none; box-shadow: 0 0 0 3px rgba(245,166,35,0.12) !important; }
+        .widget-cta:hover   { background: #FFB84D !important; transform: translateY(-1px) !important; box-shadow: 0 6px 24px rgba(245,166,35,0.45) !important; }
+        .widget-cta:active  { transform: translateY(0) !important; }
+        .widget-dd-trigger:hover { border-color: #F5A623 !important; }
+        .widget-dd-option:hover  { background: #F7FAFC !important; }
+      `}</style>
+
+      <div style={{
+        background:    "#FFFFFF",
+        borderRadius:  "20px",
+        padding:       "32px",
+        boxShadow:     "0 8px 40px rgba(15,42,68,0.12)",
+        border:        "1px solid #E2E8F0",
+        maxWidth:      "420px",
+        width:         "100%",
+        animation:     "widget-entrance 400ms ease-out both",
+      }}>
+
+        {/* Header */}
+        <p style={{ fontSize: "18px", fontWeight: 700, color: "#0B1F33", marginBottom: "6px" }}>
+          Get a Commercial Quote
+        </p>
+        <p style={{ fontSize: "14px", color: "#64748B", marginBottom: "24px" }}>
+          Tell us what you need — we&apos;ll find your best rate
+        </p>
+
+        {/* Row 1 — Product custom dropdown */}
+        <div style={{ marginBottom: "0" }}>
+          <p style={{ fontSize: "11px", letterSpacing: "2px", color: "#64748B", fontWeight: 600, marginBottom: "8px", textTransform: "uppercase" }}>
+            Product
+          </p>
+          <div ref={dropdownRef} style={{ position: "relative" }}>
+
+            {/* Trigger — selected state display */}
+            <button
+              type="button"
+              className="widget-dd-trigger"
+              onClick={() => setDropdownOpen(o => !o)}
+              style={{
+                display:        "flex",
+                alignItems:     "center",
+                gap:            "12px",
+                width:          "100%",
+                padding:        "12px 16px",
+                background:     "#F7FAFC",
+                border:         `1.5px solid ${dropdownOpen ? "#F5A623" : "#E2E8F0"}`,
+                borderRadius:   "12px",
+                cursor:         "pointer",
+                transition:     "border-color 150ms ease, box-shadow 150ms ease",
+                boxShadow:      dropdownOpen ? "0 0 0 3px rgba(245,166,35,0.12)" : "none",
+                textAlign:      "left",
+              }}
+            >
+              <Image
+                src={selectedProduct.icon}
+                alt={selectedProduct.label}
+                width={40} height={40}
+                style={{ width: "40px", height: "40px", objectFit: "contain", flexShrink: 0 }}
+              />
+              <span style={{ flex: 1, fontSize: "16px", fontWeight: 600, color: "#0B1F33", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                {selectedProduct.label}
+              </span>
+              <svg
+                width="16" height="16" viewBox="0 0 16 16" fill="none"
+                stroke="#94A3B8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                style={{ flexShrink: 0, transition: "transform 150ms ease", transform: dropdownOpen ? "rotate(180deg)" : "rotate(0deg)" }}
+              >
+                <path d="M4 6l4 4 4-4"/>
+              </svg>
+            </button>
+
+            {/* Dropdown list */}
+            {dropdownOpen && (
+              <div style={{
+                position:    "absolute",
+                top:         "calc(100% + 6px)",
+                left:        0,
+                width:       "100%",
+                background:  "#FFFFFF",
+                border:      "1.5px solid #E2E8F0",
+                borderRadius: "12px",
+                boxShadow:   "0 8px 24px rgba(0,0,0,0.10)",
+                zIndex:      50,
+                maxHeight:   "320px",
+                overflowY:   "auto",
+                animation:   "dropdown-reveal 150ms ease-out both",
+              }}>
+                {WIDGET_PRODUCTS.map(p => {
+                  const isSelected = p.id === product;
+                  return (
+                    <button
+                      key={p.id}
+                      type="button"
+                      className="widget-dd-option"
+                      onClick={() => { setProduct(p.id); setDropdownOpen(false); }}
+                      style={{
+                        display:         "flex",
+                        alignItems:      "center",
+                        gap:             "12px",
+                        width:           "100%",
+                        padding:         "12px 16px",
+                        background:      isSelected ? "#FFFBF0" : "transparent",
+                        border:          "none",
+                        borderLeft:      isSelected ? "3px solid #F5A623" : "3px solid transparent",
+                        cursor:          "pointer",
+                        textAlign:       "left",
+                        transition:      "background 100ms ease",
+                      }}
+                    >
+                      <Image
+                        src={p.icon}
+                        alt={p.label}
+                        width={32} height={32}
+                        style={{ width: "32px", height: "32px", objectFit: "contain", flexShrink: 0 }}
+                      />
+                      <span style={{ fontSize: "15px", color: "#0B1F33", fontWeight: isSelected ? 600 : 400 }}>
+                        {p.label}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Divider */}
+        <div style={{ height: "1px", background: "#F1F5F9", margin: "16px 0" }} />
+
+        {/* Row 2 — ZIP */}
+        <div style={{ marginBottom: "16px" }}>
+          <p style={{ fontSize: "11px", letterSpacing: "2px", color: "#64748B", fontWeight: 600, marginBottom: "8px", textTransform: "uppercase" }}>
+            Location
+          </p>
+          <div className={zipShake ? "widget-zip-shake" : ""}>
+            <input
+              type="text"
+              inputMode="numeric"
+              maxLength={5}
+              className="widget-input"
+              placeholder="ZIP Code"
+              value={zip}
+              onChange={e => {
+                const v = e.target.value.replace(/\D/g, "").slice(0, 5);
+                setZip(v);
+                if (zipError) setZipError("");
+              }}
+              onKeyDown={e => { if (e.key === "Enter") handleSubmit(); }}
+              style={{
+                width:        "100%",
+                height:       "52px",
+                padding:      "0 16px",
+                fontSize:     "16px",
+                fontWeight:   500,
+                color:        "#0B1F33",
+                background:   "#F7FAFC",
+                border:       `1.5px solid ${zipError ? "#DC2626" : "#E2E8F0"}`,
+                borderRadius: "12px",
+                transition:   "border-color 150ms ease, box-shadow 150ms ease",
+                outline:      "none",
+              }}
+            />
+            {zipError && (
+              <p style={{ fontSize: "13px", color: "#DC2626", marginTop: "6px" }}>{zipError}</p>
+            )}
+          </div>
+        </div>
+
+        {/* CTA */}
+        <button
+          type="button"
+          className="widget-cta"
+          onClick={handleSubmit}
+          style={{
+            width:        "100%",
+            height:       "56px",
+            background:   "#F5A623",
+            color:        "#0B1F33",
+            fontSize:     "17px",
+            fontWeight:   700,
+            borderRadius: "14px",
+            border:       "none",
+            cursor:       "pointer",
+            transition:   "background 150ms ease, transform 150ms ease, box-shadow 150ms ease",
+            boxShadow:    "0 4px 16px rgba(245,166,35,0.35)",
+          }}
+        >
+          {WIDGET_CTA_LABELS[product] ?? "Get My Commercial Quote →"}
+        </button>
+
+        {/* Reassurance line */}
+        <p style={{ fontSize: "13px", color: "#94A3B8", textAlign: "center", marginTop: "12px" }}>
+          Free · No spam · Licensed agents · Same-day response
+        </p>
+      </div>
+    </>
+  );
+}
 
 function AtivaSite() {
   const { t, tProducts, lang } = useLanguage();
@@ -779,6 +1009,7 @@ function AtivaSite() {
   });
   const [quoteOpen, setQuoteOpen]                   = useState(false);
   const [quoteProduct, setQuoteProduct]             = useState<string | undefined>(undefined);
+  const [quoteInitialData, setQuoteInitialData]     = useState<Record<string, string>>({});
   const [commercialQuoteOpen, setCommercialQuoteOpen]   = useState(false);
   const [commercialQuoteProduct, setCommercialQuoteProduct] = useState<string | undefined>(undefined);
   // Mobile product-picker bottom sheets
@@ -787,6 +1018,10 @@ function AtivaSite() {
   const [hoveredCard, setHoveredCard]               = useState<string | null>(null);
   const [userState,  setUserState]                  = useState<string | null>(null);
   const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // ZIP quick-start (personal)
+  const [heroZip, setHeroZip]     = useState("");
+  const [zipShake, setZipShake]   = useState(false);
+  const [zipErrMsg, setZipErrMsg] = useState("");
 
   const products   = tProducts(mode);
   const isPersonal = mode === "personal";
@@ -858,6 +1093,19 @@ function AtivaSite() {
     hoverTimer.current = setTimeout(() => setHoveredCard(null), 800);
   }, []);
 
+  const handleZipSubmit = useCallback(() => {
+    if (/^\d{5}$/.test(heroZip)) {
+      setZipErrMsg("");
+      setQuoteInitialData({ garageZip: heroZip });
+      setQuoteProduct("auto");
+      setQuoteOpen(true);
+    } else {
+      setZipErrMsg("Please enter a valid ZIP code");
+      setZipShake(true);
+      setTimeout(() => setZipShake(false), 500);
+    }
+  }, [heroZip]);
+
   // Reactively sync tab + quote modals from URL search params.
   // Runs on mount AND whenever the URL changes (e.g. clicking nav Home/Commercial links).
   useEffect(() => {
@@ -904,8 +1152,6 @@ function AtivaSite() {
   }, [mode]);
   useEffect(() => () => { if (hoverTimer.current) clearTimeout(hoverTimer.current); }, []);
 
-  const trustBadges = TRUST_BADGES[lang] ?? TRUST_BADGES["en"];
-
   // Derive dynamic CTA text from hovered card
   const defaultCtaText = t(`hero.${mode}.cta1`);
   const heroCta = (hoveredCard && HERO_CTA_HOVER[mode]?.[hoveredCard]) ?? defaultCtaText;
@@ -950,10 +1196,11 @@ function AtivaSite() {
       style={{ backgroundColor: "var(--bg)", transition: "background-color 0.35s ease" }}>
 
       {/* ── Header ──────────────────────────────────────────────────────── */}
-      <Header mode={mode} />
+      <Header mode={mode} onGetQuote={openQuote} />
 
       {/* ── Hero — everything above the fold ────────────────────────────── */}
-      <section className={`relative overflow-hidden ${isPersonal ? "hero-bg-personal pers-hero-section" : "hero-bg-commercial comm-hero-section"}`}>
+      <div style={{ position: "relative" }}>
+      <section className={`relative ${isPersonal ? "hero-bg-personal pers-hero-section" : "hero-bg-commercial comm-hero-section"}`}>
         {/* Background illustration — hidden on mobile (performance) */}
         <div className="hidden md:block">
           {isPersonal ? <PersonalHeroBg /> : <CommercialHeroBg />}
@@ -1033,7 +1280,7 @@ function AtivaSite() {
                     }}
                   >
                     <Image
-                      src={MOBILE_HERO_ICONS[product.id] ?? "/icons/home-insurance.png"}
+                      src={MOBILE_HERO_ICONS[product.id] ?? "/icons/property-insurance.png?v=2"}
                       alt={product.title}
                       width={64}
                       height={64}
@@ -1091,213 +1338,488 @@ function AtivaSite() {
           {/* ══════════════ DESKTOP HERO (hidden on mobile) ════════════════ */}
           <div className="hidden md:block">
 
-          {/* Toggle block — centered */}
-          <div className="pt-7 sm:pt-8 flex flex-col items-center mb-8 gap-2.5">
+          {/* ── PERSONAL: Centered headline + product grid ── */}
+          {isPersonal ? (
+            <div key="personal-hero" className="mode-fade-in">
+              <style>{`
+                @keyframes zip-shake {
+                  0%,100% { transform: translateX(0);  }
+                  20%     { transform: translateX(-6px); }
+                  40%     { transform: translateX(6px);  }
+                  60%     { transform: translateX(-4px); }
+                  80%     { transform: translateX(4px);  }
+                }
+                .zip-shake { animation: zip-shake 0.45s ease-in-out; }
+                .hero-zip-btn:hover  { background: #1E3A5F !important; }
+                .hero-zip-in:focus   { outline: none; box-shadow: 0 0 0 3px rgba(245,166,35,0.15) !important; }
+                .pers-prod-card:hover {
+                  border-color: #F5A623 !important;
+                  box-shadow: 0 4px 16px rgba(245,166,35,0.12) !important;
+                  transform: translateY(-2px) !important;
+                }
+                @media (max-width: 900px) {
+                  .pers-product-grid { grid-template-columns: 1fr !important; }
+                  .pers-mini-grid    { grid-template-columns: 1fr 1fr !important; }
+                }
+              `}</style>
 
-            {/* Headline above toggle */}
-            <p style={{
-              fontSize: "13px",
-              color: "#1E3A5F",
-              fontWeight: 500,
-              opacity: isPersonal ? 1 : 0,
-              transition: "opacity 0.3s ease",
-              pointerEvents: isPersonal ? "auto" : "none",
-            }}>
-              {t("toggle.headline")}
-            </p>
+              {/* Part A — Headline + trust row */}
+              <div style={{ textAlign: "center", maxWidth: "800px", margin: "0 auto", padding: "0 24px 28px" }}>
+                <h1 style={{
+                  fontSize: "clamp(2.2rem, 4vw, 3rem)",
+                  fontWeight: 800,
+                  color: "#0B1F33",
+                  lineHeight: 1.15,
+                  marginBottom: "12px",
+                  letterSpacing: "-0.02em",
+                }}>
+                  Shop Insurance for All Your Needs
+                </h1>
+                <p style={{ fontSize: "18px", color: "#64748B", marginBottom: "20px", lineHeight: 1.55 }}>
+                  We shop multiple top-rated carriers to find your best rate.
+                </p>
 
-            <Toggle mode={mode} onChange={handleModeChange} />
+                {/* Trust row */}
+                <div style={{ display: "flex", gap: "6px", justifyContent: "center", flexWrap: "wrap", alignItems: "center" }}>
+                  <a
+                    href="https://maps.app.goo.gl/Zd8AptfZe46v9ntj8"
+                    target="_blank" rel="noopener noreferrer"
+                    style={{ display: "flex", alignItems: "center", gap: "6px", textDecoration: "none", transition: "opacity 150ms ease" }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.opacity = "0.85"; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.opacity = "1"; }}
+                  >
+                    <svg viewBox="0 0 24 24" width="18" height="18" style={{ flexShrink: 0 }}>
+                      <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                      <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                      <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/>
+                      <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    {[1,2,3,4,5].map(s => (
+                      <svg key={s} width="14" height="14" viewBox="0 0 20 20" fill="#F5A623">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                      </svg>
+                    ))}
+                    <span style={{ fontSize: "13px", color: "#64748B", marginLeft: "2px" }}>5.0 · 74 Google Reviews</span>
+                  </a>
+                  <span style={{ color: "#CBD5E1", fontSize: "13px" }}>·</span>
+                  <span style={{ fontSize: "13px", color: "#64748B" }}>✓ 11 Licensed States</span>
+                  <span style={{ color: "#CBD5E1", fontSize: "13px" }}>·</span>
+                  <span style={{ fontSize: "13px", color: "#64748B" }}>⚡ Same-Day Response</span>
+                  <span style={{ color: "#CBD5E1", fontSize: "13px" }}>·</span>
+                  <span style={{ fontSize: "13px", color: "#64748B" }}>🔒 No Spam · No Calls</span>
+                </div>
+              </div>
 
-            {/* Microcopy below toggle — crossfades on mode switch */}
-            <div style={{ position: "relative", height: "18px", width: "100%", display: "flex", justifyContent: "center" }}>
-              <span style={{
-                position: "absolute",
-                fontSize: "12px",
-                color: isPersonal ? "#64748B" : "#475569",
-                opacity: isPersonal ? 1 : 0,
-                transition: "opacity 0.35s ease",
-                whiteSpace: "nowrap",
-                pointerEvents: isPersonal ? "auto" : "none",
-              }}>
-                {t("toggle.switchToCommercial")}
-              </span>
-              <span style={{
-                position: "absolute",
-                fontSize: "12px",
-                color: "#64748B",
-                opacity: isPersonal ? 0 : 1,
-                transition: "opacity 0.35s ease",
-                whiteSpace: "nowrap",
-                pointerEvents: isPersonal ? "none" : "auto",
-              }}>
-                {t("toggle.switchToPersonal")}
-              </span>
-            </div>
-
-          </div>
-
-          {/* ── Unified split layout: left 45% text | right 55% grid ── */}
-          <div className="flex flex-col lg:flex-row lg:items-start lg:gap-8">
-
-            {/* LEFT — headline, sub, badge pills, CTAs (desktop) */}
-            <div className="lg:w-[45%] text-center lg:text-left">
-              {/* key re-mounts on tab switch, triggering the fade-in animation */}
-              <div key={mode} className="mode-fade-in">
-              <h1
-                className="font-black leading-[1.06] tracking-[-0.03em] mb-3"
+              {/* Part B — Product grid */}
+              <div
+                className="pers-product-grid"
                 style={{
-                  color: isPersonal ? "#0F172A" : "#1E3A5F",
-                  fontSize: "clamp(1.875rem, 3.5vw, 3rem)",
+                  maxWidth: "1000px",
+                  margin: "0 auto",
+                  padding: "0 24px 40px",
+                  display: "grid",
+                  gridTemplateColumns: "55% 45%",
+                  gap: "16px",
+                  alignItems: "start",
                 }}
               >
-                {t(`hero.${mode}.headline`)}
-              </h1>
-              <p className="text-base leading-relaxed mb-2 max-w-md mx-auto lg:mx-0"
-                style={{ color: isPersonal ? "#475569" : "#1A1A1A" }}>
-                {heroSub[mode]}
-              </p>
-              <p className="mb-4 max-w-md mx-auto lg:mx-0" style={{ fontSize: "12px", color: "#64748B", marginTop: "8px" }}>
-                {isPersonal
-                  ? "⚡ Takes less than 2 minutes · No calls · No spam · No pressure"
-                  : "⚡ Quick quote · No commitment · Licensed local agents"}
-              </p>
+                {/* LEFT — Auto hero widget */}
+                <div style={{
+                  background:   "#FFFFFF",
+                  border:       "2px solid #F5A623",
+                  borderRadius: "20px",
+                  padding:      "28px",
+                  boxShadow:    "0 8px 32px rgba(245,166,35,0.15)",
+                }}>
+                  <div style={{ minHeight: "120px", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "12px" }}>
+                    <Image
+                      src="/icons/auto-insurance.png?v=2"
+                      alt="Auto Insurance"
+                      width={110} height={110}
+                      style={{ width: "110px", height: "110px", objectFit: "contain", display: "block" }}
+                    />
+                  </div>
+                  <p style={{ fontSize: "20px", fontWeight: 700, color: "#0B1F33", marginBottom: "4px" }}>
+                    Auto Insurance
+                  </p>
+                  <p style={{ fontSize: "14px", color: "#64748B", marginBottom: "20px" }}>
+                    Average savings of $800+ for drivers who switch
+                  </p>
 
-              {/* Badge pills */}
-              <div className="flex flex-wrap gap-2 justify-center lg:justify-start mb-5">
-                {trustBadges.map((badge, i) => {
-                  const isGoogleRating = badge.text.includes("Google");
-                  const sharedStyle = {
-                    backgroundColor: isPersonal ? "rgba(27,58,107,0.08)"   : "rgba(245,166,35,0.12)",
-                    color:           isPersonal ? "#1B3A6B"                 : "#1E3A5F",
-                    border:          isPersonal ? "1px solid rgba(27,58,107,0.12)" : "1px solid rgba(245,166,35,0.28)",
-                  };
-                  const sharedClass = "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold";
-                  return isGoogleRating ? (
-                    <a
-                      key={i}
-                      href="https://maps.app.goo.gl/Zd8AptfZe46v9ntj8"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={sharedClass}
-                      style={{
-                        ...sharedStyle,
-                        textDecoration: "none",
-                        cursor: "pointer",
-                      }}
-                      onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.textDecoration = "underline"; }}
-                      onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.textDecoration = "none"; }}
-                    >
-                      {badge.icon} {badge.text}
-                    </a>
-                  ) : (
-                    <span key={i} className={sharedClass} style={sharedStyle}>
-                      {badge.icon} {badge.text}
-                    </span>
-                  );
-                })}
-              </div>
-
-              {/* Send Us a Text — desktop only */}
-              <div className="hidden lg:flex mb-6">
-                {lang === "en" ? (
-                  <a href="sms:5619468261"
-                    className="btn-ghost inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-sm border-2"
-                    style={{
-                      backgroundColor: "transparent",
-                      color:       isPersonal ? "#1B3A6B" : "#1E3A5F",
-                      borderColor: isPersonal ? "rgba(27,58,107,0.22)" : "rgba(30,58,95,0.25)",
+                  {/* ZIP row */}
+                  <p style={{ fontSize: "11px", letterSpacing: "2px", color: "#94A3B8", fontWeight: 600, marginBottom: "6px", textTransform: "uppercase" }}>
+                    Location
+                  </p>
+                  <div className={zipShake ? "zip-shake" : ""} style={{ marginBottom: "12px" }}>
+                    <div style={{
+                      display:      "flex",
+                      gap:          0,
+                      borderRadius: "12px",
+                      overflow:     "hidden",
+                      border:       `1.5px solid ${zipErrMsg ? "#DC2626" : "#E2E8F0"}`,
                     }}>
-                    <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 shrink-0">
-                      <path fillRule="evenodd" d="M4.848 2.771A49.144 49.144 0 0112 2.25c2.43 0 4.817.178 7.152.52 1.978.292 3.348 2.024 3.348 3.97v6.02c0 1.946-1.37 3.678-3.348 3.97a48.901 48.901 0 01-3.476.383.39.39 0 00-.297.17l-2.755 4.133a.75.75 0 01-1.248 0l-2.755-4.133a.39.39 0 00-.297-.17 48.9 48.9 0 01-3.476-.384c-1.978-.29-3.348-2.024-3.348-3.97V6.741c0-1.946 1.37-3.68 3.348-3.97z" clipRule="evenodd"/>
-                    </svg>
-                    {t(`hero.${mode}.cta2`)}
-                  </a>
-                ) : (
-                  <a href="https://wa.me/15619468261" target="_blank" rel="noopener noreferrer"
-                    className="btn-ghost inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-sm border-2"
-                    style={{
-                      backgroundColor: "transparent",
-                      color:       isPersonal ? "#1B3A6B" : "#1E3A5F",
-                      borderColor: isPersonal ? "rgba(27,58,107,0.22)" : "rgba(30,58,95,0.25)",
-                    }}>
-                    <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 shrink-0" style={{ color: "#25D366" }}>
-                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                    </svg>
-                    {t(`hero.${mode}.cta2`)}
-                  </a>
-                )}
-              </div>
-              </div>{/* end mode-fade-in */}
-            </div>
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        maxLength={5}
+                        className="hero-zip-in"
+                        placeholder="ZIP Code"
+                        value={heroZip}
+                        onChange={e => {
+                          const v = e.target.value.replace(/\D/g, "").slice(0, 5);
+                          setHeroZip(v);
+                          if (zipErrMsg) setZipErrMsg("");
+                        }}
+                        onKeyDown={e => { if (e.key === "Enter") handleZipSubmit(); }}
+                        style={{
+                          flex:       1,
+                          height:     "52px",
+                          padding:    "0 16px",
+                          fontSize:   "16px",
+                          border:     "none",
+                          outline:    "none",
+                          background: "#F7FAFC",
+                          color:      "#0B1F33",
+                          fontWeight: 500,
+                        }}
+                      />
+                      <button
+                        type="button"
+                        className="hero-zip-btn"
+                        onClick={handleZipSubmit}
+                        style={{
+                          width:       "160px",
+                          height:      "52px",
+                          background:  "#0F2A44",
+                          color:       "#FFFFFF",
+                          fontSize:    "15px",
+                          fontWeight:  700,
+                          border:      "none",
+                          cursor:      "pointer",
+                          whiteSpace:  "nowrap",
+                          flexShrink:  0,
+                          transition:  "background 150ms ease",
+                        }}
+                      >
+                        Get a Quote →
+                      </button>
+                    </div>
+                    {zipErrMsg && (
+                      <p style={{ fontSize: "13px", color: "#DC2626", marginTop: "6px" }}>{zipErrMsg}</p>
+                    )}
+                  </div>
 
-            {/* RIGHT — 55% — 3-card product grid */}
-            <div id="products" className="lg:w-[55%]">
-              {/* Unified responsive grid — 1 col on mobile, 3 cols on sm+ */}
-              <div
-                data-reveal
-                className="grid grid-cols-1 sm:grid-cols-3 gap-4"
-                style={{ maxWidth: "900px", marginLeft: "auto", marginRight: "auto" }}
-              >
-                {heroProducts.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    id={product.id}
-                    title={product.title}
-                    description={product.description}
-                    mode={mode}
-                    onClick={handleProductClick}
-                    onCardHoverEnter={handleCardHoverEnter}
-                    onCardHoverLeave={handleCardHoverLeave}
-                  />
-                ))}
-              </div>
+                  <button
+                    type="button"
+                    onClick={() => { setQuoteProduct("auto"); setQuoteOpen(true); }}
+                    style={{ background: "none", border: "none", cursor: "pointer", padding: 0, fontSize: "13px", color: "#64748B", textAlign: "left" }}
+                  >
+                    Want more info first? Explore:{" "}
+                    <span style={{ color: "#F5A623", textDecoration: "underline" }}>Auto Insurance</span> →
+                  </button>
+                </div>
 
-              {/* Secondary CTA — explore all coverages */}
-              <div style={{ textAlign: "center", marginTop: "24px" }}>
-                <button
-                  type="button"
-                  onClick={openQuote}
-                  className="secondary-explore-btn"
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "6px",
-                    fontSize: "15px",
-                    fontWeight: 500,
-                    color: "#0F2A44",
-                    textDecoration: "none",
-                    border: "1px solid #E2E8F0",
-                    borderRadius: "24px",
-                    padding: "10px 20px",
-                    background: "none",
-                    cursor: "pointer",
-                    transition: "background 200ms ease, border-color 200ms ease",
-                  }}
-                  onMouseEnter={(e) => {
-                    const el = e.currentTarget as HTMLButtonElement;
-                    el.style.background = "#F4F6F8";
-                    el.style.borderColor = "#0F2A44";
-                  }}
-                  onMouseLeave={(e) => {
-                    const el = e.currentTarget as HTMLButtonElement;
-                    el.style.background = "none";
-                    el.style.borderColor = "#E2E8F0";
-                  }}
+                {/* RIGHT — 2×2 mini product grid */}
+                <div
+                  className="pers-mini-grid"
+                  style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}
                 >
-                  <span style={{ fontSize: "14px", color: "#F5A623" }}>+</span>
-                  {isPersonal
-                    ? "Looking for something else? Explore all personal coverages →"
-                    : "Looking for something else? Explore all business coverages →"}
-                </button>
+                  {[
+                    { id: "bundle", label: "Bundle & Save",       icon: "/icons/bundle-save.png?v=2"    },
+                    { id: "home",   label: "Property Insurance",   icon: "/icons/property-insurance.png?v=2" },
+                    { id: "flood",  label: "Flood Insurance",      icon: "/icons/flood-insurance.png?v=2" },
+                    { id: "all",    label: "See All Products →",   icon: null },
+                  ].map(card => (
+                    <button
+                      key={card.id}
+                      type="button"
+                      className="pers-prod-card"
+                      onClick={() => {
+                        if (card.id === "all") { setQuoteProduct(undefined); setQuoteOpen(true); }
+                        else { setQuoteProduct(card.id); setQuoteOpen(true); }
+                      }}
+                      style={{
+                        background:    card.id === "all" ? "#F7FAFC" : "#FFFFFF",
+                        border:        "1px solid #E8EDF3",
+                        borderRadius:  "16px",
+                        padding:       "16px 12px",
+                        textAlign:     "center",
+                        cursor:        "pointer",
+                        transition:    "border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease",
+                        display:       "flex",
+                        flexDirection: "column",
+                        alignItems:    "center",
+                      }}
+                    >
+                      {card.icon ? (
+                        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "10px" }}>
+                          <Image
+                            src={card.icon}
+                            alt={card.label}
+                            width={120} height={120}
+                            style={{ width: "120px", height: "120px", objectFit: "contain" }}
+                          />
+                        </div>
+                      ) : (
+                        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "10px" }}>
+                          <span style={{ fontSize: "32px", color: "#CBD5E1" }}>＋</span>
+                        </div>
+                      )}
+                      <span style={{ fontSize: "15px", fontWeight: 700, color: "#0B1F33", lineHeight: 1.2 }}>
+                        {card.label}
+                      </span>
+                      {card.id === "all" && (
+                        <span style={{ fontSize: "12px", color: "#94A3B8", marginTop: "4px" }}>
+                          See renters, condo, umbrella & more
+                        </span>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Below grid */}
+              <div style={{ textAlign: "center", paddingBottom: "16px" }}>
+                <a
+                  href="sms:5619468261"
+                  style={{ fontSize: "14px", color: "#94A3B8", textDecoration: "none", transition: "color 150ms ease" }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = "#64748B"; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = "#94A3B8"; }}
+                >
+                  Or prefer to talk? Send us a text →
+                </a>
+              </div>
+
+              {/* Toggle block — below product grid */}
+              <div style={{ marginTop: "32px", display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
+                <p style={{
+                  fontSize: "13px",
+                  color: "#1E3A5F",
+                  fontWeight: 500,
+                  opacity: isPersonal ? 1 : 0,
+                  transition: "opacity 0.3s ease",
+                  pointerEvents: isPersonal ? "auto" : "none",
+                }}>
+                  {t("toggle.headline")}
+                </p>
+
+                <Toggle mode={mode} onChange={handleModeChange} />
+
+                {/* Microcopy below toggle — crossfades on mode switch */}
+                <div style={{ position: "relative", height: "18px", width: "100%", display: "flex", justifyContent: "center" }}>
+                  <span style={{
+                    position: "absolute",
+                    fontSize: "12px",
+                    color: isPersonal ? "#64748B" : "#475569",
+                    opacity: isPersonal ? 1 : 0,
+                    transition: "opacity 0.35s ease",
+                    whiteSpace: "nowrap",
+                    pointerEvents: isPersonal ? "auto" : "none",
+                  }}>
+                    {t("toggle.switchToCommercial")}
+                  </span>
+                  <span style={{
+                    position: "absolute",
+                    fontSize: "12px",
+                    color: "#64748B",
+                    opacity: isPersonal ? 0 : 1,
+                    transition: "opacity 0.35s ease",
+                    whiteSpace: "nowrap",
+                    pointerEvents: isPersonal ? "none" : "auto",
+                  }}>
+                    {t("toggle.switchToPersonal")}
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Bottom padding */}
+          ) : (
+
+            /* ── COMMERCIAL: Split layout ── */
+            <div style={{ display: "flex", flexDirection: "column" }}>
+
+              {/* Split row: headline left + widget right */}
+              <div className="flex flex-col lg:flex-row lg:gap-8 lg:items-center">
+
+                {/* LEFT — headline, sub, microcopy, trust */}
+                <div className="lg:w-[50%] text-center lg:text-left">
+                  <div key={mode} className="mode-fade-in">
+                    <h1
+                      className="font-black tracking-[-0.03em] mb-3"
+                      style={{ color: "#1E3A5F", fontSize: "clamp(2.4rem, 4vw, 3.2rem)", fontWeight: 800, lineHeight: 1.15 }}
+                    >
+                      {t(`hero.${mode}.headline`)}
+                    </h1>
+                    <p className="leading-relaxed mb-2 max-w-md mx-auto lg:mx-0"
+                      style={{ color: "#1A1A1A", fontSize: "18px", lineHeight: 1.65 }}>
+                      {heroSub[mode]}
+                    </p>
+                    <p className="max-w-md mx-auto lg:mx-0" style={{ fontSize: "14px", color: "#4B5563", marginTop: "4px", marginBottom: "20px" }}>
+                      ⚡ Quick quote · No commitment · Licensed local agents
+                    </p>
+
+                    {/* Trust block */}
+                    <div className="flex flex-col items-center lg:items-start" style={{ marginBottom: "20px" }}>
+                      <a
+                        href="https://maps.app.goo.gl/Zd8AptfZe46v9ntj8"
+                        target="_blank" rel="noopener noreferrer"
+                        style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px", textDecoration: "none", cursor: "pointer" }}
+                        onMouseEnter={e => { const t = (e.currentTarget as HTMLAnchorElement).querySelector(".trust-rating-text") as HTMLElement | null; if (t) t.style.textDecoration = "underline"; }}
+                        onMouseLeave={e => { const t = (e.currentTarget as HTMLAnchorElement).querySelector(".trust-rating-text") as HTMLElement | null; if (t) t.style.textDecoration = "none"; }}
+                      >
+                        <svg width="20" height="20" viewBox="0 0 24 24" aria-label="Google" style={{ flexShrink: 0 }}>
+                          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+                          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                        </svg>
+                        <div style={{ display: "flex", gap: "1px" }}>
+                          {[1,2,3,4,5].map(s => (
+                            <svg key={s} width="20" height="20" viewBox="0 0 20 20" fill="#F5A623">
+                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                            </svg>
+                          ))}
+                        </div>
+                        <span style={{ fontSize: "13px", color: "#334155", fontWeight: 600 }}>5.0</span>
+                        <span style={{ fontSize: "13px", color: "#64748B" }}>·</span>
+                        <span className="trust-rating-text" style={{ fontSize: "13px", color: "#334155", fontWeight: 500, textDecoration: "underline", textUnderlineOffset: "2px" }}>
+                          74 Google Reviews
+                        </span>
+                      </a>
+                      <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                        {["✓ 11 Licensed States", "⚡ Same-Day Coverage", "🔒 No Spam · No Calls"].map(pill => (
+                          <span key={pill} style={{ background: "transparent", border: "1px solid #E2E8F0", borderRadius: "20px", padding: "4px 12px", fontSize: "14px", color: "#374151", fontWeight: 500, whiteSpace: "nowrap" }}>
+                            {pill}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* RIGHT — commercial widget */}
+                <div id="products" className="lg:w-[50%]" style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
+                  <CommercialQuoteWidget
+                    key="comm-widget"
+                    onOpen={(productId) => {
+                      setCommercialQuoteProduct(productId);
+                      setCommercialQuoteOpen(true);
+                    }}
+                  />
+                  <a
+                    href="sms:5619468261"
+                    style={{ display: "block", fontSize: "14px", color: "#64748B", textDecoration: "none", textAlign: "center", marginTop: "16px", width: "100%", maxWidth: "420px" }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = "#0F2A44"; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = "#64748B"; }}
+                  >
+                    Not sure what you need? Talk to an agent →
+                  </a>
+                </div>
+
+              </div>{/* end split row */}
+
+              {/* Toggle block — full width, centered, below split row */}
+              <div style={{ marginTop: "32px", display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
+                <p style={{ fontSize: "13px", color: "#1E3A5F", fontWeight: 500 }}>
+                  {t("toggle.headline")}
+                </p>
+                <Toggle mode={mode} onChange={handleModeChange} />
+                <span style={{ fontSize: "12px", color: "#64748B", whiteSpace: "nowrap" }}>
+                  {t("toggle.switchToPersonal")}
+                </span>
+              </div>
+
+            </div>
+          )}
+
           <div className="pb-8" />
           </div>{/* end desktop hero */}
         </div>
+
       </section>
+
+      </div>{/* end hero wrapper */}
+
+      {/* ── Commercial credibility bar ────────────────────────────────────── */}
+      {!isPersonal && (
+        <div
+          style={{
+            background: "#0F2A44",
+            padding:    "20px 0",
+            width:      "100%",
+          }}
+        >
+          <div
+            className="max-w-7xl mx-auto px-6"
+            style={{
+              display:     "flex",
+              alignItems:  "center",
+              gap:         "24px",
+              flexWrap:    "wrap",
+            }}
+          >
+            {/* Left — trust statement */}
+            <p
+              style={{
+                fontSize:   "14px",
+                color:      "rgba(255,255,255,0.85)",
+                fontWeight: 500,
+                whiteSpace: "nowrap",
+                flexShrink: 0,
+                flex:       "0 0 auto",
+              }}
+            >
+              Trusted by 500+ businesses across 11 states
+            </p>
+
+            {/* Divider */}
+            <div
+              className="hidden sm:block"
+              style={{
+                width:      "1px",
+                height:     "28px",
+                background: "rgba(255,255,255,0.15)",
+                flexShrink: 0,
+              }}
+            />
+
+            {/* Right — badge pills */}
+            <div
+              style={{
+                display:    "flex",
+                alignItems: "center",
+                gap:        "10px",
+                flexWrap:   "wrap",
+              }}
+            >
+              {[
+                { label: "A+ Rated Carriers",      mobileHide: false },
+                { label: "Licensed in 11 States",  mobileHide: false },
+                { label: "Independent Agent",       mobileHide: true  },
+                { label: "Same-Day Certificates",   mobileHide: true  },
+              ].map(badge => (
+                <span
+                  key={badge.label}
+                  className={badge.mobileHide ? "hidden sm:inline-flex" : "inline-flex"}
+                  style={{
+                    alignItems:      "center",
+                    background:      "rgba(255,255,255,0.08)",
+                    border:          "1px solid rgba(255,255,255,0.15)",
+                    borderRadius:    "8px",
+                    padding:         "6px 14px",
+                    fontSize:        "12px",
+                    color:           "rgba(255,255,255,0.90)",
+                    fontWeight:      500,
+                    whiteSpace:      "nowrap",
+                  }}
+                >
+                  {badge.label}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── Carriers ──────────────────────────────────────────────────────── */}
       <div data-reveal><CarrierMarquee mode={mode} /></div>
@@ -1366,7 +1888,8 @@ function AtivaSite() {
         <QuoteModal
           mode={mode}
           initialProduct={quoteProduct}
-          onClose={() => { setQuoteOpen(false); setQuoteProduct(undefined); }}
+          initialData={quoteInitialData}
+          onClose={() => { setQuoteOpen(false); setQuoteProduct(undefined); setQuoteInitialData({}); }}
         />
       )}
 

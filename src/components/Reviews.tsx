@@ -46,17 +46,17 @@ function ReviewCard({ review }: { review: ReviewItem }) {
       onMouseLeave={() => setHovered(false)}
     >
       <StarRating count={review.stars} />
-      <p className="mt-3 mb-4 text-sm leading-relaxed" style={{ color: "var(--text)" }}>
+      <p className="mt-3 mb-4" style={{ color: "var(--text)", fontSize: "15px", lineHeight: 1.7 }}>
         &ldquo;{review.text}&rdquo;
       </p>
       <div className="flex items-center gap-2">
         <div
-          className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shrink-0"
-          style={{ backgroundColor: "var(--accent-light)", color: "var(--accent)" }}
+          className="w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0"
+          style={{ backgroundColor: "var(--accent-light)", color: "var(--accent)", fontSize: "14px" }}
         >
           {review.name.charAt(0)}
         </div>
-        <span className="text-sm font-semibold" style={{ color: "var(--text)" }}>
+        <span className="font-semibold" style={{ color: "var(--text)", fontSize: "15px" }}>
           {review.name}
         </span>
         {/* Google G */}
@@ -129,9 +129,9 @@ export default function Reviews({ mode }: ReviewsProps) {
           <p
             style={{
               color: "#FFFFFF",
-              fontSize: "1.2rem",
+              fontSize: "18px",
               fontWeight: 700,
-              lineHeight: 1.4,
+              lineHeight: 1.7,
               marginBottom: "14px",
             }}
           >
@@ -141,9 +141,9 @@ export default function Reviews({ mode }: ReviewsProps) {
           {/* Full quote */}
           <p
             style={{
-              color: "rgba(255,255,255,0.85)",
-              fontSize: "0.9375rem",
-              lineHeight: 1.7,
+              color: "rgba(255,255,255,0.90)",
+              fontSize: "16px",
+              lineHeight: 1.75,
               marginBottom: "24px",
             }}
           >
@@ -153,10 +153,10 @@ export default function Reviews({ mode }: ReviewsProps) {
           {/* Attribution */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "12px" }}>
             <div>
-              <p style={{ color: "#FFFFFF", fontWeight: 600, fontSize: "0.9375rem", marginBottom: "2px" }}>
+              <p style={{ color: "#FFFFFF", fontWeight: 600, fontSize: "15px", marginBottom: "2px" }}>
                 Carlos M.
               </p>
-              <p style={{ color: "rgba(255,255,255,0.60)", fontSize: "0.8125rem" }}>
+              <p style={{ color: "rgba(255,255,255,0.75)", fontSize: "14px" }}>
                 Melbourne, FL
               </p>
             </div>

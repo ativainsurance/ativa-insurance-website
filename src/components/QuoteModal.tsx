@@ -13,10 +13,11 @@ const ACCENT     = "#1B3A6B";
 const ACCENT_HOV = "#2451A0";
 
 const INPUT = [
-  "w-full px-4 py-3.5 rounded-xl border-2 text-gray-900 bg-white",
-  "placeholder-gray-400 text-sm outline-none caret-gray-900",
-  "focus:ring-4 focus:ring-[#1B3A6B]/10 transition-colors duration-150",
+  "w-full px-4 py-3.5 min-h-[52px] rounded-xl border-2 text-gray-900 bg-white",
+  "placeholder-gray-400 outline-none caret-gray-900",
+  "focus:ring-[3px] focus:ring-[#1B3A6B]/10 transition-colors duration-150",
 ].join(" ");
+// Note: font-size 16px enforced globally in globals.css to prevent iOS zoom
 
 const SELECT = `${INPUT} appearance-none cursor-pointer`;
 
@@ -112,12 +113,12 @@ function Fw({ label, required, error, hint, children }: {
 }) {
   return (
     <div>
-      <label className="block text-sm font-semibold mb-1.5" style={{ color: "var(--text)" }}>
-        {label}{required && <span className="ml-1 text-red-500">*</span>}
+      <label className="block font-medium mb-1.5" style={{ color: "#374151", fontSize: "15px", lineHeight: 1.5 }}>
+        {label}{required && <span className="ml-1" style={{ color: "#DC2626" }}>*</span>}
       </label>
-      {hint && <p className="text-xs mb-1.5" style={{ color: "var(--text-muted)" }}>{hint}</p>}
+      {hint && <p className="mb-1.5" style={{ color: "var(--text-muted)", fontSize: "14px" }}>{hint}</p>}
       {children}
-      {error && <p className="mt-1 text-xs text-red-500 font-medium">{error}</p>}
+      {error && <p className="mt-1 font-medium" style={{ fontSize: "14px", color: "#DC2626" }}>{error}</p>}
     </div>
   );
 }
@@ -255,6 +256,23 @@ function AutoStep0({ data, update, errors, borderOf }: { data: Data; update: (k:
 
   return (
     <>
+      {/* Garaging ZIP — pre-filled from hero ZIP field */}
+      <Fw label="Vehicle Garaging ZIP Code" required error={errors.garageZip}>
+        <input
+          type="text"
+          value={data.garageZip ?? ""}
+          onChange={e => {
+            const val = e.target.value.replace(/\D/g, "").slice(0, 5);
+            update("garageZip", val);
+          }}
+          placeholder="e.g. 33401"
+          maxLength={5}
+          inputMode="numeric"
+          className={INPUT}
+          style={{ borderColor: errors.garageZip ? "#EF4444" : "#E2E8F0" }}
+        />
+      </Fw>
+
       {/* VIN — primary field */}
       <Fw label="VIN Number" required error={errors.vin}
         hint="Enter your 17-character VIN (found on dashboard or driver's door)">
@@ -1071,15 +1089,16 @@ interface QuoteModalProps {
   onClose: () => void;
   mode: Mode;
   initialProduct?: string;
+  initialData?: Record<string, string>;
 }
 
-export default function QuoteModal({ onClose, initialProduct }: QuoteModalProps) {
+export default function QuoteModal({ onClose, initialProduct, initialData }: QuoteModalProps) {
   const { t, lang } = useLanguage();
   const initPID = initialProduct ? (PERSONAL_CARD_MAP[initialProduct] ?? null) : null;
   const [phase, setPhase]           = useState<Phase>(initPID ? "form" : "select");
   const [product, setProduct]       = useState<PID | null>(initPID);
   const [formStep, setFormStep]     = useState(0);
-  const [data, setData]             = useState<Data>({});
+  const [data, setData]             = useState<Data>(initialData ?? {});
   const [bundleItems, setBundleItems] = useState<string[]>([]);
   const [errors, setErrors]         = useState<Record<string, string>>({});
   const [vehicles, setVehicles]     = useState<VehicleData[]>([]);
@@ -1121,6 +1140,7 @@ export default function QuoteModal({ onClose, initialProduct }: QuoteModalProps)
     } else {
       if (product === "auto") {
         if (formStep === 0) {
+          if (!data.garageZip || data.garageZip.length !== 5) e.garageZip = "Please enter a valid 5-digit ZIP code";
           if (!data.vin || data.vin.length !== 17) e.vin = "Please enter a valid 17-character VIN";
           r("primaryUse");
           r("dailyMiles");
@@ -1296,10 +1316,10 @@ export default function QuoteModal({ onClose, initialProduct }: QuoteModalProps)
             <p className="text-xs font-bold uppercase tracking-widest mb-0.5" style={{ color: "var(--accent)" }}>
               {subtitle}
             </p>
-            <h2 className="text-lg font-bold" style={{ color: "var(--text)" }}>{title}</h2>
+            <h2 className="font-bold" style={{ color: "var(--text)", fontSize: "22px" }}>{title}</h2>
           </div>
-          <button onClick={onClose} className="w-9 h-9 rounded-full flex items-center justify-center"
-            style={{ color: "var(--text-muted)" }} aria-label="Close">
+          <button onClick={onClose} className="rounded-full flex items-center justify-center"
+            style={{ color: "var(--text-muted)", width: "44px", height: "44px", flexShrink: 0 }} aria-label="Close">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
             </svg>
@@ -1343,7 +1363,7 @@ export default function QuoteModal({ onClose, initialProduct }: QuoteModalProps)
         {/* ── Product selection ── */}
         {phase === "select" && (
           <div className="px-6 pt-5 pb-6">
-            <p className="text-sm font-semibold mb-4" style={{ color: "var(--text)" }}>
+            <p className="mb-4" style={{ color: "var(--text)", fontSize: "18px", fontWeight: 600 }}>
               What would you like to insure?
             </p>
             <div className="grid grid-cols-2 gap-2.5">
@@ -1356,7 +1376,7 @@ export default function QuoteModal({ onClose, initialProduct }: QuoteModalProps)
                   onMouseLeave={e => { const el = e.currentTarget as HTMLButtonElement; el.style.borderColor = "#E2E8F0"; el.style.backgroundColor = "var(--card-bg)"; }}
                 >
                   <span className="text-xl shrink-0">{p.emoji}</span>
-                  <span className="text-xs font-semibold leading-tight">{p.label}</span>
+                  <span className="leading-tight" style={{ fontSize: "16px", fontWeight: 600 }}>{p.label}</span>
                 </button>
               ))}
             </div>
@@ -1369,10 +1389,10 @@ export default function QuoteModal({ onClose, initialProduct }: QuoteModalProps)
             {/* Progress */}
             <div className="px-6 pt-5 pb-3">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: "var(--text-muted)" }}>
+                <span className="font-semibold uppercase tracking-widest" style={{ color: "var(--text-muted)", fontSize: "14px" }}>
                   Step {formStep + 1} of {STEP_COUNT[product]}
                 </span>
-                <span className="text-xs font-bold" style={{ color: "var(--accent)" }}>
+                <span className="font-bold" style={{ color: "var(--accent)", fontSize: "14px" }}>
                   {STEP_NAME[product][formStep]}
                 </span>
               </div>
@@ -1390,13 +1410,13 @@ export default function QuoteModal({ onClose, initialProduct }: QuoteModalProps)
             {/* Nav */}
             <div className="px-6 pt-2 pb-6 flex gap-3 justify-between">
               <button type="button" onClick={handleBack}
-                className="px-5 py-3 rounded-xl border-2 font-semibold text-sm transition-colors duration-150"
-                style={{ borderColor: "#CBD5E1", color: "var(--text-muted)" }}>
+                className="px-5 rounded-xl border-2 font-semibold transition-colors duration-150"
+                style={{ borderColor: "#CBD5E1", color: "var(--text-muted)", fontSize: "16px", minHeight: "52px" }}>
                 Back
               </button>
               <button type="button" onClick={handleNext} disabled={submitting}
-                className="flex-1 sm:flex-none px-8 py-3 rounded-xl font-bold text-sm transition-colors duration-150 disabled:opacity-60 disabled:cursor-not-allowed"
-                style={{ backgroundColor: ACCENT, color: "#FFF" }}
+                className="flex-1 sm:flex-none px-8 rounded-xl font-bold transition-colors duration-150 disabled:opacity-60 disabled:cursor-not-allowed"
+                style={{ fontSize: "16px", minHeight: "52px", backgroundColor: ACCENT, color: "#FFF" }}
                 onMouseEnter={e => { if (!submitting) (e.currentTarget as HTMLButtonElement).style.backgroundColor = ACCENT_HOV; }}
                 onMouseLeave={e => { if (!submitting) (e.currentTarget as HTMLButtonElement).style.backgroundColor = ACCENT; }}>
                 {submitting ? "Submitting…"

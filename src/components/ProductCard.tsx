@@ -48,43 +48,49 @@ const CTA_LABELS: Record<string, string> = {
 // ─── Icon image map ───────────────────────────────────────────────────────────
 
 const ICON_IMAGES: Record<string, string> = {
-  auto:              "/icons/auto-insurance.png",
-  home:              "/icons/home-insurance.png",
-  renters:           "/icons/renters-insurance.png",
-  condo:             "/icons/pet-insurance.png",
-  flood:             "/icons/flood-insurance.png",
-  bundle:            "/icons/bundle-save.png",
-  bop:               "/icons/builders-risk.png",
-  gl:                "/icons/general-liability.png",
-  "commercial-auto": "/icons/commercial-auto.png",
-  "workers-comp":    "/icons/workers-compensation.png",
-  professional:      "/icons/professional-liability.png",
-  cyber:             "/icons/cyber-liability.png",
+  auto:              "/icons/auto-insurance.png?v=2",
+  home:              "/icons/property-insurance.png?v=2",
+  renters:           "/icons/renters-insurance.png?v=2",
+  condo:             "/icons/pet-insurance.png?v=2",
+  flood:             "/icons/flood-insurance.png?v=2",
+  bundle:            "/icons/bundle-save.png?v=2",
+  bop:               "/icons/builders-risk.png?v=2",
+  gl:                "/icons/general-liability.png?v=2",
+  "commercial-auto": "/icons/commercial-auto.png?v=2",
+  "workers-comp":    "/icons/workers-compensation.png?v=2",
+  professional:      "/icons/professional-liability.png?v=2",
+  cyber:             "/icons/cyber-liability.png?v=2",
 };
 
 // ─── Tier visual config ───────────────────────────────────────────────────────
 
 const TIER_STYLES = {
   1: {
-    padding:    "26px",
-    border:     "2px solid #F5A623",
-    shadow:     "0 8px 32px rgba(15,42,68,0.15)",
-    hoverShadow:"0 14px 44px rgba(15,42,68,0.20)",
-    opacity:    1,
+    padding:          "26px",
+    border:           "2px solid #F5A623",
+    shadow:           "0 8px 32px rgba(245,166,35,0.20)",
+    hoverShadow:      "0 14px 44px rgba(245,166,35,0.28)",
+    opacity:          1,
+    defaultTransform: "translateY(-4px)",
+    hoverTransform:   "translateY(-6px)",
   },
   2: {
-    padding:    "24px",
-    border:     "1px solid rgba(0,0,0,0.08)",
-    shadow:     "0 4px 16px rgba(0,0,0,0.08)",
-    hoverShadow:"0 10px 28px rgba(0,0,0,0.13)",
-    opacity:    1,
+    padding:          "24px",
+    border:           "1px solid #E2E8F0",
+    shadow:           "0 2px 12px rgba(0,0,0,0.06)",
+    hoverShadow:      "0 10px 28px rgba(0,0,0,0.12)",
+    opacity:          1,
+    defaultTransform: "translateY(0)",
+    hoverTransform:   "translateY(-4px)",
   },
   3: {
-    padding:    "24px",
-    border:     "1px solid rgba(0,0,0,0.06)",
-    shadow:     "0 2px 8px rgba(0,0,0,0.05)",
-    hoverShadow:"0 8px 24px rgba(0,0,0,0.10)",
-    opacity:    0.92,
+    padding:          "24px",
+    border:           "1px solid #E2E8F0",
+    shadow:           "0 2px 12px rgba(0,0,0,0.06)",
+    hoverShadow:      "0 8px 24px rgba(0,0,0,0.12)",
+    opacity:          1,
+    defaultTransform: "translateY(0)",
+    hoverTransform:   "translateY(-4px)",
   },
 } as const;
 
@@ -106,7 +112,7 @@ export default function ProductCard({ id, title, description, mode, onClick, onC
   const tier       = tierMap[id] ?? 2;
   const ts         = TIER_STYLES[tier];
 
-  const iconSrc  = ICON_IMAGES[id] ?? "/icons/home-insurance.png";
+  const iconSrc  = ICON_IMAGES[id] ?? "/icons/property-insurance.png?v=2";
   const ctaLabel = CTA_LABELS[id]  ?? "Find My Best Rate →";
 
   return (
@@ -121,17 +127,23 @@ export default function ProductCard({ id, title, description, mode, onClick, onC
         padding:    ts.padding,
         opacity:    ts.opacity,
         transition: "box-shadow 250ms ease, transform 250ms ease",
+        transform:  ts.defaultTransform,
+        minWidth:        0,
+        height:          "100%",
+        display:         "flex",
+        flexDirection:   "column",
+        justifyContent:  "space-between",
       }}
       onMouseEnter={(e) => {
         const el = e.currentTarget as HTMLButtonElement;
         el.style.boxShadow = ts.hoverShadow;
-        el.style.transform = "translateY(-4px)";
+        el.style.transform = ts.hoverTransform;
         onCardHoverEnter?.(id);
       }}
       onMouseLeave={(e) => {
         const el = e.currentTarget as HTMLButtonElement;
         el.style.boxShadow = ts.shadow;
-        el.style.transform = "translateY(0)";
+        el.style.transform = ts.defaultTransform;
         onCardHoverLeave?.();
       }}
     >
@@ -176,16 +188,16 @@ export default function ProductCard({ id, title, description, mode, onClick, onC
 
       {/* Title */}
       <h3
-        className="font-bold text-sm leading-snug mb-1"
-        style={{ color: "#0F172A" }}
+        className="font-bold leading-snug mb-1"
+        style={{ color: "#0F172A", fontSize: "17px" }}
       >
         {title}
       </h3>
 
       {/* Description */}
       <p
-        className="hidden sm:block text-xs leading-snug mb-1"
-        style={{ color: "#64748B" }}
+        className="hidden sm:block leading-snug mb-1"
+        style={{ color: "#374151", fontSize: "15px", lineHeight: 1.65 }}
       >
         {description}
       </p>
@@ -193,8 +205,8 @@ export default function ProductCard({ id, title, description, mode, onClick, onC
       {/* Trust line */}
       {TRUST_LINES[id] && (
         <p
-          className="hidden sm:block text-xs mb-3"
-          style={{ fontSize: "11px", color: "#94A3B8", marginTop: "4px", marginBottom: "8px" }}
+          className="hidden sm:block mb-3"
+          style={{ fontSize: "13px", color: "#374151", marginTop: "4px", marginBottom: "8px" }}
         >
           {TRUST_LINES[id]}
         </p>
@@ -202,8 +214,8 @@ export default function ProductCard({ id, title, description, mode, onClick, onC
 
       {/* CTA */}
       <div
-        className="card-cta flex items-center text-xs font-bold transition-transform duration-200 group-hover:translate-x-1"
-        style={{ color: "#F5A623" }}
+        className="card-cta flex items-center font-semibold transition-transform duration-200 group-hover:translate-x-1"
+        style={{ color: "#B45309", fontSize: "15px", minHeight: "44px", paddingTop: "8px", paddingBottom: "8px" }}
       >
         {ctaLabel}
       </div>

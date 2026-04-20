@@ -67,15 +67,17 @@ function FAQRow({ item, index, open, onToggle }: FAQRowProps) {
       <button
         type="button"
         className="w-full flex items-center justify-between text-left"
+        aria-expanded={open}
         style={{
-          padding: hovered || open ? "14px 20px 14px 22px" : "14px 20px",
+          padding:   hovered || open ? "14px 20px 14px 22px" : "14px 20px",
           transition: "padding 200ms ease",
+          minHeight: "52px",
         }}
         onClick={onToggle}
       >
         <span className="flex items-center gap-3 pr-4">
           {icon}
-          <span className="font-semibold text-base" style={{ color: "var(--text)" }}>
+          <span className="font-semibold" style={{ color: "var(--text)", fontSize: "16px" }}>
             {item.q}
           </span>
         </span>
@@ -96,10 +98,12 @@ function FAQRow({ item, index, open, onToggle }: FAQRowProps) {
 
       {open && (
         <div
-          className="pb-4 text-sm leading-relaxed animate-fade-in"
+          className="animate-fade-in"
           style={{
-            color: "var(--text-muted)",
-            padding: "0 20px 16px 49px",
+            color:      "var(--text-muted)",
+            padding:    "0 20px 16px 49px",
+            fontSize:   "16px",
+            lineHeight: 1.8,
           }}
         >
           {item.a}
