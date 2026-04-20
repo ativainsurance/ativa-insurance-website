@@ -21,13 +21,33 @@
       "headline": "Get Covered in Minutes — No Calls, No Stress",
       "sub": "Coverage built for families across the East Coast — we shop 50+ top-rated carriers to get you the best rate.",
       "cta1": "See My Price",
-      "cta2": "Send Us a Text"
+      "cta2": "Send Us a Text",
+      "shopHeadline": "Shop Insurance for All Your Needs",
+      "shopSub": "We shop multiple top-rated carriers to find your best rate.",
+      "autoWidgetTitle": "Auto Insurance",
+      "autoWidgetSavings": "Average savings of $800+ for drivers who switch",
+      "getQuoteCta": "Get a Quote →",
+      "wantMoreInfo": "Want more info? Explore",
+      "orTalk": "Or prefer to talk? Send us a text →",
+      "seeAll": "See All Products →",
+      "seeAllSub": "See renters, condo, umbrella & more",
+      "bundleSave": "Bundle & Save",
+      "propertyIns": "Property Insurance",
+      "floodIns": "Flood Insurance"
     },
     "commercial": {
       "headline": "Insurance That Works as Hard as You Do",
       "sub": "Coverage built for businesses like yours — fleets, contractors, and growing companies trust Ativa.",
       "cta1": "See My Price",
-      "cta2": "Send Us a Text"
+      "cta2": "Send Us a Text",
+      "widgetTitle": "Get a Commercial Quote",
+      "widgetSub": "Tell us what you need — we'll find your best rate",
+      "productLabel": "Product",
+      "locationLabel": "Location",
+      "mobileSub": "Business coverage tailored to your industry.",
+      "mobileMicro": "⚡ Quick quote · No commitment · Licensed local agents",
+      "notSure": "Not sure? Talk to an agent →",
+      "reassurance": "Free · No spam · Licensed agents · Same-day response"
     }
   },
   "stats": [
@@ -118,7 +138,8 @@
     "errors": {
       "required": "This field is required.",
       "email":    "Please enter a valid email.",
-      "phone":    "Please enter a valid phone number."
+      "phone":    "Please enter a valid phone number.",
+      "zipCode":  "Please enter a valid ZIP code"
     }
   },
   "carriers": {
@@ -330,6 +351,25 @@
       "button":   "See My Price →"
     }
   },
+  "trust": {
+    "states":          "✓ 11 Licensed States",
+    "statesShort":     "✓ 11 States",
+    "sameDay":         "⚡ Same-Day",
+    "sameDayResponse": "⚡ Same-Day Response",
+    "sameDayCoverage": "⚡ Same-Day Coverage",
+    "noSpam":          "🔒 No Spam · No Calls",
+    "quickQuote":      "⚡ Quick quote · No commitment · Licensed local agents",
+    "googleRating":    "⭐ 5.0 Google Rating",
+    "reviewsShort":    "5.0 · 74 Reviews",
+    "reviewsFull":     "5.0 · 74 Google Reviews",
+    "reviewsStates":   "5.0 · 74 Reviews · ✓ 11 States"
+  },
+  "sticky": {
+    "cta":    "See My Price — Free & Fast",
+    "sub":    "Free · No spam · No obligation",
+    "textUs": "Text Us"
+  },
+  "langHint": "🌐 Available in English, Portuguese & Spanish",
   "footer": {
     "tagline":    "Independent Insurance Agency",
     "agent":      "Licensed in CT, FL, GA, MA, MD, NC, NJ, OH, PA, SC, TN",

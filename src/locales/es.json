@@ -21,13 +21,33 @@
       "headline": "Asegurado en Minutos — Sin Llamadas, Sin Estrés",
       "sub": "Cobertura rápida y bilingüe para familias en Florida — cotizamos múltiples aseguradoras para darte la mejor tarifa.",
       "cta1": "Quiero Mi Cotización Gratis",
-      "cta2": "Hablar con un Agente"
+      "cta2": "Hablar con un Agente",
+      "shopHeadline": "Seguro para Todas Sus Necesidades",
+      "shopSub": "Cotizamos múltiples aseguradoras para encontrar su mejor tarifa.",
+      "autoWidgetTitle": "Seguro de Auto",
+      "autoWidgetSavings": "Ahorro promedio de $800+ para conductores que cambian",
+      "getQuoteCta": "Obtener Cotización →",
+      "wantMoreInfo": "¿Quiere saber más? Explorar",
+      "orTalk": "¿Prefiere hablar? Envíenos un mensaje →",
+      "seeAll": "Ver Todos los Productos →",
+      "seeAllSub": "Vea inquilinos, condominio, paraguas y más",
+      "bundleSave": "Combina y Ahorra",
+      "propertyIns": "Seguro de Propiedad",
+      "floodIns": "Seguro contra Inundación"
     },
     "commercial": {
       "headline": "Un Seguro que Trabaja tan Duro como Tú",
       "sub": "Cobertura para negocios en Florida — flotas, contratistas y empresas en crecimiento confían en Ativa.",
       "cta1": "Quiero Mi Cotización Gratis",
-      "cta2": "Hablar con un Agente"
+      "cta2": "Hablar con un Agente",
+      "widgetTitle": "Obtener Cotización Comercial",
+      "widgetSub": "Díganos qué necesita — encontraremos su mejor tarifa",
+      "productLabel": "Producto",
+      "locationLabel": "Ubicación",
+      "mobileSub": "Cobertura empresarial a medida para su industria.",
+      "mobileMicro": "⚡ Cotización rápida · Sin compromiso · Agentes locales licenciados",
+      "notSure": "¿No está seguro? Hable con un agente →",
+      "reassurance": "Gratis · Sin spam · Agentes licenciados · Respuesta el mismo día"
     }
   },
   "stats": [
@@ -118,7 +138,8 @@
     "errors": {
       "required": "Este campo es obligatorio.",
       "email":    "Por favor ingresa un correo válido.",
-      "phone":    "Por favor ingresa un teléfono válido."
+      "phone":    "Por favor ingresa un teléfono válido.",
+      "zipCode":  "Por favor ingresa un código postal válido"
     }
   },
   "carriers": {
@@ -330,6 +351,25 @@
       "button":   "Quiero Mi Cotización Gratis →"
     }
   },
+  "trust": {
+    "states":          "✓ 11 Estados Licenciados",
+    "statesShort":     "✓ 11 Estados",
+    "sameDay":         "⚡ Mismo Día",
+    "sameDayResponse": "⚡ Respuesta el Mismo Día",
+    "sameDayCoverage": "⚡ Cobertura el Mismo Día",
+    "noSpam":          "🔒 Sin Spam · Sin Llamadas",
+    "quickQuote":      "⚡ Cotización rápida · Sin compromiso · Agentes locales licenciados",
+    "googleRating":    "⭐ Calificación Google 5.0",
+    "reviewsShort":    "5.0 · 74 Reseñas",
+    "reviewsFull":     "5.0 · 74 Reseñas Google",
+    "reviewsStates":   "5.0 · 74 Reseñas · ✓ 11 Estados"
+  },
+  "sticky": {
+    "cta":    "Ver Mi Precio — Gratis y Rápido",
+    "sub":    "Gratis · Sin spam · Sin compromiso",
+    "textUs": "Enviar Mensaje"
+  },
+  "langHint": "🌐 Disponible en Inglés, Portugués y Español",
   "footer": {
     "tagline":    "Agencia de Seguros Independiente",
     "agent":      "Licenciada en CT, FL, GA, MA, MD, NC, NJ, OH, PA, SC, TN",

@@ -6,10 +6,10 @@ import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import type { Mode, Language } from "@/types";
 
-const LANGS: { code: Language; label: string }[] = [
-  { code: "en", label: "EN" },
-  { code: "pt", label: "PT" },
-  { code: "es", label: "ES" },
+const LANGS: { code: Language; label: string; flag: string; fullLabel: string }[] = [
+  { code: "en", label: "EN", flag: "🇺🇸", fullLabel: "English"    },
+  { code: "pt", label: "PT", flag: "🇧🇷", fullLabel: "Português"  },
+  { code: "es", label: "ES", flag: "🇪🇸", fullLabel: "Español"    },
 ];
 
 interface HeaderProps {
@@ -327,6 +327,33 @@ export default function Header({ mode, onGetQuote }: HeaderProps) {
 
           </div>
 
+          {/* ── Mobile language toggle (navbar) ───────────────────────── */}
+          <div className="md:hidden flex items-center gap-0.5 p-0.5 rounded-xl" style={{ background: "#F1F5F9" }}>
+            <span style={{ fontSize: "14px", marginRight: "2px", lineHeight: 1 }}>🌐</span>
+            {LANGS.map(({ code, label }) => (
+              <button
+                key={code}
+                onClick={() => setLang(code)}
+                style={{
+                  minWidth:     "36px",
+                  minHeight:    "36px",
+                  padding:      "0 8px",
+                  fontSize:     "14px",
+                  fontWeight:   600,
+                  borderRadius: "8px",
+                  border:       "none",
+                  cursor:       "pointer",
+                  transition:   "background 150ms ease, color 150ms ease",
+                  ...(lang === code
+                    ? { background: "#0F2A44", color: "#FFFFFF" }
+                    : { background: "transparent", color: "#64748B" }),
+                }}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+
           {/* ── Mobile hamburger ──────────────────────────────────────── */}
           <button
             className="md:hidden p-2 rounded-lg"
@@ -390,6 +417,41 @@ export default function Header({ mode, onGetQuote }: HeaderProps) {
 
           {/* Scrollable nav area */}
           <div className="flex-1 overflow-y-auto px-4 py-3">
+
+            {/* ── Language section ── */}
+            <div style={{ marginBottom: "4px" }}>
+              <p style={{ fontSize: "11px", letterSpacing: "2px", color: "#94A3B8", fontWeight: 600, textTransform: "uppercase", marginBottom: "10px" }}>
+                Select Language
+              </p>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "8px" }}>
+                {LANGS.map(({ code, flag, fullLabel }) => (
+                  <button
+                    key={code}
+                    onClick={() => setLang(code)}
+                    style={{
+                      height:       "48px",
+                      borderRadius: "12px",
+                      fontSize:     "15px",
+                      fontWeight:   600,
+                      border:       `1.5px solid ${lang === code ? "#0F2A44" : "#E2E8F0"}`,
+                      cursor:       "pointer",
+                      transition:   "background 150ms ease, border-color 150ms ease, color 150ms ease",
+                      display:      "flex",
+                      alignItems:   "center",
+                      justifyContent: "center",
+                      gap:          "6px",
+                      ...(lang === code
+                        ? { background: "#0F2A44", color: "#FFFFFF" }
+                        : { background: "#FFFFFF", color: "#334155" }),
+                    }}
+                  >
+                    <span>{flag}</span>
+                    <span>{fullLabel}</span>
+                  </button>
+                ))}
+              </div>
+              <div style={{ height: "1px", background: "#E2E8F0", margin: "16px 0" }} />
+            </div>
 
             <Link
               href="/?tab=personal"
@@ -491,27 +553,8 @@ export default function Header({ mode, onGetQuote }: HeaderProps) {
 
           </div>
 
-          {/* Bottom dock: language + social */}
+          {/* Bottom dock: social */}
           <div className="shrink-0 px-5 py-5" style={{ borderTop: "1px solid #E2E8F0" }}>
-
-            {/* Language toggle */}
-            <div className="flex items-center justify-center gap-1 mb-5">
-              <span style={{ fontSize: "12px", color: "#94A3B8", marginRight: "8px", fontWeight: 500 }}>Language:</span>
-              {LANGS.map(({ code, label }) => (
-                <button
-                  key={code}
-                  onClick={() => setLang(code)}
-                  className="px-4 py-2 rounded-full text-sm font-bold tracking-wider transition-colors duration-150"
-                  style={
-                    lang === code
-                      ? { backgroundColor: accentColor, color: "#0B1F33" }
-                      : { backgroundColor: "#F1F5F9", color: "#64748B" }
-                  }
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
 
             {/* Social icons */}
             <div className="flex items-center justify-center gap-6">

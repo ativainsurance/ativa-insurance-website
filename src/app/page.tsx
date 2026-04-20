@@ -407,7 +407,7 @@ const COMPARISON_COPY: Record<Language, {
 };
 
 function ComparisonSection({ mode, onGetQuote }: { mode: Mode; onGetQuote: () => void }) {
-  const { lang } = useLanguage();
+  const { lang, t } = useLanguage();
   const copy = COMPARISON_COPY[lang] ?? COMPARISON_COPY["en"];
   const isPersonal = mode === "personal";
   const rowsRef = useRef<HTMLDivElement>(null);
@@ -518,7 +518,7 @@ function ComparisonSection({ mode, onGetQuote }: { mode: Mode; onGetQuote: () =>
             </svg>
           </button>
           <p style={{ fontSize: "11px", color: "#94A3B8", textAlign: "center", marginTop: "6px" }}>
-            Free · No spam · No obligation
+            {t("sticky.sub")}
           </p>
         </div>
       </div>
@@ -605,6 +605,7 @@ function MobileCardCarousel({ products, mode, onClick, onCardHoverEnter, onCardH
 // ─── Sticky bottom bar (mobile only) ─────────────────────────────────────────
 
 function StickyBottomBar({ onGetQuote }: { onGetQuote: () => void }) {
+  const { t } = useLanguage();
   return (
     <div
       className="md:hidden"
@@ -638,10 +639,10 @@ function StickyBottomBar({ onGetQuote }: { onGetQuote: () => void }) {
             cursor: "pointer",
           }}
         >
-          See My Price — Free &amp; Fast
+          {t("sticky.cta")}
         </button>
         <span style={{ fontSize: "11px", color: "#94A3B8", textAlign: "center" }}>
-          Free · No spam · No obligation
+          {t("sticky.sub")}
         </span>
       </div>
       <a
@@ -661,7 +662,7 @@ function StickyBottomBar({ onGetQuote }: { onGetQuote: () => void }) {
           justifyContent: "center",
         }}
       >
-        Text Us
+        {t("sticky.textUs")}
       </a>
     </div>
   );
@@ -746,6 +747,7 @@ const MOBILE_HERO_CTA: Record<string, string> = {
 // ─── Commercial quote widget component ───────────────────────────────────────
 
 function CommercialQuoteWidget({ onOpen }: { onOpen: (productId: string) => void }) {
+  const { t } = useLanguage();
   const [product, setProduct]         = useState("commercial-auto");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [zip, setZip]                 = useState("");
@@ -769,7 +771,7 @@ function CommercialQuoteWidget({ onOpen }: { onOpen: (productId: string) => void
 
   const handleSubmit = () => {
     if (!/^\d{5}$/.test(zip)) {
-      setZipError("Please enter a valid ZIP code");
+      setZipError(t("form.errors.zipCode"));
       setZipShake(true);
       setTimeout(() => setZipShake(false), 500);
       return;
@@ -817,16 +819,16 @@ function CommercialQuoteWidget({ onOpen }: { onOpen: (productId: string) => void
 
         {/* Header */}
         <p style={{ fontSize: "18px", fontWeight: 700, color: "#0B1F33", marginBottom: "6px" }}>
-          Get a Commercial Quote
+          {t("hero.commercial.widgetTitle")}
         </p>
         <p style={{ fontSize: "14px", color: "#64748B", marginBottom: "24px" }}>
-          Tell us what you need — we&apos;ll find your best rate
+          {t("hero.commercial.widgetSub")}
         </p>
 
         {/* Row 1 — Product custom dropdown */}
         <div style={{ marginBottom: "0" }}>
           <p style={{ fontSize: "11px", letterSpacing: "2px", color: "#64748B", fontWeight: 600, marginBottom: "8px", textTransform: "uppercase" }}>
-            Product
+            {t("hero.commercial.productLabel")}
           </p>
           <div ref={dropdownRef} style={{ position: "relative" }}>
 
@@ -929,7 +931,7 @@ function CommercialQuoteWidget({ onOpen }: { onOpen: (productId: string) => void
         {/* Row 2 — ZIP */}
         <div style={{ marginBottom: "16px" }}>
           <p style={{ fontSize: "11px", letterSpacing: "2px", color: "#64748B", fontWeight: 600, marginBottom: "8px", textTransform: "uppercase" }}>
-            Location
+            {t("hero.commercial.locationLabel")}
           </p>
           <div className={zipShake ? "widget-zip-shake" : ""}>
             <input
@@ -989,7 +991,7 @@ function CommercialQuoteWidget({ onOpen }: { onOpen: (productId: string) => void
 
         {/* Reassurance line */}
         <p style={{ fontSize: "13px", color: "#94A3B8", textAlign: "center", marginTop: "12px" }}>
-          Free · No spam · Licensed agents · Same-day response
+          {t("hero.commercial.reassurance")}
         </p>
       </div>
     </>
@@ -1022,6 +1024,13 @@ function AtivaSite() {
   const [heroZip, setHeroZip]     = useState("");
   const [zipShake, setZipShake]   = useState(false);
   const [zipErrMsg, setZipErrMsg] = useState("");
+  // Mobile commercial widget state
+  const [mobCommProduct, setMobCommProduct]       = useState("commercial-auto");
+  const [mobCommDropOpen, setMobCommDropOpen]     = useState(false);
+  const [mobCommZip, setMobCommZip]               = useState("");
+  const [mobCommZipError, setMobCommZipError]     = useState("");
+  const [mobCommZipShake, setMobCommZipShake]     = useState(false);
+  const mobCommDropRef                            = useRef<HTMLDivElement>(null);
 
   const products   = tProducts(mode);
   const isPersonal = mode === "personal";
@@ -1100,7 +1109,7 @@ function AtivaSite() {
       setQuoteProduct("auto");
       setQuoteOpen(true);
     } else {
-      setZipErrMsg("Please enter a valid ZIP code");
+      setZipErrMsg(t("form.errors.zipCode"));
       setZipShake(true);
       setTimeout(() => setZipShake(false), 500);
     }
@@ -1144,6 +1153,18 @@ function AtivaSite() {
     window.addEventListener("ativa:openQuote", handleChatQuote);
     return () => window.removeEventListener("ativa:openQuote", handleChatQuote);
   }, []);
+
+  // Close mobile commercial dropdown on outside click
+  useEffect(() => {
+    if (!mobCommDropOpen) return;
+    const handler = (e: MouseEvent) => {
+      if (mobCommDropRef.current && !mobCommDropRef.current.contains(e.target as Node)) {
+        setMobCommDropOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [mobCommDropOpen]);
 
   // Reset hover state on mode switch and clean up on unmount
   useEffect(() => {
@@ -1209,7 +1230,7 @@ function AtivaSite() {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
 
           {/* ══════════════ MOBILE HERO (hidden md+) ══════════════════════ */}
-          <div className="md:hidden" style={{ paddingTop: "24px", paddingBottom: "24px" }}>
+          <div className="md:hidden" style={{ paddingTop: "12px", paddingBottom: "16px" }}>
           {isPersonal ? (
 
             /* ── PERSONAL MOBILE HERO ─────────────────────────────────── */
@@ -1221,89 +1242,102 @@ function AtivaSite() {
                 .mob-prod-card:hover  { border-color: #F5A623 !important; box-shadow: 0 4px 12px rgba(245,166,35,0.12) !important; }
               `}</style>
 
-              {/* 1 · Headline */}
+              {/* 1 · Toggle block — TOP on mobile */}
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "6px", marginBottom: "16px" }}>
+                <p style={{ fontSize: "13px", color: "#64748B", textAlign: "center", margin: 0 }}>
+                  {t("toggle.headline")}
+                </p>
+                <div style={{ width: "100%", maxWidth: "280px" }}>
+                  <Toggle mode={mode} onChange={handleModeChange} />
+                </div>
+                <p style={{ fontSize: "12px", color: "#94A3B8", textAlign: "center", margin: 0 }}>
+                  {t("toggle.switchToCommercial")}
+                </p>
+              </div>
+
+              {/* 2 · Headline */}
               <h1 style={{
-                fontSize: "clamp(1.8rem, 6vw, 2.2rem)",
+                fontSize: "clamp(1.55rem, 5.5vw, 1.9rem)",
                 fontWeight: 800,
                 textAlign: "center",
                 color: "#0B1F33",
                 lineHeight: 1.12,
                 letterSpacing: "-0.02em",
-                padding: "0 16px",
-                marginBottom: "8px",
+                padding: "0 12px",
+                marginBottom: "6px",
               }}>
-                Shop Insurance for All Your Needs
+                {t("hero.personal.shopHeadline")}
               </h1>
 
-              {/* 2 · Subheadline */}
-              <p style={{ textAlign: "center", fontSize: "15px", color: "#64748B", padding: "0 20px", marginBottom: "12px", lineHeight: 1.5 }}>
-                We shop multiple top-rated carriers to find your best rate.
+              {/* 3 · Subheadline */}
+              <p style={{ textAlign: "center", fontSize: "13px", color: "#64748B", padding: "0 16px", marginBottom: "10px", lineHeight: 1.45 }}>
+                {t("hero.personal.shopSub")}
               </p>
 
-              {/* 3 · Trust row */}
+              {/* 4 · Trust row */}
               <a
                 href="https://maps.app.goo.gl/Zd8AptfZe46v9ntj8"
                 target="_blank" rel="noopener noreferrer"
                 style={{
                   display: "flex", justifyContent: "center", alignItems: "center",
-                  flexWrap: "wrap", gap: "6px", padding: "0 16px",
-                  marginBottom: "20px", textDecoration: "none",
+                  flexWrap: "wrap", gap: "4px", padding: "0 12px",
+                  marginBottom: "12px", textDecoration: "none",
                   transition: "opacity 150ms ease",
                 }}
                 onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.opacity = "0.8"; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.opacity = "1"; }}
               >
-                <svg viewBox="0 0 24 24" width="16" height="16" style={{ flexShrink: 0 }}>
+                <svg viewBox="0 0 24 24" width="14" height="14" style={{ flexShrink: 0 }}>
                   <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                   <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
                   <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/>
                   <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                 </svg>
                 {[1,2,3,4,5].map(s => (
-                  <svg key={s} width="12" height="12" viewBox="0 0 20 20" fill="#F5A623">
+                  <svg key={s} width="11" height="11" viewBox="0 0 20 20" fill="#F5A623">
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                   </svg>
                 ))}
-                <span style={{ fontSize: "12px", color: "#64748B" }}>5.0 · 74 Reviews</span>
-                <span style={{ fontSize: "12px", color: "#CBD5E1" }}>·</span>
-                <span style={{ fontSize: "12px", color: "#64748B" }}>✓ 11 States</span>
-                <span style={{ fontSize: "12px", color: "#CBD5E1" }}>·</span>
-                <span style={{ fontSize: "12px", color: "#64748B" }}>⚡ Same-Day</span>
+                <span style={{ fontSize: "11px", color: "#64748B" }}>{t("trust.reviewsShort")}</span>
+                <span style={{ fontSize: "11px", color: "#CBD5E1" }}>·</span>
+                <span style={{ fontSize: "11px", color: "#64748B" }}>{t("trust.statesShort")}</span>
+                <span style={{ fontSize: "11px", color: "#CBD5E1" }}>·</span>
+                <span style={{ fontSize: "11px", color: "#64748B" }}>{t("trust.sameDay")}</span>
               </a>
 
-              {/* 4 · Auto Insurance widget */}
+              {/* 5 · Auto Insurance widget — compact */}
               <div style={{
                 margin: "0 16px",
                 background: "#FFFFFF",
                 border: "2px solid #F5A623",
-                borderRadius: "16px",
-                padding: "20px",
-                boxShadow: "0 4px 20px rgba(245,166,35,0.12)",
+                borderRadius: "14px",
+                padding: "16px",
+                boxShadow: "0 4px 16px rgba(245,166,35,0.10)",
               }}>
-                {/* Icon */}
-                <div style={{ display: "flex", justifyContent: "center", marginBottom: "10px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "10px" }}>
                   <Image
                     src="/icons/auto-insurance.png?v=2"
                     alt="Auto Insurance"
-                    width={80} height={80}
-                    style={{ width: "80px", height: "80px", objectFit: "contain" }}
+                    width={64} height={64}
+                    style={{ width: "64px", height: "64px", objectFit: "contain", flexShrink: 0 }}
                   />
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <p style={{ fontSize: "16px", fontWeight: 700, color: "#0B1F33", marginBottom: "2px" }}>
+                      {t("hero.personal.autoWidgetTitle")}
+                    </p>
+                    <p style={{ fontSize: "12px", color: "#64748B", lineHeight: 1.3 }}>
+                      {t("hero.personal.autoWidgetSavings")}
+                    </p>
+                  </div>
                 </div>
-                <p style={{ fontSize: "18px", fontWeight: 700, color: "#0B1F33", textAlign: "center", marginBottom: "4px" }}>
-                  Auto Insurance
-                </p>
-                <p style={{ fontSize: "13px", color: "#64748B", textAlign: "center", marginBottom: "16px" }}>
-                  Average savings of $800+ for drivers who switch
-                </p>
 
-                {/* ZIP input — stacked on mobile */}
                 <div className={zipShake ? "mob-zip-shake" : ""}>
                   <input
                     type="text"
                     inputMode="numeric"
                     maxLength={5}
                     className="mob-zip-input"
-                    placeholder="Enter your ZIP code"
+                    placeholder={t("form.labels.zipCode")}
                     value={heroZip}
                     onChange={e => {
                       const v = e.target.value.replace(/\D/g, "").slice(0, 5);
@@ -1312,30 +1346,30 @@ function AtivaSite() {
                     }}
                     onKeyDown={e => { if (e.key === "Enter") handleZipSubmit(); }}
                     style={{
-                      width: "100%", height: "52px",
-                      padding: "0 16px", fontSize: "16px",
+                      width: "100%", height: "48px",
+                      padding: "0 14px", fontSize: "16px",
                       border: `1.5px solid ${zipErrMsg ? "#DC2626" : "#E2E8F0"}`,
                       borderRadius: "10px", background: "#F7FAFC",
-                      color: "#0B1F33", marginBottom: "10px", display: "block",
+                      color: "#0B1F33", marginBottom: "8px", display: "block",
                       outline: "none",
                     }}
                   />
                   {zipErrMsg && (
-                    <p style={{ fontSize: "13px", color: "#DC2626", marginBottom: "8px", marginTop: "-6px" }}>{zipErrMsg}</p>
+                    <p style={{ fontSize: "12px", color: "#DC2626", marginBottom: "6px", marginTop: "-4px" }}>{zipErrMsg}</p>
                   )}
                   <button
                     type="button"
                     className="mob-zip-btn"
                     onClick={handleZipSubmit}
                     style={{
-                      width: "100%", height: "52px",
+                      width: "100%", height: "48px",
                       background: "#0F2A44", color: "#FFFFFF",
-                      fontSize: "16px", fontWeight: 700,
+                      fontSize: "15px", fontWeight: 700,
                       border: "none", borderRadius: "10px",
                       cursor: "pointer", transition: "background 150ms ease",
                     }}
                   >
-                    Get a Quote →
+                    {t("hero.personal.getQuoteCta")}
                   </button>
                 </div>
 
@@ -1344,25 +1378,25 @@ function AtivaSite() {
                   onClick={() => { setQuoteProduct("auto"); setQuoteOpen(true); }}
                   style={{
                     display: "block", width: "100%", background: "none", border: "none",
-                    cursor: "pointer", fontSize: "13px", color: "#64748B",
-                    textAlign: "center", marginTop: "10px", padding: 0,
+                    cursor: "pointer", fontSize: "12px", color: "#64748B",
+                    textAlign: "center", marginTop: "8px", padding: 0,
                   }}
                 >
-                  Want more info? Explore{" "}
-                  <span style={{ color: "#F5A623", textDecoration: "underline" }}>Auto Insurance</span> →
+                  {t("hero.personal.wantMoreInfo")}{" "}
+                  <span style={{ color: "#F5A623", textDecoration: "underline" }}>{t("hero.personal.autoWidgetTitle")}</span> →
                 </button>
               </div>
 
-              {/* 5 · 2×2 mini product grid */}
+              {/* 6 · 2×2 mini product grid — compact */}
               <div style={{
                 display: "grid", gridTemplateColumns: "1fr 1fr",
-                gap: "10px", padding: "12px 16px 0",
+                gap: "8px", padding: "8px 16px 0",
               }}>
                 {[
-                  { id: "bundle", label: "Bundle & Save",     icon: "/icons/bundle-save.png?v=2"         },
-                  { id: "home",   label: "Property Insurance", icon: "/icons/property-insurance.png?v=2"  },
-                  { id: "flood",  label: "Flood Insurance",    icon: "/icons/flood-insurance.png?v=2"     },
-                  { id: "all",    label: "See All Products →", icon: null                                 },
+                  { id: "bundle", label: t("hero.personal.bundleSave"),  icon: "/icons/bundle-save.png?v=2"         },
+                  { id: "home",   label: t("hero.personal.propertyIns"), icon: "/icons/property-insurance.png?v=2"  },
+                  { id: "flood",  label: t("hero.personal.floodIns"),    icon: "/icons/flood-insurance.png?v=2"     },
+                  { id: "all",    label: t("hero.personal.seeAll"),      icon: null                                 },
                 ].map(card => (
                   <button
                     key={card.id}
@@ -1375,8 +1409,8 @@ function AtivaSite() {
                     style={{
                       background: card.id === "all" ? "#F7FAFC" : "#FFFFFF",
                       border: "1px solid #E8EDF3",
-                      borderRadius: "14px",
-                      padding: "16px 12px",
+                      borderRadius: "12px",
+                      padding: "10px 8px",
                       textAlign: "center",
                       cursor: "pointer",
                       display: "flex", flexDirection: "column", alignItems: "center",
@@ -1387,130 +1421,296 @@ function AtivaSite() {
                       <Image
                         src={card.icon}
                         alt={card.label}
-                        width={72} height={72}
-                        style={{ width: "72px", height: "72px", objectFit: "contain", marginBottom: "8px" }}
+                        width={56} height={56}
+                        style={{ width: "56px", height: "56px", objectFit: "contain", marginBottom: "6px" }}
                       />
                     ) : (
-                      <div style={{ width: "72px", height: "72px", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "8px" }}>
-                        <span style={{ fontSize: "28px", color: "#CBD5E1" }}>＋</span>
+                      <div style={{ width: "56px", height: "56px", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "6px" }}>
+                        <span style={{ fontSize: "24px", color: "#CBD5E1" }}>＋</span>
                       </div>
                     )}
-                    <span style={{ fontSize: "14px", fontWeight: 700, color: "#0B1F33", lineHeight: 1.2 }}>
+                    <span style={{ fontSize: "13px", fontWeight: 600, color: "#0B1F33", lineHeight: 1.2 }}>
                       {card.label}
                     </span>
                   </button>
                 ))}
-              </div>
-
-              {/* 6 · Secondary link */}
-              <div style={{ textAlign: "center", margin: "12px 0" }}>
-                <a
-                  href="sms:5619468261"
-                  style={{ fontSize: "13px", color: "#94A3B8", textDecoration: "none", transition: "color 150ms ease" }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = "#64748B"; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = "#94A3B8"; }}
-                >
-                  Or prefer to talk? Send us a text →
-                </a>
-              </div>
-
-              {/* 7 · Toggle block */}
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px", paddingBottom: "8px" }}>
-                <p style={{ fontSize: "14px", color: "#1E3A5F", fontWeight: 500, margin: 0 }}>
-                  {t("toggle.headline")}
-                </p>
-                <div style={{ width: "100%", maxWidth: "300px" }}>
-                  <Toggle mode={mode} onChange={handleModeChange} />
-                </div>
-                <p style={{ fontSize: "13px", color: "#64748B", margin: 0 }}>
-                  {t("toggle.switchToCommercial")}
-                </p>
               </div>
             </div>
 
           ) : (
 
             /* ── COMMERCIAL MOBILE HERO ───────────────────────────────── */
-            <div key="mobile-commercial" className="mode-fade-in">
+            (() => {
+              const mobSelected = WIDGET_PRODUCTS.find(p => p.id === mobCommProduct) ?? WIDGET_PRODUCTS[0];
+              const handleMobSubmit = () => {
+                if (/^\d{5}$/.test(mobCommZip)) {
+                  setMobCommZipError("");
+                  setCommercialQuoteProduct(mobCommProduct);
+                  setCommercialQuoteOpen(true);
+                } else {
+                  setMobCommZipError(t("form.errors.zipCode"));
+                  setMobCommZipShake(true);
+                  setTimeout(() => setMobCommZipShake(false), 500);
+                }
+              };
+              return (
+                <div key="mobile-commercial" className="mode-fade-in">
+                  <style>{`
+                    @keyframes mob-dd-reveal {
+                      from { opacity: 0; transform: translateY(-4px); }
+                      to   { opacity: 1; transform: translateY(0); }
+                    }
+                    @keyframes mob-comm-shake {
+                      0%,100% { transform: translateX(0);   }
+                      20%     { transform: translateX(-5px); }
+                      40%     { transform: translateX(5px);  }
+                      60%     { transform: translateX(-3px); }
+                      80%     { transform: translateX(3px);  }
+                    }
+                    .mob-comm-shake   { animation: mob-comm-shake 0.45s ease-in-out; }
+                    .mob-comm-dd-opt:hover  { background: #F7FAFC !important; }
+                    .mob-comm-cta:hover     { background: #FFB84D !important; }
+                    .mob-comm-dd-trig:hover { border-color: #F5A623 !important; }
+                  `}</style>
 
-              {/* Toggle at top */}
-              <div style={{ display: "flex", justifyContent: "center", marginBottom: "20px" }}>
-                <Toggle mode={mode} onChange={handleModeChange} />
-              </div>
+                  {/* 1 · Headline */}
+                  <h1 style={{
+                    fontSize: "clamp(1.7rem, 5.5vw, 2rem)",
+                    fontWeight: 800, textAlign: "center",
+                    color: "#0B1F33", lineHeight: 1.12,
+                    letterSpacing: "-0.02em",
+                    padding: "24px 16px 8px",
+                  }}>
+                    {t("hero.commercial.headline")}
+                  </h1>
 
-              {/* Headline */}
-              <h1 style={{
-                fontSize: "clamp(1.6rem, 6vw, 2rem)",
-                fontWeight: 800, textAlign: "center",
-                color: "#1E3A5F", lineHeight: 1.08,
-                letterSpacing: "-0.025em",
-                marginBottom: "8px",
-              }}>
-                {t("hero.commercial.headline")}
-              </h1>
+                  {/* 2 · Subheadline */}
+                  <p style={{ textAlign: "center", fontSize: "15px", color: "#64748B", padding: "0 20px", marginBottom: "8px", lineHeight: 1.5 }}>
+                    {t("hero.commercial.mobileSub")}
+                  </p>
 
-              {/* Trust line */}
-              <p style={{ fontSize: "12px", color: "#64748B", textAlign: "center", marginBottom: "16px" }}>
-                ⭐ 5.0 Google Rating · 11 States · Same-Day
-              </p>
+                  {/* 3 · Microcopy */}
+                  <p style={{ textAlign: "center", fontSize: "13px", color: "#94A3B8", marginBottom: "12px" }}>
+                    {t("trust.quickQuote")}
+                  </p>
 
-              {/* Commercial product cards */}
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginBottom: "12px" }}>
-                {[...heroProducts]
-                  .sort((a, b) => (a.id === "gl" ? -1 : b.id === "gl" ? 1 : 0))
-                  .map(product => {
-                    const isFeatured = product.id === "gl";
-                    return (
+                  {/* 4 · Google rating */}
+                  <a
+                    href="https://maps.app.goo.gl/Zd8AptfZe46v9ntj8"
+                    target="_blank" rel="noopener noreferrer"
+                    style={{
+                      display: "flex", justifyContent: "center", alignItems: "center",
+                      flexWrap: "wrap", gap: "5px", padding: "0 16px",
+                      marginBottom: "16px", textDecoration: "none",
+                      transition: "opacity 150ms ease",
+                    }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.opacity = "0.8"; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.opacity = "1"; }}
+                  >
+                    <svg viewBox="0 0 24 24" width="15" height="15" style={{ flexShrink: 0 }}>
+                      <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                      <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                      <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/>
+                      <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    {[1,2,3,4,5].map(s => (
+                      <svg key={s} width="12" height="12" viewBox="0 0 20 20" fill="#F5A623">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                      </svg>
+                    ))}
+                    <span style={{ fontSize: "12px", color: "#64748B" }}>{t("trust.reviewsStates")}</span>
+                  </a>
+
+                  {/* 5 · Commercial quote widget */}
+                  <div style={{
+                    margin: "0 16px",
+                    background: "#FFFFFF",
+                    borderRadius: "16px",
+                    padding: "20px",
+                    boxShadow: "0 4px 20px rgba(15,42,68,0.10)",
+                    border: "1px solid #E2E8F0",
+                  }}>
+                    <p style={{ fontSize: "17px", fontWeight: 700, color: "#0B1F33", marginBottom: "4px" }}>
+                      {t("hero.commercial.widgetTitle")}
+                    </p>
+                    <p style={{ fontSize: "13px", color: "#64748B", marginBottom: "16px" }}>
+                      {t("hero.commercial.widgetSub")}
+                    </p>
+
+                    {/* Product dropdown */}
+                    <div ref={mobCommDropRef} style={{ position: "relative", marginBottom: "12px" }}>
                       <button
-                        key={product.id}
                         type="button"
-                        onClick={() => handleProductClick(product.id)}
+                        className="mob-comm-dd-trig"
+                        onClick={() => setMobCommDropOpen(o => !o)}
                         style={{
-                          gridColumn: isFeatured ? "span 2" : "span 1",
-                          padding: "14px", borderRadius: "12px",
-                          textAlign: "center", minHeight: "120px",
-                          display: "flex", flexDirection: "column",
-                          alignItems: "center", justifyContent: "center", gap: "6px",
-                          border: isFeatured ? "2px solid #F5A623" : "1.5px solid #E2E8F0",
-                          background: isFeatured ? "#FFFBF0" : "#FFFFFF",
-                          cursor: "pointer", width: "100%",
+                          display: "flex", alignItems: "center", gap: "10px",
+                          width: "100%", height: "52px",
+                          padding: "0 14px",
+                          background: "#F7FAFC",
+                          border: `1.5px solid ${mobCommDropOpen ? "#F5A623" : "#E2E8F0"}`,
+                          borderRadius: "10px", cursor: "pointer",
+                          boxShadow: mobCommDropOpen ? "0 0 0 3px rgba(245,166,35,0.12)" : "none",
+                          transition: "border-color 150ms ease",
+                          textAlign: "left",
                         }}
                       >
                         <Image
-                          src={MOBILE_HERO_ICONS[product.id] ?? "/icons/general-liability.png?v=2"}
-                          alt={product.title}
-                          width={56} height={56}
-                          style={{ width: "56px", height: "56px", objectFit: "contain" }}
+                          src={mobSelected.icon}
+                          alt={mobSelected.label}
+                          width={32} height={32}
+                          style={{ width: "32px", height: "32px", objectFit: "contain", flexShrink: 0 }}
                         />
-                        <span style={{ fontSize: "14px", fontWeight: 700, color: "#0F172A", lineHeight: 1.2 }}>
-                          {product.title}
+                        <span style={{ flex: 1, fontSize: "16px", fontWeight: 600, color: "#0B1F33", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                          {mobSelected.label}
                         </span>
-                        <span style={{ fontSize: "12px", color: "#F5A623", fontWeight: 600 }}>
-                          {MOBILE_HERO_CTA[product.id] ?? "Get a quote →"}
-                        </span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                          style={{ flexShrink: 0, transition: "transform 150ms ease", transform: mobCommDropOpen ? "rotate(180deg)" : "rotate(0deg)" }}>
+                          <path d="M4 6l4 4 4-4"/>
+                        </svg>
                       </button>
-                    );
-                  })}
-              </div>
 
-              {/* More business policies */}
-              <div style={{ textAlign: "center", marginBottom: "12px" }}>
-                <button
-                  type="button"
-                  onClick={() => setCommercialSheetOpen(true)}
-                  style={{ fontSize: "13px", color: "#64748B", background: "none", border: "none", cursor: "pointer", padding: "4px 0" }}
-                >
-                  More business policies →
-                </button>
-              </div>
+                      {mobCommDropOpen && (
+                        <div style={{
+                          position: "absolute", top: "calc(100% + 4px)", left: 0,
+                          width: "100%", background: "#FFFFFF",
+                          border: "1.5px solid #E2E8F0", borderRadius: "10px",
+                          boxShadow: "0 8px 24px rgba(0,0,0,0.10)",
+                          zIndex: 60, maxHeight: "280px", overflowY: "auto",
+                          animation: "mob-dd-reveal 150ms ease-out both",
+                        }}>
+                          {WIDGET_PRODUCTS.map(p => {
+                            const isSel = p.id === mobCommProduct;
+                            return (
+                              <button
+                                key={p.id}
+                                type="button"
+                                className="mob-comm-dd-opt"
+                                onClick={() => { setMobCommProduct(p.id); setMobCommDropOpen(false); }}
+                                style={{
+                                  display: "flex", alignItems: "center", gap: "10px",
+                                  width: "100%", padding: "10px 14px",
+                                  background: isSel ? "#FFFBF0" : "transparent",
+                                  border: "none",
+                                  borderLeft: isSel ? "3px solid #F5A623" : "3px solid transparent",
+                                  cursor: "pointer", textAlign: "left",
+                                  transition: "background 100ms ease",
+                                }}
+                              >
+                                <Image
+                                  src={p.icon}
+                                  alt={p.label}
+                                  width={28} height={28}
+                                  style={{ width: "28px", height: "28px", objectFit: "contain", flexShrink: 0 }}
+                                />
+                                <span style={{ fontSize: "15px", color: "#0B1F33", fontWeight: isSel ? 600 : 400 }}>
+                                  {p.label}
+                                </span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
 
-              <p style={{ fontSize: "12px", textAlign: "center", color: "#94A3B8", marginBottom: "12px" }}>
-                Quick quote · No commitment · Licensed agents
-              </p>
-              <p style={{ textAlign: "center", fontSize: "12px", color: "#94A3B8" }}>
-                {t("toggle.switchToPersonal")}
-              </p>
-            </div>
+                    {/* ZIP input */}
+                    <div className={mobCommZipShake ? "mob-comm-shake" : ""} style={{ marginBottom: "12px" }}>
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        maxLength={5}
+                        placeholder="ZIP Code"
+                        value={mobCommZip}
+                        onChange={e => {
+                          const v = e.target.value.replace(/\D/g, "").slice(0, 5);
+                          setMobCommZip(v);
+                          if (mobCommZipError) setMobCommZipError("");
+                        }}
+                        onKeyDown={e => { if (e.key === "Enter") handleMobSubmit(); }}
+                        style={{
+                          width: "100%", height: "52px",
+                          padding: "0 16px", fontSize: "16px",
+                          border: `1.5px solid ${mobCommZipError ? "#DC2626" : "#E2E8F0"}`,
+                          borderRadius: "10px", background: "#F7FAFC",
+                          color: "#0B1F33", outline: "none", display: "block",
+                        }}
+                      />
+                      {mobCommZipError && (
+                        <p style={{ fontSize: "13px", color: "#DC2626", marginTop: "6px" }}>{mobCommZipError}</p>
+                      )}
+                    </div>
+
+                    {/* CTA button */}
+                    <button
+                      type="button"
+                      className="mob-comm-cta"
+                      onClick={handleMobSubmit}
+                      style={{
+                        width: "100%", height: "56px",
+                        background: "#F5A623", color: "#0B1F33",
+                        fontSize: "16px", fontWeight: 700,
+                        border: "none", borderRadius: "12px",
+                        cursor: "pointer",
+                        transition: "background 150ms ease",
+                        boxShadow: "0 4px 16px rgba(245,166,35,0.35)",
+                      }}
+                    >
+                      {WIDGET_CTA_LABELS[mobCommProduct] ?? "Get My Commercial Quote →"}
+                    </button>
+
+                    {/* Reassurance */}
+                    <p style={{ fontSize: "12px", color: "#94A3B8", textAlign: "center", marginTop: "10px" }}>
+                      {t("hero.commercial.reassurance")}
+                    </p>
+                  </div>
+
+                  {/* 6 · Agent link */}
+                  <div style={{ textAlign: "center", marginTop: "12px" }}>
+                    <a
+                      href="sms:5619468261"
+                      style={{ fontSize: "14px", color: "#64748B", textDecoration: "none", transition: "color 150ms ease" }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = "#0F2A44"; }}
+                      onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = "#64748B"; }}
+                    >
+                      {t("hero.commercial.notSure")}
+                    </a>
+                  </div>
+
+                  {/* 7 · Trust pills — horizontal scroll */}
+                  <div className="mobile-card-scroll" style={{
+                    display: "flex", overflowX: "auto",
+                    gap: "8px", padding: "12px 16px",
+                    scrollbarWidth: "none",
+                  }}>
+                    {[t("trust.states"), t("trust.sameDayCoverage"), t("trust.noSpam"), t("trust.googleRating")].map(pill => (
+                      <span key={pill} style={{
+                        whiteSpace: "nowrap", fontSize: "12px", color: "#374151", fontWeight: 500,
+                        background: "#FFFFFF", border: "1px solid #E2E8F0",
+                        borderRadius: "20px", padding: "5px 12px", flexShrink: 0,
+                      }}>
+                        {pill}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* 8 · Toggle block */}
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px", marginTop: "16px", paddingBottom: "8px" }}>
+                    <p style={{ fontSize: "14px", color: "#1E3A5F", fontWeight: 500, margin: 0 }}>
+                      {t("toggle.headline")}
+                    </p>
+                    <div style={{ width: "100%", maxWidth: "300px" }}>
+                      <Toggle mode={mode} onChange={handleModeChange} />
+                    </div>
+                    <p style={{ fontSize: "13px", color: "#64748B", margin: 0 }}>
+                      {t("toggle.switchToPersonal")}
+                    </p>
+                    <p style={{ fontSize: "12px", color: "#94A3B8", margin: "8px 0 0", textAlign: "center" }}>
+                      {t("langHint")}
+                    </p>
+                  </div>
+                </div>
+              );
+            })()
 
           )}
           </div>
@@ -1554,10 +1754,10 @@ function AtivaSite() {
                   marginBottom: "12px",
                   letterSpacing: "-0.02em",
                 }}>
-                  Shop Insurance for All Your Needs
+                  {t("hero.personal.shopHeadline")}
                 </h1>
                 <p style={{ fontSize: "18px", color: "#64748B", marginBottom: "20px", lineHeight: 1.55 }}>
-                  We shop multiple top-rated carriers to find your best rate.
+                  {t("hero.personal.shopSub")}
                 </p>
 
                 {/* Trust row */}
@@ -1580,14 +1780,14 @@ function AtivaSite() {
                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                       </svg>
                     ))}
-                    <span style={{ fontSize: "13px", color: "#64748B", marginLeft: "2px" }}>5.0 · 74 Google Reviews</span>
+                    <span style={{ fontSize: "13px", color: "#64748B", marginLeft: "2px" }}>{t("trust.reviewsFull")}</span>
                   </a>
                   <span style={{ color: "#CBD5E1", fontSize: "13px" }}>·</span>
-                  <span style={{ fontSize: "13px", color: "#64748B" }}>✓ 11 Licensed States</span>
+                  <span style={{ fontSize: "13px", color: "#64748B" }}>{t("trust.states")}</span>
                   <span style={{ color: "#CBD5E1", fontSize: "13px" }}>·</span>
-                  <span style={{ fontSize: "13px", color: "#64748B" }}>⚡ Same-Day Response</span>
+                  <span style={{ fontSize: "13px", color: "#64748B" }}>{t("trust.sameDayResponse")}</span>
                   <span style={{ color: "#CBD5E1", fontSize: "13px" }}>·</span>
-                  <span style={{ fontSize: "13px", color: "#64748B" }}>🔒 No Spam · No Calls</span>
+                  <span style={{ fontSize: "13px", color: "#64748B" }}>{t("trust.noSpam")}</span>
                 </div>
               </div>
 
@@ -1621,10 +1821,10 @@ function AtivaSite() {
                     />
                   </div>
                   <p style={{ fontSize: "20px", fontWeight: 700, color: "#0B1F33", marginBottom: "4px" }}>
-                    Auto Insurance
+                    {t("hero.personal.autoWidgetTitle")}
                   </p>
                   <p style={{ fontSize: "14px", color: "#64748B", marginBottom: "20px" }}>
-                    Average savings of $800+ for drivers who switch
+                    {t("hero.personal.autoWidgetSavings")}
                   </p>
 
                   {/* ZIP row */}
@@ -1682,7 +1882,7 @@ function AtivaSite() {
                           transition:  "background 150ms ease",
                         }}
                       >
-                        Get a Quote →
+                        {t("hero.personal.getQuoteCta")}
                       </button>
                     </div>
                     {zipErrMsg && (
@@ -1695,8 +1895,8 @@ function AtivaSite() {
                     onClick={() => { setQuoteProduct("auto"); setQuoteOpen(true); }}
                     style={{ background: "none", border: "none", cursor: "pointer", padding: 0, fontSize: "13px", color: "#64748B", textAlign: "left" }}
                   >
-                    Want more info first? Explore:{" "}
-                    <span style={{ color: "#F5A623", textDecoration: "underline" }}>Auto Insurance</span> →
+                    {t("hero.personal.wantMoreInfo")}{" "}
+                    <span style={{ color: "#F5A623", textDecoration: "underline" }}>{t("hero.personal.autoWidgetTitle")}</span> →
                   </button>
                 </div>
 
@@ -1706,10 +1906,10 @@ function AtivaSite() {
                   style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}
                 >
                   {[
-                    { id: "bundle", label: "Bundle & Save",       icon: "/icons/bundle-save.png?v=2"    },
-                    { id: "home",   label: "Property Insurance",   icon: "/icons/property-insurance.png?v=2" },
-                    { id: "flood",  label: "Flood Insurance",      icon: "/icons/flood-insurance.png?v=2" },
-                    { id: "all",    label: "See All Products →",   icon: null },
+                    { id: "bundle", label: t("hero.personal.bundleSave"),  icon: "/icons/bundle-save.png?v=2"    },
+                    { id: "home",   label: t("hero.personal.propertyIns"), icon: "/icons/property-insurance.png?v=2" },
+                    { id: "flood",  label: t("hero.personal.floodIns"),    icon: "/icons/flood-insurance.png?v=2" },
+                    { id: "all",    label: t("hero.personal.seeAll"),      icon: null },
                   ].map(card => (
                     <button
                       key={card.id}
@@ -1751,7 +1951,7 @@ function AtivaSite() {
                       </span>
                       {card.id === "all" && (
                         <span style={{ fontSize: "12px", color: "#94A3B8", marginTop: "4px" }}>
-                          See renters, condo, umbrella & more
+                          {t("hero.personal.seeAllSub")}
                         </span>
                       )}
                     </button>
@@ -1767,7 +1967,7 @@ function AtivaSite() {
                   onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = "#64748B"; }}
                   onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = "#94A3B8"; }}
                 >
-                  Or prefer to talk? Send us a text →
+                  {t("hero.personal.orTalk")}
                 </a>
               </div>
 
@@ -1836,7 +2036,7 @@ function AtivaSite() {
                       {heroSub[mode]}
                     </p>
                     <p className="max-w-md mx-auto lg:mx-0" style={{ fontSize: "14px", color: "#4B5563", marginTop: "4px", marginBottom: "20px" }}>
-                      ⚡ Quick quote · No commitment · Licensed local agents
+                      {t("trust.quickQuote")}
                     </p>
 
                     {/* Trust block */}
@@ -1864,11 +2064,11 @@ function AtivaSite() {
                         <span style={{ fontSize: "13px", color: "#334155", fontWeight: 600 }}>5.0</span>
                         <span style={{ fontSize: "13px", color: "#64748B" }}>·</span>
                         <span className="trust-rating-text" style={{ fontSize: "13px", color: "#334155", fontWeight: 500, textDecoration: "underline", textUnderlineOffset: "2px" }}>
-                          74 Google Reviews
+                          {t("trust.reviewsFull")}
                         </span>
                       </a>
                       <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-                        {["✓ 11 Licensed States", "⚡ Same-Day Coverage", "🔒 No Spam · No Calls"].map(pill => (
+                        {[t("trust.states"), t("trust.sameDayCoverage"), t("trust.noSpam")].map(pill => (
                           <span key={pill} style={{ background: "transparent", border: "1px solid #E2E8F0", borderRadius: "20px", padding: "4px 12px", fontSize: "14px", color: "#374151", fontWeight: 500, whiteSpace: "nowrap" }}>
                             {pill}
                           </span>
