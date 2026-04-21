@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect } from "react";
 import AddressAutocomplete from "./AddressAutocomplete";
 import { sendQuoteEmail } from "@/lib/emailjs";
+import { submitToIntake } from "@/lib/submitToIntake";
 import { useLanguage } from "@/context/LanguageContext";
 import type { Mode } from "@/types";
 
@@ -760,6 +761,17 @@ export default function CommercialQuoteModal({ onClose, initialProduct }: Commer
       console.error("[Ativa] CommercialQuoteModal submit failed:", err);
       setSendErr(true);
     }
+
+    submitToIntake({
+      name:            data.fullName        ?? "",
+      phone:           data.phone           ?? "",
+      email:           data.email           ?? "",
+      address:         data.businessAddress ?? data.projectAddress ?? "",
+      city:            data.city            ?? "",
+      insuranceType:   product ? PRODUCT_LABEL[product] : "Commercial Quote",
+      additionalNotes: lines.join("\n"),
+    });
+
     setSubmit(false);
     setPhase("success");
   };

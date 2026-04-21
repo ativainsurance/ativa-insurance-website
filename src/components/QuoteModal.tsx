@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect } from "react";
 import AddressAutocomplete from "./AddressAutocomplete";
 import { sendQuoteEmail } from "@/lib/emailjs";
+import { submitToIntake } from "@/lib/submitToIntake";
 import { validateDOB, validatePetDOB } from "@/lib/validateDOB";
 import { useLanguage } from "@/context/LanguageContext";
 import type { Mode } from "@/types";
@@ -1258,6 +1259,17 @@ export default function QuoteModal({ onClose, initialProduct, initialData }: Quo
       console.error("[Ativa] QuoteModal submit failed:", err);
       setSendError(true);
     }
+
+    submitToIntake({
+      name:            data.fullName ?? "",
+      phone:           data.phone    ?? "",
+      email:           data.email    ?? "",
+      address:         data.propertyAddress ?? data.rentalAddress ?? data.garageZip ?? "",
+      city:            data.city     ?? "",
+      insuranceType:   product ? PRODUCT_LABEL[product] : "Personal Quote",
+      additionalNotes: lines.join("\n"),
+    });
+
     setSubmitting(false);
     setPhase("success");
   };

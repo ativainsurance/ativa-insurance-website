@@ -5,6 +5,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import type { FormStep, FormData, Mode } from "@/types";
 import AddressAutocomplete from "./AddressAutocomplete";
 import { sendQuoteEmail } from "@/lib/emailjs";
+import { submitToIntake } from "@/lib/submitToIntake";
 
 interface StepFormProps {
   steps: FormStep[];
@@ -98,6 +99,16 @@ export default function StepForm({ steps, mode, productTitle, onClose }: StepFor
       console.error("[Ativa] EmailJS send failed:", err);
       setSendError(true);
     }
+
+    submitToIntake({
+      name:            formData.fullName  ?? formData.name ?? "",
+      phone:           formData.phone     ?? "",
+      email:           formData.email     ?? "",
+      address:         formData.address   ?? formData.propertyAddress ?? formData.rentalAddress ?? "",
+      city:            formData.city      ?? "",
+      insuranceType:   productTitle,
+      additionalNotes: summary,
+    });
 
     setSubmitting(false);
     setSubmitted(true);
