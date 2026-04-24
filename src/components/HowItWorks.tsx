@@ -86,11 +86,11 @@ const STEPS_COMMERCIAL = [
 
 // ─── Phone mockup ─────────────────────────────────────────────────────────────
 
-const PHONE_QUOTES = [
-  { carrier: "Progressive",      initial: "P", bg: "#003087", price: "$89/mo",  best: true  },
-  { carrier: "GEICO",            initial: "G", bg: "#003087", price: "$91/mo",  best: false },
-  { carrier: "Bristol West",     initial: "B", bg: "#0F2A44", price: "$98/mo",  best: false },
-  { carrier: "AssuranceAmerica", initial: "A", bg: "#F5A623", price: "$107/mo", best: false },
+const FLOW_STEPS = [
+  { icon: "📋", label: "Share your details"     },
+  { icon: "🔍", label: "We shop all carriers"   },
+  { icon: "📬", label: "Receive your quote"     },
+  { icon: "✅", label: "Get covered today"      },
 ];
 
 function PhoneMockupHiW() {
@@ -157,85 +157,52 @@ function PhoneMockupHiW() {
           flex:            1,
           backgroundColor: "#F7FAFC",
           borderRadius:    "18px",
-          padding:         "10px 9px 8px",
+          padding:         "12px 10px 10px",
           display:         "flex",
           flexDirection:   "column",
           overflow:        "hidden",
         }}>
 
           {/* Header */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "6px" }}>
-            <span style={{ color: "#0F2A44", fontSize: "11px", fontWeight: 700, letterSpacing: "-0.01em" }}>
-              Your Quotes
+          <div style={{ textAlign: "center", marginBottom: "10px" }}>
+            <div style={{ fontSize: "18px", marginBottom: "3px" }}>🛡️</div>
+            <span style={{ color: "#0F2A44", fontSize: "10px", fontWeight: 700, letterSpacing: "-0.01em", display: "block" }}>
+              Your Personalized Quote
             </span>
-            <span style={{ color: "#64748B", fontSize: "8px", backgroundColor: "#E2E8F0", borderRadius: "10px", padding: "2px 6px" }}>
-              Auto · 33401
+            <span style={{ color: "#64748B", fontSize: "8px" }}>
+              Multiple top-rated carriers
             </span>
           </div>
 
           {/* Divider */}
-          <div style={{ height: "1px", backgroundColor: "#E2E8F0", marginBottom: "6px", flexShrink: 0 }} />
+          <div style={{ height: "1px", backgroundColor: "#E2E8F0", marginBottom: "8px", flexShrink: 0 }} />
 
-          {/* Quote rows */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "4px", flex: 1 }}>
-            {PHONE_QUOTES.map(row => (
+          {/* Flow steps */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "5px", flex: 1 }}>
+            {FLOW_STEPS.map((s, i) => (
               <div
-                key={row.carrier}
+                key={i}
                 style={{
-                  backgroundColor: row.best ? "rgba(245,166,35,0.08)" : "#FFFFFF",
+                  backgroundColor: "#FFFFFF",
                   borderRadius:    "7px",
                   padding:         "6px 8px",
                   display:         "flex",
                   alignItems:      "center",
-                  justifyContent:  "space-between",
-                  border:          row.best ? "1px solid rgba(245,166,35,0.30)" : "1px solid #E2E8F0",
+                  gap:             "7px",
+                  border:          "1px solid #E2E8F0",
                 }}
               >
-                <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                  <div style={{
-                    width:           "20px",
-                    height:          "20px",
-                    borderRadius:    "5px",
-                    backgroundColor: row.bg,
-                    display:         "flex",
-                    alignItems:      "center",
-                    justifyContent:  "center",
-                    fontSize:        "8px",
-                    fontWeight:      800,
-                    color:           row.initial === "A" ? "#0B1F33" : "#FFFFFF",
-                    flexShrink:      0,
-                  }}>
-                    {row.initial}
-                  </div>
-                  <span style={{ color: "#0F172A", fontSize: "10px", fontWeight: 500 }}>
-                    {row.carrier}
-                  </span>
-                </div>
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
-                  <span style={{ color: "#F5A623", fontSize: "10px", fontWeight: 700 }}>
-                    {row.price}
-                  </span>
-                  {row.best && (
-                    <span style={{
-                      fontSize:        "6.5px",
-                      fontWeight:      700,
-                      backgroundColor: "#F5A623",
-                      color:           "#0B1F33",
-                      borderRadius:    "4px",
-                      padding:         "1px 4px",
-                      marginTop:       "2px",
-                    }}>
-                      BEST
-                    </span>
-                  )}
-                </div>
+                <span style={{ fontSize: "13px", flexShrink: 0 }}>{s.icon}</span>
+                <span style={{ color: "#0F172A", fontSize: "9.5px", fontWeight: 500 }}>
+                  {s.label}
+                </span>
               </div>
             ))}
           </div>
 
           {/* Microcopy */}
-          <div style={{ textAlign: "center", margin: "6px 0 4px", fontSize: "8px", color: "#94A3B8" }}>
-            ✓ 4 carriers compared instantly
+          <div style={{ textAlign: "center", margin: "7px 0 4px", fontSize: "7.5px", color: "#94A3B8" }}>
+            Free · No spam · Licensed agents
           </div>
 
           {/* CTA */}
@@ -252,7 +219,7 @@ function PhoneMockupHiW() {
             justifyContent:  "center",
             flexShrink:      0,
           }}>
-            Get Covered →
+            Get My Quote →
           </div>
 
         </div>{/* end screen */}
