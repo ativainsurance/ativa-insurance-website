@@ -1,0 +1,28 @@
+name: Daily Blog Post Generator
+
+on:
+  schedule:
+    - cron: '0 12 * * *'  # Every day at 8AM EST (12PM UTC)
+  workflow_dispatch:  # Allows manual trigger from GitHub
+
+jobs:
+  generate-posts:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Generate Personal Lines Post
+        run: |
+          curl -X POST https://ativainsurance.com/api/generate-blog \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            -d '{"type": "personal"}'
+            
+      - name: Wait 30 seconds
+        run: sleep 30
+            
+      - name: Generate Commercial Lines Post
+        run: |
+          curl -X POST https://ativainsurance.com/api/generate-blog \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            -d '{"type": "commercial"}'
