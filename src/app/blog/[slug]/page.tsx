@@ -9,14 +9,35 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
+interface FlatPost {
+  title: string; slug: string; category: string; readTime: string;
+  excerpt: string; content: string; publishedAt: string; id: string;
+}
+
+function flatToBlogPost(flat: FlatPost): BlogPost {
+  const lang = { title: flat.title, excerpt: flat.excerpt, body: flat.content, readTime: flat.readTime };
+  const category = flat.category.charAt(0).toUpperCase() + flat.category.slice(1).toLowerCase();
+  return { slug: flat.slug, date: flat.publishedAt, category, en: lang, pt: lang, es: lang };
+}
+
 async function getPost(slug: string): Promise<BlogPost | null> {
+  // 1. Individual file (written by /api/generate-blog-post)
   try {
     const filePath = path.join(process.cwd(), "data", "blog", `${slug}.json`);
     const content = await readFile(filePath, "utf-8");
     return JSON.parse(content) as BlogPost;
-  } catch {
-    return null;
-  }
+  } catch { /* not found there */ }
+
+  // 2. Flat array (written by /api/generate-blog)
+  try {
+    const filePath = path.join(process.cwd(), "src", "data", "blog-posts.json");
+    const content = await readFile(filePath, "utf-8");
+    const posts = JSON.parse(content) as FlatPost[];
+    const found = posts.find((p) => p.slug === slug);
+    if (found) return flatToBlogPost(found);
+  } catch { /* not found there */ }
+
+  return null;
 }
 
 export async function generateStaticParams() {
